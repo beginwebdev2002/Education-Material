@@ -1,0 +1,87 @@
+{
+   "mcpServers": {
+      "filesystem": {
+         "command": "npx",
+         "args": [
+            "@modelcontextprotocol/server-filesystem",
+            "D:\\projects\\Education Material"
+         ]
+      },
+      "git": {
+         "command": "npx",
+         "args": [
+            "@modelcontextprotocol/server-git",
+            "--repository",
+            "D:\\projects\\Education Material"
+         ]
+      },
+      "typescript": {
+         "command": "npx",
+         "args": [
+            "@modelcontextprotocol/server-typescript",
+            "--project",
+            "D:\\projects\\Education Material\\backend\\tsconfig.json"
+         ]
+      },
+      "angular": {
+         "command": "npx",
+         "args": [
+            "@modelcontextprotocol/server-angular",
+            "--project",
+            "D:\\projects\\Education Material\\frontend"
+         ]
+      }
+   },
+   "projectArchitecture": {
+      "frontend": {
+         "framework": "Angular v20",
+         "description": "Frontend приложение построено на Angular v20 - современном фреймворк от Google для создания масштабируемых веб-приложений. Angular предоставляет мощную экосистему с компонентами, внедрением зависимостей и реактивным программированием.",
+         "url": "https://angular.dev/",
+         "uiLibrary": {
+            "name": "Flowbite",
+            "description": "UI библиотека Flowbite предоставляет готовые компоненты для Angular приложений. Включает в себя современные компоненты интерфейса, стили и интерактивные элементы для быстрой разработки пользовательского интерфейса.",
+            "url": "https://flowbite.com/"
+         }
+      },
+      "backend": {
+         "framework": "NestJS",
+         "description": "Backend приложение построено на NestJS - прогрессивном Node.js фреймворк для создания эффективных и масштабируемых серверных приложений. NestJS использует TypeScript и предоставляет модульную архитектуру с внедрением зависимостей.",
+         "url": "https://nestjs.com/",
+         "authentication": {
+            "jwt": {
+               "description": "JSON Web Tokens (JWT) используются для безопасной передачи информации между клиентом и сервером. JWT обеспечивает stateless аутентификацию и авторизацию пользователей."
+            },
+            "passport": {
+               "description": "Passport.js - это middleware для аутентификации в Node.js приложениях. Предоставляет стратегии для различных методов аутентификации (local, JWT, OAuth и др.) и легко интегрируется с NestJS."
+            }
+         },
+         "database": {
+            "type": "MongoDB",
+            "description": "MongoDB - документ ориентированная NoSQL база данных, которая обеспечивает гибкость схемы данных и горизонтальное масштабирование. Идеально подходит для современных веб-приложений с быстро изменяющимися требованиями.",
+            "url": "https://www.mongodb.com/",
+            "orm": {
+               "name": "Mongoose",
+               "description": "Mongoose - это объектно-документный маппер (ODM) для MongoDB и Node.js. Предоставляет простое API для работы с MongoDB, валидацию схем, middleware и множество других полезных функций для удобной работы с базой данных."
+            }
+         }
+      },
+      "architecture": {
+         "pattern": "Feature-Sliced Design (FSD)",
+         "description": "Feature-Sliced Design - это архитектурная методология для фронтенд проектов, которая обеспечивает явную бизнес-логику, адаптивность и изоляцию модулей. FSD помогает создавать поддерживаемый и масштабируемый код через четкое разделение слоев (app, pages, widgets, features, entities, shared).",
+         "url": "https://feature-sliced.github.io/documentation/",
+         "layers": {
+            "app": "Слой приложения - настройка роутинга, глобальные стили, провайдеры",
+            "pages": "Слой страниц - компоненты страниц приложения",
+            "widgets": "Слой виджетов - композиция UI блоков",
+            "features": "Слой фич - бизнес-функциональность пользователя",
+            "entities": "Слой сущностей - бизнес-сущности предметной области",
+            "shared": "Слой общих ресурсов - переиспользуемые модули"
+         },
+         "principles": {
+            "publicApi": "Каждый модуль должен иметь декларацию публичного API",
+            "isolation": "Модуль не должен зависеть от других модулей того же или вышележащих слоев",
+            "needsDriven": "Ориентация на бизнес и пользовательские потребности"
+         }
+      }
+   }
+}

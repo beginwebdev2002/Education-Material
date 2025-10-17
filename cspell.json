@@ -1,0 +1,13 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "**/*.json"
+    ],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "фреймворке"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
