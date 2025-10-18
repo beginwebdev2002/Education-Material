@@ -1,98 +1,188 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Backend API - Education Material
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Описание
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Backend часть системы Education Material, построенная на **NestJS** фреймворке. Предоставляет RESTful API для frontend приложения, включая управление пользователями, создание учебных материалов и административные функции.
 
-## Description
+## Технологический стек
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **NestJS 11+** - основной фреймворк
+- **TypeScript** - язык программирования
+- **ESLint** - линтинг кода
+- **Jest** - тестирование
+- **Prettier** - форматирование кода
 
-## Project setup
+## Архитектура
 
-```bash
-$ npm install
+Проект использует модульную архитектуру NestJS с разделением на:
+
+```
+src/
+├── app/              # Главный модуль приложения
+├── core/             # Ядро приложения (гварды, интерцепторы, декораторы)
+├── features/         # Бизнес-функции (модули)
+├── shared/           # Переиспользуемые ресурсы
+└── main.ts           # Точка входа приложения
 ```
 
-## Compile and run the project
+## Структура папок
 
+### `/src/app/`
+Основной модуль приложения, содержащий:
+- `app.module.ts` - корневой модуль
+- `app.controller.ts` - основной контроллер
+- `app.service.ts` - основной сервис
+
+### `/src/core/`
+Ядро приложения с общими компонентами:
+- Гварды для аутентификации и авторизации
+- Интерцепторы для обработки запросов/ответов
+- Декораторы для кастомной логики
+- Фильтры для обработки исключений
+
+### `/src/features/`
+Бизнес-функции приложения:
+- Каждая фича - отдельный модуль
+- Содержит контроллеры, сервисы, DTO, entities
+- Изолированная логика для конкретной функциональности
+
+### `/src/shared/`
+Переиспользуемые ресурсы:
+- DTO для общих структур данных
+- Утилиты и хелперы
+- Константы и конфигурации
+- Типы и интерфейсы
+
+## API Endpoints
+
+### Аутентификация
+- `POST /auth/login` - вход в систему
+- `POST /auth/register` - регистрация
+- `POST /auth/logout` - выход из системы
+- `POST /auth/refresh` - обновление токена
+
+### Пользователи
+- `GET /users` - получить список пользователей
+- `GET /users/:id` - получить пользователя по ID
+- `POST /users` - создать нового пользователя
+- `PUT /users/:id` - обновить пользователя
+- `DELETE /users/:id` - удалить пользователя
+
+### Учебные материалы
+- `GET /materials` - получить список материалов
+- `GET /materials/:id` - получить материал по ID
+- `POST /materials` - создать новый материал
+- `PUT /materials/:id` - обновить материал
+- `DELETE /materials/:id` - удалить материал
+
+### Административные функции
+- `GET /admin/stats` - получить статистику
+- `GET /admin/users` - управление пользователями
+- `POST /admin/materials/generate` - генерация материалов с ИИ
+
+## Установка и запуск
+
+### Установка зависимостей
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
-
+### Запуск в режиме разработки
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### Запуск в продакшене
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run build
+npm run start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Тестирование
+```bash
+# Unit тесты
+npm run test
 
-## Resources
+# E2E тесты
+npm run test:e2e
 
-Check out a few resources that may come in handy when working with NestJS:
+# Покрытие тестами
+npm run test:cov
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Линтинг и форматирование
+```bash
+# Линтинг
+npm run lint
 
-## Support
+# Форматирование
+npm run format
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Конфигурация
 
-## Stay in touch
+### Переменные окружения
+Создайте файл `.env` в корне проекта:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```env
+# Порт сервера
+PORT=3000
 
-## License
+# База данных
+DATABASE_URL=postgresql://user:password@localhost:5432/education_material
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# JWT секрет
+JWT_SECRET=your-secret-key
+
+# ИИ API ключ
+AI_API_KEY=your-ai-api-key
+```
+
+## Разработка
+
+### Создание нового модуля
+```bash
+# Создать модуль
+nest generate module features/feature-name
+
+# Создать контроллер
+nest generate controller features/feature-name
+
+# Создать сервис
+nest generate service features/feature-name
+```
+
+### Структура модуля
+```
+features/feature-name/
+├── dto/              # Data Transfer Objects
+├── entities/         # Сущности базы данных
+├── interfaces/       # Интерфейсы
+├── feature-name.controller.ts
+├── feature-name.service.ts
+├── feature-name.module.ts
+└── feature-name.spec.ts
+```
+
+## Документация API
+
+API документация доступна по адресу `/api/docs` (Swagger UI) после запуска сервера.
+
+## Безопасность
+
+- JWT токены для аутентификации
+- Роли пользователей (teacher, student, admin)
+- Валидация входных данных
+- CORS настройки
+- Rate limiting
+
+## Мониторинг
+
+- Логирование запросов
+- Метрики производительности
+- Обработка ошибок
+- Health check endpoint
+
+## Лицензия
+
+Проект распространяется под лицензией MIT.

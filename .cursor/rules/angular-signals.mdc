@@ -1,0 +1,257 @@
+---
+description: "Angular Signals Best Practices"
+alwaysApply: true
+---
+
+# Angular Signals Best Practices
+
+## Signal Types и их использование
+
+### 1. Writable Signals
+```typescript
+// Создание writable signal
+const count = signal(0);
+
+// Обновление значений
+count.set(5);           // Установить новое значение
+count.update(c => c + 1); // Обновить на основе текущего значения
+count.mutate(obj => obj.prop = 'new'); // Мутировать объект (осторожно!)
+```
+
+### 2. Readonly Signals
+```typescript
+// Создание readonly signal из writable
+const readonlyCount = count.asReadonly();
+
+// Использование в сервисах для публичного API
+@Injectable()
+export class DataService {
+  private _data = signal<any[]>([]);
+  readonly data = this._data.asReadonly();
+}
+```
+
+### 3. Computed Signals
+```typescript
+// Простые computed
+const doubleCount = computed(() => count() * 2);
+
+// Computed с зависимостями
+const totalPrice = computed(() => {
+  return items().reduce((sum, item) => sum + item.price(), 0);
+});
+
+// Computed с условиями
+const filteredItems = computed(() => {
+  const items = allItems();
+  const filter = searchFilter();
+  return filter ? items.filter(item => item.name.includes(filter)) : items;
+});
+```
+
+### 4. Effects
+```typescript
+// Простой effect
+effect(() => {
+  console.log('Count changed:', count());
+});
+
+// Effect с cleanup
+effect((onCleanup) => {
+  const subscription = someObservable.subscribe();
+  onCleanup(() => subscription.unsubscribe());
+});
+
+// Effect с условием
+effect(() => {
+  if (user().isLoggedIn) {
+    // Выполнить действие только когда пользователь залогинен
+  }
+});
+```
+
+## Паттерны для компонентов
+
+### Input/Output Signals
+```typescript
+@Component({
+  selector: 'app-user-card',
+  standalone: true,
+  template: `
+    <div>
+      <h3>{{ user().name }}</h3>
+      <p>{{ user().email }}</p>
+      <button (click)="onEdit()">Edit</button>
+    </div>
+  `
+})
+export class UserCardComponent {
+  user = input.required<User>();
+  editRequested = output<User>();
+  
+  onEdit() {
+    this.editRequested.emit(this.user());
+  }
+}
+```
+
+### Local State Management
+```typescript
+@Component({
+  selector: 'app-todo-list',
+  standalone: true,
+  template: `
+    <div>
+      @for (todo of todos(); track todo.id) {
+        <div class="todo-item">
+          <input 
+            type="checkbox" 
+            [checked]="todo.completed"
+            (change)="toggleTodo(todo.id)"
+          >
+          <span [class.completed]="todo.completed">{{ todo.text }}</span>
+        </div>
+      }
+    </div>
+  `
+})
+export class TodoListComponent {
+  todos = signal<Todo[]>([]);
+  
+  toggleTodo(id: string) {
+    this.todos.update(todos => 
+      todos.map(todo => 
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  }
+}
+```
+
+## Сервисы с Signals
+
+### State Management Service
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class AppStateService {
+  // Private writable signals
+  private _user = signal<User | null>(null);
+  private _loading = signal(false);
+  private _error = signal<string | null>(null);
+  
+  // Public readonly signals
+  readonly user = this._user.asReadonly();
+  readonly loading = this._loading.asReadonly();
+  readonly error = this._error.asReadonly();
+  
+  // Computed signals
+  readonly isLoggedIn = computed(() => this._user() !== null);
+  readonly userDisplayName = computed(() => {
+    const user = this._user();
+    return user ? `${user.firstName} ${user.lastName}` : 'Guest';
+  });
+  
+  // Actions
+  setUser(user: User | null) {
+    this._user.set(user);
+  }
+  
+  setLoading(loading: boolean) {
+    this._loading.set(loading);
+  }
+  
+  setError(error: string | null) {
+    this._error.set(error);
+  }
+  
+  async login(credentials: LoginCredentials) {
+    this.setLoading(true);
+    this.setError(null);
+    
+    try {
+      const user = await this.authService.login(credentials);
+      this.setUser(user);
+    } catch (error) {
+      this.setError(error.message);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+}
+```
+
+## Работа с HTTP и Async Operations
+
+### Async Signals Pattern
+```typescript
+@Injectable()
+export class DataService {
+  private _data = signal<Data[]>([]);
+  private _loading = signal(false);
+  
+  readonly data = this._data.asReadonly();
+  readonly loading = this._loading.asReadonly();
+  
+  async loadData() {
+    this._loading.set(true);
+    try {
+      const result = await this.http.get<Data[]>('/api/data').toPromise();
+      this._data.set(result);
+    } catch (error) {
+      console.error('Failed to load data:', error);
+    } finally {
+      this._loading.set(false);
+    }
+  }
+}
+```
+
+## Template Integration
+
+### Control Flow с Signals
+```typescript
+@Component({
+  template: `
+    @if (loading()) {
+      <div class="spinner">Loading...</div>
+    } @else if (error()) {
+      <div class="error">{{ error() }}</div>
+    } @else {
+      @for (item of items(); track item.id) {
+        <div class="item">{{ item.name }}</div>
+      }
+    }
+  `
+})
+export class ItemsComponent {
+  items = signal<Item[]>([]);
+  loading = signal(false);
+  error = signal<string | null>(null);
+}
+```
+
+## Performance Tips
+
+1. **Используйте trackBy с @for**: Всегда указывайте trackBy для списков
+2. **Избегайте лишних computed**: Не создавайте computed для простых операций
+3. **Используйте asReadonly()**: Для публичного API сервисов
+4. **Группируйте обновления**: Используйте batch() для множественных обновлений
+5. **Очищайте effects**: Всегда используйте onCleanup в effects
+
+```typescript
+// Группировка обновлений
+import { signal, batch } from '@angular/core';
+
+const name = signal('');
+const email = signal('');
+
+// Вместо отдельных обновлений
+function updateUser(user: User) {
+  batch(() => {
+    name.set(user.name);
+    email.set(user.email);
+  });
+}
+```
