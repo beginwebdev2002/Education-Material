@@ -1,0 +1,83 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" i18n>System Settings</h1>
+
+<div class="space-y-8 max-w-4xl">
+  <!-- General Settings -->
+  <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" i18n>General Controls</h5>
+    <div class="space-y-6">
+      <!-- Maintenance Mode -->
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium text-gray-900 dark:text-white" i18n>Maintenance Mode</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400" i18n>Temporarily disable access to the site for
+            non-admins.</p>
+        </div>
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" [ngModel]="settingsService.maintenanceMode()"
+            (ngModelChange)="settingsService.maintenanceMode.set($event)" class="sr-only peer">
+          <div
+            class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+          </div>
+        </label>
+      </div>
+
+      <!-- User Registration -->
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium text-gray-900 dark:text-white" i18n>Enable User Registration</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400" i18n>Allow new users to sign up for an account.</p>
+        </div>
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" [ngModel]="settingsService.userRegistration()"
+            (ngModelChange)="settingsService.userRegistration.set($event)" class="sr-only peer">
+          <div
+            class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+          </div>
+        </label>
+      </div>
+
+      <!-- Community Materials -->
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium text-gray-900 dark:text-white" i18n>Enable Community Materials</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400" i18n>Show the "Materials" page to all users.</p>
+        </div>
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" [ngModel]="settingsService.communityMaterials()"
+            (ngModelChange)="settingsService.communityMaterials.set($event)" class="sr-only peer">
+          <div
+            class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI & Generation Settings -->
+  <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" i18n>Generation Settings</h5>
+    <div class="space-y-6">
+      <!-- Max Generations per Day -->
+      <div>
+        <label for="max-generations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>Max
+          Generations per Day (per user)</label>
+        <input type="number" id="max-generations" [ngModel]="settingsService.maxGenerationsPerDay()"
+          (ngModelChange)="settingsService.maxGenerationsPerDay.set(+$event)"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full max-w-xs p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+      </div>
+
+      <!-- Default Language -->
+      <div>
+        <label for="default-language" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>Default
+          Generation Language</label>
+        <select id="default-language" [ngModel]="settingsService.defaultLanguage()"
+          (ngModelChange)="settingsService.defaultLanguage.set($event)"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full max-w-xs p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+          @for (lang of languages; track lang.code) {
+          <option [value]="lang.code">{{ lang.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

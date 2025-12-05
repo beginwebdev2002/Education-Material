@@ -1,0 +1,122 @@
+<div class="container mx-auto px-4 py-8 pt-24 max-w-5xl animate-fadeInUp">
+  @if (user(); as user) {
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
+    <!-- Header -->
+    <div
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-gray-200 dark:border-gray-700 animate-fadeInUp"
+      style="animation-delay: 0.1s;">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
+        <img class="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600" [src]="user.avatarUrl"
+          [alt]="user.firstName + ' ' + user.lastName">
+        <div class="text-center sm:text-left">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ user.firstName }} {{ user.lastName }}</h1>
+          <p class="text-md text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+          <span class="inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
+            [class]="user.role === 'admin' ? 'bg-red-500' : 'bg-blue-500'">
+            {{ user.role | titlecase }}
+          </span>
+        </div>
+      </div>
+      <div class="flex-shrink-0 mt-4 sm:mt-0 self-center sm:self-auto">
+        @if (isEditing()) {
+        <div class="flex space-x-2">
+          <button (click)="saveProfile()"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300">
+            <i class="fa-solid fa-save mr-2"></i>
+            Save Changes
+          </button>
+          <button (click)="cancelEdit()"
+            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+            Cancel
+          </button>
+        </div>
+        } @else {
+        <button (click)="isEditing.set(true)"
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700">
+          <i class="fa-solid fa-pencil-alt mr-2"></i>
+          Edit Profile
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- Profile Details Form -->
+    <div class="space-y-6 animate-fadeInUp" style="animation-delay: 0.2s;">
+      <!-- Personal Info -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+          @if (isEditing()) {
+          <input type="text" [(ngModel)]="profileForm().firstName"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          } @else {
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.firstName }}</p>
+          }
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+          @if (isEditing()) {
+          <input type="text" [(ngModel)]="profileForm().lastName"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          } @else {
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.lastName }}</p>
+          }
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
+          @if (isEditing()) {
+          <input type="tel" [(ngModel)]="profileForm().phoneNumber"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          } @else {
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.phoneNumber || 'Not provided' }}</p>
+          }
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Citizenship</label>
+          @if (isEditing()) {
+          <input type="text" [(ngModel)]="profileForm().citizenship"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          } @else {
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.citizenship || 'Not provided' }}</p>
+          }
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Biography</label>
+        @if (isEditing()) {
+        <textarea rows="4" [(ngModel)]="profileForm().bio"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+        } @else {
+        <p class="mt-1 text-lg text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none">{{ user.bio ||
+          'No biography provided.' }}</p>
+        }
+      </div>
+
+      <!-- Social Media -->
+      <div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Social Media</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          @for (social of socialMediaLinks; track social.key) {
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
+              <i [class]="social.icon" class="mr-2"></i> {{ social.name }}
+            </label>
+            @if (isEditing()) {
+            <input type="text" [(ngModel)]="profileForm().socialMedia![social.key]"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            } @else {
+            <p class="mt-1 text-lg text-gray-900 dark:text-white truncate">{{ user.socialMedia?.[social.key] || 'Not
+              provided' }}</p>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <div class="text-center p-12 text-gray-500 dark:text-gray-400">Loading profile...</div>
+  }
+</div>

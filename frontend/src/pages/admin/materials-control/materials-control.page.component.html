@@ -1,0 +1,106 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Material Control</h1>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
+  <div class="p-4"><label for="table-search-materials" class="sr-only">Search</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"><i
+          class="fa fa-search text-gray-500 dark:text-gray-400"></i></div><input type="text" id="table-search-materials"
+        placeholder="Search for materials"
+        class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full md:w-80 bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+    </div>
+  </div>
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Title</th>
+        <th scope="col" class="px-6 py-3">Author</th>
+        <th scope="col" class="px-6 py-3 text-center">Rating</th>
+        <th scope="col" class="px-6 py-3 text-center">Reviews</th>
+        <th scope="col" class="px-6 py-3 text-center">Status</th>
+        <th scope="col" class="px-6 py-3"><span class="sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> Introduction to
+          Angular Signals </th>
+        <td class="px-6 py-4"> Alex Doe </td>
+        <td class="px-6 py-4 text-yellow-400 text-center"> 5.0 ★ </td>
+        <td class="px-6 py-4 text-center"> 45 </td>
+        <td class="px-6 py-4 text-center"><label class="inline-flex items-center cursor-pointer"><input type="checkbox"
+              class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div><span class="ms-3 text-sm font-medium sr-only">Public</span>
+          </label></td>
+        <td class="px-6 py-4 text-right"><a href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Moderate</a><a href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a></td>
+      </tr>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> Advanced Tailwind
+          CSS Techniques </th>
+        <td class="px-6 py-4"> Jane Smith </td>
+        <td class="px-6 py-4 text-yellow-400 text-center"> 4.0 ★ </td>
+        <td class="px-6 py-4 text-center"> 22 </td>
+        <td class="px-6 py-4 text-center"><label class="inline-flex items-center cursor-pointer"><input type="checkbox"
+              class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div><span class="ms-3 text-sm font-medium sr-only">Public</span>
+          </label></td>
+        <td class="px-6 py-4 text-right"><a href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Moderate</a><a href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a></td>
+      </tr>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> Feature Sliced
+          Design in Practice </th>
+        <td class="px-6 py-4"> Alex Doe </td>
+        <td class="px-6 py-4 text-yellow-400 text-center"> 5.0 ★ </td>
+        <td class="px-6 py-4 text-center"> 78 </td>
+        <td class="px-6 py-4 text-center"><label class="inline-flex items-center cursor-pointer"><input type="checkbox"
+              class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div><span class="ms-3 text-sm font-medium sr-only">Private</span>
+          </label></td>
+        <td class="px-6 py-4 text-right"><a href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Moderate</a><a href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a></td>
+      </tr>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> Getting Started
+          with Zoneless Angular </th>
+        <td class="px-6 py-4"> Chris Lee </td>
+        <td class="px-6 py-4 text-yellow-400 text-center"> 3.0 ★ </td>
+        <td class="px-6 py-4 text-center"> 10 </td>
+        <td class="px-6 py-4 text-center"><label class="inline-flex items-center cursor-pointer"><input type="checkbox"
+              class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div><span class="ms-3 text-sm font-medium sr-only">Public</span>
+          </label></td>
+        <td class="px-6 py-4 text-right"><a href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Moderate</a><a href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a></td>
+      </tr>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> UI/UX Principles
+          for Developers </th>
+        <td class="px-6 py-4"> Jane Smith </td>
+        <td class="px-6 py-4 text-yellow-400 text-center"> 4.0 ★ </td>
+        <td class="px-6 py-4 text-center"> 30 </td>
+        <td class="px-6 py-4 text-center"><label class="inline-flex items-center cursor-pointer"><input type="checkbox"
+              class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div><span class="ms-3 text-sm font-medium sr-only">Public</span>
+          </label></td>
+        <td class="px-6 py-4 text-right"><a href="#"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3">Moderate</a><a href="#"
+            class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a></td>
+      </tr><!--container--><!--container--><!--container-->
+    </tbody>
+  </table>
+</div>

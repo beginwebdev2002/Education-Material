@@ -1,0 +1,46 @@
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Logo and About -->
+      <div class="md:col-span-2 space-y-4">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-graduation-cap text-2xl text-primary-600 dark:text-primary-400"></i>
+          <span class="font-bold text-xl text-gray-800 dark:text-white">EduGen</span>
+        </div>
+        <p class="text-gray-500 dark:text-gray-400 text-sm max-w-sm">AI-powered educational material generator to revolutionize your teaching.</p>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">Quick Links</h3>
+        <ul class="mt-4 space-y-2">
+          <li><a routerLink="/" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a></li>
+          @if (currentUser()) {
+            <li><a routerLink="/dashboard" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Dashboard</a></li>
+          }
+          <li><a routerLink="/materials" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Materials</a></li>
+          <li><a routerLink="/docs" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Docs</a></li>
+           @if (currentUser()) {
+            <li><a routerLink="/settings" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Settings</a></li>
+          }
+        </ul>
+      </div>
+      
+      <!-- Social Media -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">Connect With Us</h3>
+        <div class="flex space-x-6 mt-4">
+          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">Telegram</span><i class="fa-brands fa-telegram fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">Instagram</span><i class="fa-brands fa-instagram fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">LinkedIn</span><i class="fa-brands fa-linkedin fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">WhatsApp</span><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">Github</span><i class="fa-brands fa-github fa-lg"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8 text-center">
+      <p class="text-sm text-gray-500 dark:text-gray-400">&copy; 2024 EduGen. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

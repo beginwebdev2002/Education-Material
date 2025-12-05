@@ -1,0 +1,404 @@
+@if (isLoading()) {
+<div
+  class="p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col items-center justify-center text-center animate-fadeIn min-h-[500px]">
+  <div class="relative w-24 h-24">
+    <svg class="w-full h-full text-primary-200 dark:text-primary-700" fill="none" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="5" />
+    </svg>
+    <svg class="absolute top-0 left-0 w-full h-full text-primary-600 animate-spin" style="transform-origin: 50% 50%;"
+      fill="none" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="5" stroke-dasharray="283"
+        [attr.stroke-dashoffset]="283 * (1 - progress() / 100)" stroke-linecap="round" />
+    </svg>
+    <div
+      class="absolute inset-0 flex items-center justify-center text-xl font-bold text-primary-700 dark:text-primary-300">
+      {{ progress() | number:'1.0-0' }}%
+    </div>
+  </div>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white" i18n>Generating Your Materials</h2>
+  <p class="text-gray-500 dark:text-gray-400">{{ progressMessage() }}</p>
+  <div class="w-full max-w-md bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-4">
+    <div class="bg-primary-600 h-2.5 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()">
+    </div>
+  </div>
+</div>
+} @else {
+<div class="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg animate-fadeIn">
+  <!-- Stepper -->
+  <div class="flex items-center justify-center mb-10">
+    <div class="flex items-center">
+      <!-- Step 1 -->
+      <button (click)="goToStep(1)" class="flex items-center text-sm font-medium transition-colors"
+        [class.text-primary-600]="currentStep() >= 1" [class.dark:text-primary-400]="currentStep() >= 1"
+        [class.text-gray-500]="currentStep() < 1" [class.dark:text-gray-400]="currentStep() < 1">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 1" [class.bg-primary-600]="currentStep() === 1"
+          [class.text-white]="currentStep() === 1" [class.border-gray-300]="currentStep() < 1"
+          [class.dark:border-gray-600]="currentStep() < 1">1</span>
+        <span class="ml-2 hidden sm:inline"
+          i18n="Details Material | there are should show details of will generate material">Details</span>
+      </button>
+      <!-- Connector -->
+      <div class="flex-auto border-t-2 transition-colors duration-500 mx-4"
+        [class.border-primary-600]="currentStep() > 1" [class.border-gray-200]="currentStep() <= 1"
+        [class.dark:border-gray-700]="currentStep() <= 1"></div>
+      <!-- Step 2 -->
+      <button (click)="goToStep(2)" [disabled]="!isStep1Valid() && currentStep() < 2"
+        class="flex items-center text-sm font-medium transition-colors disabled:cursor-not-allowed"
+        [class.text-primary-600]="currentStep() >= 2" [class.dark:text-primary-400]="currentStep() >= 2"
+        [class.text-gray-500]="currentStep() < 2" [class.dark:text-gray-400]="currentStep() < 2">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 2" [class.bg-primary-600]="currentStep() === 2"
+          [class.text-white]="currentStep() === 2" [class.border-gray-300]="currentStep() < 2"
+          [class.dark:border-gray-600]="currentStep() < 2">2</span>
+        <span class="ml-2 hidden sm:inline"
+          i18n="Content Material | there are should show details of will generate material">Content</span>
+      </button>
+      <!-- Connector -->
+      <div class="flex-auto border-t-2 transition-colors duration-500 mx-4"
+        [class.border-primary-600]="currentStep() > 2" [class.border-gray-200]="currentStep() <= 2"
+        [class.dark:border-gray-700]="currentStep() <= 2"></div>
+      <!-- Step 3 -->
+      <button (click)="goToStep(3)" [disabled]="!isStep2Valid() && currentStep() < 3"
+        class="flex items-center text-sm font-medium transition-colors disabled:cursor-not-allowed"
+        [class.text-primary-600]="currentStep() >= 3" [class.dark:text-primary-400]="currentStep() >= 3"
+        [class.text-gray-500]="currentStep() < 3" [class.dark:text-gray-400]="currentStep() < 3">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 3" [class.bg-primary-600]="currentStep() === 3"
+          [class.text-white]="currentStep() === 3" [class.border-gray-300]="currentStep() < 3"
+          [class.dark:border-gray-600]="currentStep() < 3">3</span>
+        <span class="ml-2 hidden sm:inline"
+          i18n="Formats Material | there are should show details of will generate material">Formats</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Wizard Content -->
+  <div class="min-h-[450px]">
+    @switch (currentStep()) {
+    @case (1) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white"
+          i18n="Title Details | Title of Details tab where  choose details materials">Let's start with the basics</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400" i18n="Subtitle Detail">Tell us about the subject and
+          target audience.</p>
+      </div>
+      <!-- Subject -->
+      <div>
+        <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject Name</label>
+        <input type="text" id="subject" name="subject" [ngModel]="subject()" (ngModelChange)="subject.set($event)"
+          required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="e.g., Introduction to Computer Science"
+          i18n-placeholder="subject example | will wrote example of subjects">
+      </div>
+      <!-- Audience Selection -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          i18n="Title Education center">Educational Institution</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          @for (option of audienceOptions(); track option.key) {
+          <button type="button" (click)="handleAudienceChange(option.key)"
+            class="p-4 border rounded-lg text-center transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
+            [class.bg-primary-50]="selectedAudience() === option.key"
+            [class.dark:bg-primary-900/40]="selectedAudience() === option.key"
+            [class.border-primary-500]="selectedAudience() === option.key"
+            [class.ring-2]="selectedAudience() === option.key"
+            [class.ring-primary-500]="selectedAudience() === option.key"
+            [class.border-gray-300]="selectedAudience() !== option.key"
+            [class.dark:border-gray-600]="selectedAudience() !== option.key"
+            [class.bg-gray-50]="selectedAudience() !== option.key"
+            [class.dark:bg-gray-700/50]="selectedAudience() !== option.key">
+            <span class="text-3xl"
+              [innerHTML]="{school: '🏫', college: '🏛️', university: '🎓', professional: '💼'}[option.key]"></span>
+            <span class="block mt-2 font-semibold text-gray-800 dark:text-gray-200 text-sm">{{ option.label }}</span>
+          </button>
+          }
+        </div>
+      </div>
+      <!-- Level Selection -->
+      <div class="animate-fadeIn">
+        <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Course
+          Level/Area</label>
+        <select id="level" name="level" [ngModel]="selectedLevel()" (ngModelChange)="selectedLevel.set($event)" required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+          @for(option of dynamicCourseLevels(); track option) {
+          <option [value]="option">{{ option }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    }
+    @case (2) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white" i18n>Describe Your Content</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400" i18n>The more detail you provide, the better the
+          result.</p>
+      </div>
+      <!-- Topic Description -->
+      <div>
+        <label for="topic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Topic/Module
+          Description</label>
+        <textarea id="topic" name="topic" rows="6" [ngModel]="topic()" (ngModelChange)="topic.set($event)" required
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Describe the main concepts, learning objectives, and key points to cover..."
+          i18n-placeholder></textarea>
+      </div>
+      <!-- File Upload -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="template-upload" i18n>
+          Upload Template (Optional)</label>
+        <label for="template-upload"
+          class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors"
+          [class.border-red-500]="fileError()" [class.dark:border-red-500]="fileError()">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            @if(fileName()) {
+            <div class="flex items-center space-x-2 px-4 text-center">
+              <i class="fa-solid fa-file-lines text-gray-500 dark:text-gray-400"></i>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-semibold truncate">{{ fileName() }}</p>
+              <button type="button" (click)="clearFileSelection(templateUploadInput); $event.preventDefault()"
+                class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 focus:outline-none">
+                <span class="sr-only" i18n>Remove file</span>
+                <i class="fa-solid fa-times-circle"></i>
+              </button>
+            </div>
+            } @else {
+            <i class="fa-solid fa-cloud-arrow-up w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"></i>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span>
+              or drag and drop</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400" i18n>DOCX or PDF (MAX. 5MB)</p>
+            }
+          </div>
+          <input #templateUploadInput id="template-upload" type="file" class="hidden" (change)="onFileSelected($event)"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,application/pdf">
+        </label>
+        @if(fileError(); as error) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+        }
+      </div>
+    </div>
+    }
+    @case (3) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white" i18n>Choose Your Outputs</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400" i18n>Select one or more material types to generate.</p>
+      </div>
+      <!-- Output Selection -->
+      <div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          @for (format of materialFormats(); track format.id) {
+          <div (click)="toggleFormat(format.key)"
+            class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
+            [class.bg-primary-50]="formats()[format.key]" [class.dark:bg-primary-900/40]="formats()[format.key]"
+            [class.border-primary-500]="formats()[format.key]" [class.ring-2]="formats()[format.key]"
+            [class.ring-primary-500]="formats()[format.key]" [class.border-gray-300]="!formats()[format.key]"
+            [class.dark:border-gray-600]="!formats()[format.key]" [class.bg-gray-50]="!formats()[format.key]"
+            [class.dark:bg-gray-700/50]="!formats()[format.key]">
+            <div class="flex flex-col items-center justify-center text-center flex-grow">
+              <i [class]="format.icon" class="text-3xl mb-3 transition-colors"
+                [class.text-primary-600]="formats()[format.key]" [class.dark:text-primary-400]="formats()[format.key]"
+                [class.text-gray-500]="!formats()[format.key]" [class.dark:text-gray-400]="!formats()[format.key]"></i>
+              <span class="font-semibold text-gray-800 dark:text-gray-200">{{ format.name }}</span>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ format.sub }}</p>
+            </div>
+
+            <!-- Syllabus/Program Options -->
+            @if(formats()['program'] && format.key === 'program') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Teaching
+                Weeks</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(teachingWeeks() ?? 0) <= 1"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [(ngModel)]="teachingWeeks" min="1" max="36"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="teachingWeeksError()" [class.!dark:border-red-500]="teachingWeeksError()"
+                  [class.focus:!ring-red-500]="teachingWeeksError()"
+                  [class.focus:!border-red-500]="teachingWeeksError()">
+                <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(teachingWeeks() ?? 0) >= 36"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(teachingWeeksError()) {
+              <div
+                class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ teachingWeeksError() }}</span>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Lecture Options -->
+            @if(formats()['lecture'] && format.key === 'lecture') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Lectures /
+                week</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changeLectures(-1)" [disabled]="(lecturesPerWeek() ?? 0) <= 0"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [(ngModel)]="lecturesPerWeek" min="0" max="10"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="lecturesError()" [class.!dark:border-red-500]="lecturesError()"
+                  [class.focus:!ring-red-500]="lecturesError()" [class.focus:!border-red-500]="lecturesError()">
+                <button type="button" (click)="changeLectures(1)" [disabled]="(lecturesPerWeek() ?? 0) >= 10"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(lecturesError()) {
+              <div
+                class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ lecturesError() }}</span>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Presentation Options -->
+            @if(formats()['presentation'] && format.key === 'presentation') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2"
+                i18n>Presentations
+                / week</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changePresentations(-1)" [disabled]="(presentationsPerWeek() ?? 0) <= 0"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [(ngModel)]="presentationsPerWeek" min="0" max="10"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="presentationsError()" [class.!dark:border-red-500]="presentationsError()"
+                  [class.focus:!ring-red-500]="presentationsError()"
+                  [class.focus:!border-red-500]="presentationsError()">
+                <button type="button" (click)="changePresentations(1)" [disabled]="(presentationsPerWeek() ?? 0) >= 10"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(presentationsError()) {
+              <div
+                class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ presentationsError() }}</span>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Test Options -->
+            @if(formats()['test'] && format.key === 'test') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn text-center w-full"
+              (click)="$event.stopPropagation()">
+              <label [for]="'test-questions-' + format.id"
+                class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2" i18n>Number of Questions</label>
+              <div class="flex justify-center">
+                <input [id]="'test-questions-' + format.id" type="number" min="50" max="300" step="10"
+                  [(ngModel)]="testQuestions"
+                  class="w-24 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="testQuestionsError()" [class.!dark:border-red-500]="testQuestionsError()"
+                  [class.focus:!ring-red-500]="testQuestionsError()"
+                  [class.focus:!border-red-500]="testQuestionsError()">
+              </div>
+              <input type="range" min="50" max="300" step="10" [(ngModel)]="testQuestions"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mt-3">
+              @if(testQuestionsError()) {
+              <div
+                class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ testQuestionsError() }}</span>
+              </div>
+              }
+            </div>
+            }
+
+            @if(formats()[format.key]) {
+            <div
+              class="absolute top-2 right-2 w-5 h-5 bg-primary-600 rounded-full flex items-center justify-center text-white animate-scaleIn">
+              <i class="fa-solid fa-check text-xs"></i>
+            </div>
+            }
+          </div>
+          }
+        </div>
+        @if(formatSelectionError(); as error) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+        }
+      </div>
+      @if (generationStatus(); as status) {
+      <div class="mt-6 p-4 rounded-lg animate-scaleIn" [class.bg-green-100]="status.success"
+        [class.dark:bg-green-900]="status.success" [class.text-green-800]="status.success"
+        [class.dark:text-green-200]="status.success" [class.bg-red-100]="!status.success"
+        [class.dark:bg-red-900]="!status.success" [class.text-red-800]="!status.success"
+        [class.dark:text-red-200]="!status.success">
+        <div class="flex flex-col items-center justify-center">
+          <p class="font-medium">{{ status.message }}</p>
+          @if (status.success && generatedFileUrl(); as url) {
+          <a [href]="url" download="educational-materials.zip"
+            class="mt-3 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <i class="fa-solid fa-file-archive mr-2"></i>
+            <span i18n>Download ZIP</span>
+          </a>
+          }
+        </div>
+      </div>
+      }
+    </div>
+    }
+    }
+  </div>
+
+  <!-- Navigation -->
+  <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+    <div>
+      @if(currentStep() > 1) {
+      <button type="button" (click)="prevStep()" i18n
+        class="text-gray-800 dark:text-white bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none dark:focus:ring-gray-800 transition-colors">
+        Previous
+      </button>
+      }
+    </div>
+    <div>
+      @if(currentStep() < 3) { <button type="button" (click)="nextStep()" i18n
+        [disabled]="(currentStep() === 1 && !isStep1Valid()) || (currentStep() === 2 && !isStep2Valid())"
+        class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Next
+        </button>
+        }
+        @if(currentStep() === 3) {
+        <button type="button" (click)="generate()" [disabled]="!isAnyFormatSelected() || !isFormatsValid()"
+          class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-8 py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all duration-300 ease-in-out transform hover:scale-105">
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+          <span i18n>Generate Material</span>
+        </button>
+        }
+    </div>
+  </div>
+  <!-- Draft Management -->
+  <div class="text-center mt-6">
+    <div class="inline-flex rounded-md shadow-sm" role="group">
+      <button type="button" (click)="saveDraft()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-primary-500 dark:focus:text-white">
+        <i class="fa-solid fa-save w-3 h-3 me-2"></i>
+        <span>Save Draft</span>
+      </button>
+      <button type="button" (click)="loadDraft()" [disabled]="!draftExists()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-primary-500 dark:focus:text-white">
+        <i class="fa-solid fa-upload w-3 h-3 me-2"></i>
+        <span>Load Draft</span>
+      </button>
+      <button type="button" (click)="clearDraft()" [disabled]="!draftExists()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-700 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-red-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-red-500 dark:focus:text-white">
+        <i class="fa-solid fa-trash-can w-3 h-3 me-2"></i>
+        <span>Clear Draft</span>
+      </button>
+    </div>
+    @if(draftStatus()) {
+    <p class="text-center text-sm text-gray-500 dark:text-gray-400 h-5 transition-opacity duration-300 mt-2">{{
+      draftStatus() }}</p>
+    } @else {
+    <div class="h-5 mt-2"></div>
+    }
+  </div>
+</div>
+}

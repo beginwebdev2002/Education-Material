@@ -1,0 +1,137 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" i18n>User Management</h1>
+
+<div class="relative overflow-hidden shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
+  <!-- Table Header: Search and Add User button -->
+  <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 p-4">
+    <div class="w-full md:w-1/2">
+      <label for="table-search-users" class="sr-only" i18n>Search</label>
+      <div class="relative">
+        <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+          <i class="fa fa-search text-gray-500 dark:text-gray-400"></i>
+        </div>
+        <input type="text" id="table-search-users" #searchInput (input)="searchTerm.set(searchInput.value)"
+          class="block p-2.5 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full md:w-80 bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          i18n-placeholder placeholder="Search for users by name or email">
+      </div>
+    </div>
+    <div
+      class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+      <button type="button"
+        class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+        <i class="fa-solid fa-user-plus mr-2"></i>
+        <span i18n>Add User</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3" i18n>User</th>
+          <th scope="col" class="px-6 py-3" i18n>Role</th>
+          <th scope="col" class="px-6 py-3">Stats</th>
+          <th scope="col" class="px-6 py-3 hidden lg:table-cell" i18n>Last Login</th>
+          <th scope="col" class="px-6 py-3"><span class="sr-only" i18n>Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (isLoading()) {
+        <!-- Skeleton loader -->
+        @for (i of [1,2,3,4,5]; track i) {
+        <tr class="border-b dark:border-gray-700">
+          <td class="px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <app-skeleton-loader height="2.5rem" width="2.5rem" className="rounded-full"></app-skeleton-loader>
+              <div>
+                <app-skeleton-loader height="1rem" width="6rem" className="mb-1"></app-skeleton-loader>
+                <app-skeleton-loader height="0.75rem" width="8rem"></app-skeleton-loader>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <app-skeleton-loader height="1.5rem" width="4rem" className="rounded-full"></app-skeleton-loader>
+          </td>
+          <td class="px-6 py-4">
+            <app-skeleton-loader height="1rem" width="5rem"></app-skeleton-loader>
+          </td>
+          <td class="px-6 py-4 hidden lg:table-cell">
+            <app-skeleton-loader height="1rem" width="9rem"></app-skeleton-loader>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <app-skeleton-loader height="2rem" width="2rem" className="rounded-lg"></app-skeleton-loader>
+          </td>
+        </tr>
+        }
+        } @else {
+        @for(user of filteredUsers(); track user.id) {
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <img class="w-10 h-10 rounded-full object-cover" [src]="user.avatarUrl"
+                [alt]="user.firstName + ' ' + user.lastName">
+              <div>
+                <div class="font-semibold text-gray-900 dark:text-white">{{ user.firstName }} {{ user.lastName }}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full"
+              [class]="user.role === 'admin' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'">
+              {{ user.role | titlecase }}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-sm text-gray-900 dark:text-white">{{ getMockMaterialsCount(user.id) }} materials</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400" i18n>created</div>
+          </td>
+          <td class="px-6 py-4 hidden lg:table-cell">
+            <div class="text-sm text-gray-900 dark:text-white">{{ getMockLastLogin(user.id) | date:'medium' }}</div>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <button [id]="'user-dropdown-button-' + user.id" [attr.data-dropdown-toggle]="'user-dropdown-' + user.id"
+              class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              type="button">
+              <i class="fa-solid fa-ellipsis-vertical w-5 h-5"></i>
+            </button>
+            <!-- Dropdown menu -->
+            <div [id]="'user-dropdown-' + user.id"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                [attr.aria-labelledby]="'user-dropdown-button-' + user.id">
+                <li>
+                  <a href="#" i18n
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    View Profile</a>
+                </li>
+                <li>
+                  <a href="#" i18n
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit User</a>
+                </li>
+              </ul>
+              <div class="py-1">
+                <a href="#" i18n
+                  class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                  Delete User</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="5" class="px-6 py-12 text-center">
+            <div class="flex flex-col items-center">
+              <i class="fa-solid fa-user-slash text-4xl text-gray-300 dark:text-gray-600"></i>
+              <p class="mt-4 text-sm text-gray-500 dark:text-gray-400" i18n>No users found matching your search.</p>
+              <p class="text-xs text-gray-400 dark:text-gray-500" i18n>Try a different name or email.</p>
+            </div>
+          </td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

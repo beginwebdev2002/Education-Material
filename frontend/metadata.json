@@ -1,0 +1,5 @@
+{
+  "name": "Education Material",
+  "description": "An application to generate educational materials based on user inputs. It features a modern UI, mock data services, and follows the Feature Sliced Design architecture.",
+  "requestFramePermissions": []
+}

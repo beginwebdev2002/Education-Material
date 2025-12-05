@@ -1,6 +1,22 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { App } from './app/app';
+/// <reference types="@angular/localize" />
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+
+
+import '@angular/compiler';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideZonelessChangeDetection } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { APP_ROUTES } from './app.routes';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideRouter(APP_ROUTES, withHashLocation()),
+    provideHttpClient(),
+  ],
+}).catch((err) => console.error(err));
+
+// AI Studio always uses an `main.ts` file for all project types.

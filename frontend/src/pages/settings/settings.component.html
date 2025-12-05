@@ -1,0 +1,83 @@
+
+
+<div class="max-w-2xl mx-auto animate-fadeInUp">
+  <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">Settings</h1>
+  <div class="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+    <!-- Theme Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.1s;">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Theme</h2>
+      <div class="flex items-center space-x-4">
+        <button (click)="setTheme('light')" class="px-4 py-2 rounded-lg text-sm font-medium" 
+                [class.bg-primary-600]="settingsService.theme() === 'light'"
+                [class.text-white]="settingsService.theme() === 'light'"
+                [class.bg-gray-200]="settingsService.theme() !== 'light'"
+                [class.dark:bg-gray-700]="settingsService.theme() !== 'light'"
+                [class.dark:text-gray-300]="settingsService.theme() !== 'light'">
+          Light
+        </button>
+        <button (click)="setTheme('dark')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.theme() === 'dark'"
+                [class.text-white]="settingsService.theme() === 'dark'"
+                [class.bg-gray-200]="settingsService.theme() !== 'dark'"
+                [class.dark:bg-gray-700]="settingsService.theme() !== 'dark'"
+                [class.dark:text-gray-300]="settingsService.theme() !== 'dark'">
+          Dark
+        </button>
+      </div>
+    </div>
+    
+    <!-- Font Size Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.2s;">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Font Size</h2>
+      <div class="flex items-center space-x-4">
+        <button (click)="setFontSize('sm')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.fontSize() === 'sm'"
+                [class.text-white]="settingsService.fontSize() === 'sm'"
+                [class.bg-gray-200]="settingsService.fontSize() !== 'sm'"
+                [class.dark:bg-gray-700]="settingsService.fontSize() !== 'sm'"
+                [class.dark:text-gray-300]="settingsService.fontSize() !== 'sm'">
+          Small
+        </button>
+        <button (click)="setFontSize('base')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.fontSize() === 'base'"
+                [class.text-white]="settingsService.fontSize() === 'base'"
+                [class.bg-gray-200]="settingsService.fontSize() !== 'base'"
+                [class.dark:bg-gray-700]="settingsService.fontSize() !== 'base'"
+                [class.dark:text-gray-300]="settingsService.fontSize() !== 'base'">
+          Medium
+        </button>
+        <button (click)="setFontSize('lg')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.fontSize() === 'lg'"
+                [class.text-white]="settingsService.fontSize() === 'lg'"
+                [class.bg-gray-200]="settingsService.fontSize() !== 'lg'"
+                [class.dark:bg-gray-700]="settingsService.fontSize() !== 'lg'"
+                [class.dark:text-gray-300]="settingsService.fontSize() !== 'lg'">
+          Large
+        </button>
+      </div>
+    </div>
+    
+    <!-- Font Family Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.3s;">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Font Family</h2>
+      <div class="flex items-center space-x-4">
+        <button (click)="setFontFamily('sans')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.fontFamily() === 'sans'"
+                [class.text-white]="settingsService.fontFamily() === 'sans'"
+                [class.bg-gray-200]="settingsService.fontFamily() !== 'sans'"
+                [class.dark:bg-gray-700]="settingsService.fontFamily() !== 'sans'"
+                [class.dark:text-gray-300]="settingsService.fontFamily() !== 'sans'">
+          Sans-Serif
+        </button>
+        <button (click)="setFontFamily('serif')" class="px-4 py-2 rounded-lg text-sm font-medium"
+                [class.bg-primary-600]="settingsService.fontFamily() === 'serif'"
+                [class.text-white]="settingsService.fontFamily() === 'serif'"
+                [class.bg-gray-200]="settingsService.fontFamily() !== 'serif'"
+                [class.dark:bg-gray-700]="settingsService.fontFamily() !== 'serif'"
+                [class.dark:text-gray-300]="settingsService.fontFamily() !== 'serif'">
+          Serif
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

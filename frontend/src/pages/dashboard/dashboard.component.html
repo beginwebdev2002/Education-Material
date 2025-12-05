@@ -1,0 +1,22 @@
+<app-ad-banner></app-ad-banner>
+
+<div class="flex flex-col md:flex-row items-center justify-between text-center md:text-left my-20 md:mb-12 gap-8">
+  <div>
+    <h1 i18n class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl animate-fadeInUp">
+      Material Generation Dashboard</h1>
+    <p class="mt-4 text-lg text-gray-500 dark:text-gray-400 animate-fadeInUp" style="animation-delay: 0.2s;" i18n>
+      Create your next set of teaching materials with just a few clicks.</p>
+  </div>
+  <div class="flex-shrink-0 animate-fadeInUp" style="animation-delay: 0.4s;">
+    <app-illustration type="dashboard"></app-illustration>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="lg:col-span-2">
+    <app-generation-form [requestToLoad]="requestToLoad()"></app-generation-form>
+  </div>
+  <div class="lg:col-span-1">
+    <app-generation-history (rerunRequest)="loadRequestInForm($event)"></app-generation-history>
+  </div>
+</div>

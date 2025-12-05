@@ -1,0 +1,1 @@
+export { getIllustrationData } from './illustration.data';

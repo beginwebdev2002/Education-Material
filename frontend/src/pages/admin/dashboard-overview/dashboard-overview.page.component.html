@@ -1,0 +1,53 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" i18n>Dashboard Overview</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+   <!-- Card 1: Total Users -->
+   <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" i18n>Total Users</h5>
+      <p class="font-normal text-4xl text-gray-700 dark:text-gray-400">1,234</p>
+      <p class="text-sm text-green-500">+12% from last month</p>
+   </div>
+   <!-- Card 2: Materials Generated -->
+   <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" i18n>Materials Generated</h5>
+      <p class="font-normal text-4xl text-gray-700 dark:text-gray-400">5,678</p>
+      <p class="text-sm text-green-500">+8% from last month</p>
+   </div>
+   <!-- Card 3: Active Users -->
+   <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" i18n>Active Users (24h)</h5>
+      <p class="font-normal text-4xl text-gray-700 dark:text-gray-400">456</p>
+      <p class="text-sm text-red-500"><span i18n>rating from yesterday: </span> -3%</p>
+   </div>
+   <!-- Card 4: System Health -->
+   <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" i18n>System Health</h5>
+      <p class="font-normal text-4xl text-green-500 dark:text-green-400" i18n>Online</p>
+      <p class="text-sm text-gray-500" i18n>All systems operational</p>
+   </div>
+</div>
+<div class="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+   <h5 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" i18n>Recent Activity</h5>
+   <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+      @for (activity of recentActivities; track $index) {
+      <li class="py-3 sm:py-4">
+         <div class="flex items-center">
+            <div class="flex-shrink-0">
+               <img class="w-8 h-8 rounded-full" [src]="activity.avatar" alt="{{activity.user}} image">
+            </div>
+            <div class="flex-1 min-w-0 ms-4">
+               <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                  {{ activity.user }}
+               </p>
+               <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                  {{ activity.action }} <span class="font-semibold text-gray-700 dark:text-gray-300">{{ activity.target
+                     }}</span>
+               </p>
+            </div>
+            <div class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
+               {{ activity.time | date:'shortTime' }}
+            </div>
+         </div>
+      </li>
+      }
+   </ul>
+</div>

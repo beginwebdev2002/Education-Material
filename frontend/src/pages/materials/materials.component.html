@@ -1,0 +1,91 @@
+<div class="mt-24">
+  <div class=" text-center mb-12 animate-fadeInUp">
+    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">Community Materials</h1>
+    <p class="mt-4 text-lg text-gray-500 dark:text-gray-400">Discover and use materials created by top educators.</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 animate-fadeInUp"
+    style="animation-delay: 0.2s;">
+    <div class="relative w-full md:w-1/2 lg:w-1/3">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <i class="fa-solid fa-magnifying-glass w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+      </div>
+      <input type="search" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)"
+        class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        placeholder="Filter by title...">
+    </div>
+
+    <div>
+      <label for="sort" class="sr-only">Sort by</label>
+      <select id="sort" [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)"
+        class="block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+        <option value="rating">Sort by Rating</option>
+        <option value="downloads">Sort by Downloads</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Materials Grid -->
+  @if (isLoading()) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    @for (item of skeletonItems; track $index) {
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col">
+      <div class="p-6 flex-grow">
+        <app-skeleton-loader height="1.75rem" width="80%" className="mb-3"></app-skeleton-loader>
+        <app-skeleton-loader height="1rem" width="100%"></app-skeleton-loader>
+        <app-skeleton-loader height="1rem" width="90%" className="mt-2"></app-skeleton-loader>
+        <app-skeleton-loader height="1.25rem" width="50%" className="mt-4"></app-skeleton-loader>
+      </div>
+      <div class="p-6 bg-gray-50 dark:bg-gray-700/50 flex justify-between items-center">
+        <div class="text-sm w-1/2">
+          <app-skeleton-loader height="1rem" width="70%"></app-skeleton-loader>
+          <app-skeleton-loader height="0.875rem" width="50%" className="mt-2"></app-skeleton-loader>
+          <app-skeleton-loader height="0.75rem" width="90%" className="mt-2"></app-skeleton-loader>
+        </div>
+        <app-skeleton-loader height="2.25rem" width="6rem" className="rounded-lg"></app-skeleton-loader>
+      </div>
+    </div>
+    }
+  </div>
+  } @else if (filteredMaterials().length > 0) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeInUp" style="animation-delay: 0.4s;">
+    @for (material of filteredMaterials(); track material.id) {
+    <div
+      class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl dark:hover:shadow-primary-900/40">
+      <div class="p-6 flex-grow">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ material.title }}</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ material.description }}</p>
+        <div class="flex items-center text-yellow-400 mb-4">
+          @for(i of getStarArray(material.rating); track i) {
+          <i class="fa-solid fa-star"></i>
+          }
+          @for(i of getEmptyStarArray(material.rating); track i) {
+          <i class="fa-regular fa-star"></i>
+          }
+          <span class="text-gray-600 dark:text-gray-400 text-sm ml-2">{{ material.rating }}.0</span>
+        </div>
+      </div>
+      <div class="p-6 bg-gray-50 dark:bg-gray-700/50 flex justify-between items-center">
+        <div class="text-sm overflow-hidden pr-2">
+          <p class="text-gray-900 dark:text-white font-semibold truncate">
+            By <a [routerLink]="['/profile', material.authorId]" class="hover:underline">{{ material.authorName }}</a>
+          </p>
+          <p class="text-gray-500 dark:text-gray-400">{{ material.downloads }} downloads</p>
+          <p class="text-xs text-gray-400 dark:text-gray-500">{{ material.reviews }} reviews</p>
+        </div>
+        <a href="#"
+          class="inline-block text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors">Download</a>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <div class="text-center py-16 animate-fadeInUp">
+    <app-illustration type="emptyState"></app-illustration>
+    <p class="mt-8 text-2xl font-semibold text-gray-700 dark:text-gray-300">No Materials Found</p>
+    <p class="mt-2 text-gray-500 dark:text-gray-400">Try adjusting your search or filters to find what you're looking
+      for.</p>
+  </div>
+  }
+</div>

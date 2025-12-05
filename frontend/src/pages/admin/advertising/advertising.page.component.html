@@ -1,0 +1,108 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" i18n>Advertising Management</h1>
+
+<!-- Add Ad Form -->
+<div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-6">
+  <h5 class="mb-4 text-xl font-bold text-gray-900 dark:text-white" i18n>Create New Advertisement</h5>
+  <form (ngSubmit)="addAd()" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="ad-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>Ad Title</label>
+        <input type="text" id="ad-title" [(ngModel)]="newAd().title" name="ad-title" required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+      </div>
+      <div>
+        <label for="ad-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ad Type</label>
+        <select id="ad-type" [ngModel]="newAd().type" (ngModelChange)="onTypeChange($event)" name="ad-type"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+          @for (type of adTypes; track type) {
+          <option [value]="type">{{ type | titlecase }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div>
+      @if (newAd().type === 'text') {
+      <label for="ad-content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        i18n="advertising content title">Ad Content</label>
+      <textarea id="ad-content" rows="3" [(ngModel)]="newAd().content" name="ad-content" required
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
+      } @else {
+      <label for="ad-url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>Media URL</label>
+      <input type="url" id="ad-url" [(ngModel)]="newAd().content" name="ad-url" required
+        placeholder="https://example.com/media.mp4"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+      }
+    </div>
+
+    <div class="flex items-center">
+      <label class="inline-flex items-center cursor-pointer">
+        <input type="checkbox" [(ngModel)]="newAd().isActive" name="ad-active" class="sr-only peer">
+        <div
+          class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+        </div>
+        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300" i18n>Set as active</span>
+      </label>
+    </div>
+
+    <button type="submit" [disabled]="!newAd().title || !newAd().content" i18n
+      class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed">
+      Add Advertisement
+    </button>
+  </form>
+</div>
+
+<!-- Existing Ads List -->
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3" i18n="Label of title advertising">Title</th>
+        <th scope="col" class="px-6 py-3" i18n="label of content advertising">Content / URL</th>
+        <th scope="col" class="px-6 py-3" i18n="label of type advertising">Type</th>
+        <th scope="col" class="px-6 py-3 text-center" i18n="label of status advertising">Status</th>
+        <th scope="col" class="px-6 py-3"><span class="sr-only" i18n="label of action advertising">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (ad of ads(); track ad.id) {
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+          {{ ad.title }}
+        </th>
+        <td class="px-6 py-4 max-w-sm truncate" [title]="ad.content">
+          {{ ad.content }}
+        </td>
+        <td class="px-6 py-4">
+          <span class="px-2 py-1 text-xs font-semibold leading-tight rounded-full"
+            [class.bg-blue-100]="ad.type === 'text'" [class.text-blue-800]="ad.type === 'text'"
+            [class.dark:bg-blue-900]="ad.type === 'text'" [class.dark:text-blue-300]="ad.type === 'text'"
+            [class.bg-green-100]="ad.type === 'image'" [class.text-green-800]="ad.type === 'image'"
+            [class.dark:bg-green-900]="ad.type === 'image'" [class.dark:text-green-300]="ad.type === 'image'"
+            [class.bg-purple-100]="ad.type === 'video'" [class.text-purple-800]="ad.type === 'video'"
+            [class.dark:bg-purple-900]="ad.type === 'video'" [class.dark:text-purple-300]="ad.type === 'video'"
+            [class.bg-yellow-100]="ad.type === 'audio'" [class.text-yellow-800]="ad.type === 'audio'"
+            [class.dark:bg-yellow-900]="ad.type === 'audio'" [class.dark:text-yellow-300]="ad.type === 'audio'">{{
+            ad.type | titlecase }}</span>
+        </td>
+        <td class="px-6 py-4 text-center">
+          <label class="inline-flex items-center cursor-pointer">
+            <input type="checkbox" [checked]="ad.isActive" (change)="toggleAdStatus(ad)" class="sr-only peer">
+            <div
+              class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
+            </div>
+          </label>
+        </td>
+        <td class="px-6 py-4 text-right">
+          <button (click)="deleteAd(ad.id)" class="font-medium text-red-600 dark:text-red-500 hover:underline"
+            i18n>Delete</button>
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="5" class="text-center py-8" i18n>No advertisements configured yet.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

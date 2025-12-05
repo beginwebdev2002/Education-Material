@@ -5,6 +5,16 @@
   "projects": {
     "frontend": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": {
+          "code": "en-US",
+          "baseHref": "/en-US/"
+        },
+        "locales": {
+          "ru-RU": "src/locale/messages.ru-RU.json",
+          "tj-TJ": "src/locale/messages.tj-TJ.json"
+        }
+      },
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
@@ -17,6 +27,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "localize": [
+              "en-US"
+            ],
+            "i18nMissingTranslation": "error",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -27,10 +41,31 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "./src/styles.scss"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           },
           "configurations": {
+            "en-US": {
+              "localize": [
+                "en-US"
+              ],
+              "baseHref": "/en-US/"
+            },
+            "ru-RU": {
+              "localize": [
+                "ru-RU"
+              ],
+              "baseHref": "/ru-RU/"
+            },
+            "tj-TJ": {
+              "localize": [
+                "tj-TJ"
+              ],
+              "baseHref": "/tj-TJ/"
+            },
             "production": {
               "budgets": [
                 {
@@ -67,7 +102,11 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "outputPath": "src/locale",
+            "format": "xliff2"
+          }
         },
         "test": {
           "builder": "@angular/build:karma",
@@ -81,7 +120,10 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "./src/styles.scss"
+            ],
+            "polyfills": [
+              "@angular/localize/init"
             ]
           }
         }

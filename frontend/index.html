@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-g">
+  <title i18n>Education Material Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .animate-fadeInUp {
+      opacity: 0;
+      /* Start hidden */
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out forwards;
+    }
+
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+      background-color: #e2e8f0;
+    }
+
+    .dark .shimmer {
+      background-color: #374151;
+      /* gray-700 */
+    }
+
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform: translateX(-100%);
+      background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+      animation: shimmer 1.5s infinite;
+    }
+
+    .dark .shimmer::after {
+      background-image: linear-gradient(90deg, rgba(107, 114, 128, 0) 0, rgba(107, 114, 128, 0.2) 20%, rgba(107, 114, 128, 0.5) 60%, rgba(107, 114, 128, 0));
+    }
+
+    /* Custom Scrollbar Styles */
+    /* For Webkit browsers like Chrome, Safari */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #d1d5db;
+      /* gray-300 */
+      border-radius: 10px;
+    }
+
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #4b5563;
+      /* gray-600 */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background-color: #9ca3af;
+      /* gray-400 */
+    }
+
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background-color: #6b7280;
+      /* gray-500 */
+    }
+
+    /* For Firefox */
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: #d1d5db transparent;
+      /* thumb and track color */
+    }
+
+    .dark .custom-scrollbar {
+      scrollbar-color: #4b5563 transparent;
+    }
+  </style>
+  <script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://aistudiocdn.com/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://aistudiocdn.com/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://aistudiocdn.com/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://aistudiocdn.com/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://aistudiocdn.com/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://aistudiocdn.com/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@angular/core/rxjs-interop": "https://next.esm.sh/@angular/core@^20.3.7/rxjs-interop?external=rxjs",
+    "@angular/core": "https://next.esm.sh/@angular/core@^20.3.7?external=rxjs",
+    "@angular/compiler": "https://next.esm.sh/@angular/compiler@^20.3.7?external=rxjs",
+    "@angular/forms": "https://next.esm.sh/@angular/forms@^20.3.7?external=rxjs",
+    "@angular/platform-browser": "https://next.esm.sh/@angular/platform-browser@^20.3.7?external=rxjs",
+    "@angular/router": "https://next.esm.sh/@angular/router@^20.3.7?external=rxjs",
+    "@angular/common": "https://next.esm.sh/@angular/common@^20.3.7?external=rxjs",
+    "@angular/common/http": "https://next.esm.sh/@angular/common@^20.3.7/http?external=rxjs",
+    "@angular/core/rxjs/interop": "https://next.esm.sh/@angular/core@^20.3.9/rxjs/interop?external=rxjs"
+  }
+}
+</script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 font-sans">
+  <app-root></app-root>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+</body>
+
+</html>

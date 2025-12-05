@@ -1,30 +1,25 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { GenerationFormComponent } from '../../features/generation-form/generation-form.component';
+import { GenerationHistoryComponent } from '../../features/generation-history/generation-history.component';
+import { GenerationHistoryItem } from '../../shared/models/generation.model';
+import { IllustrationComponent } from '../../shared/ui/illustration/illustration.component';
+import { AdBannerComponent } from '../../widgets/ad-banner/ad-banner.component';
 
 @Component({
   selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-        Панель управления
-      </h1>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Рабочие программы</h3>
-          <p class="text-gray-600 dark:text-gray-300">Создайте рабочую программу</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Лекции</h3>
-          <p class="text-gray-600 dark:text-gray-300">Создайте лекцию</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Тесты</h3>
-          <p class="text-gray-600 dark:text-gray-300">Создайте тест</p>
-        </div>
-      </div>
-    </div>
-  `
+  imports: [GenerationFormComponent, GenerationHistoryComponent, IllustrationComponent, AdBannerComponent],
 })
-export class DashboardComponent { }
+export class DashboardComponent {
+  requestToLoad = signal<GenerationHistoryItem | null>(null);
+
+  loadRequestInForm(request: GenerationHistoryItem): void {
+    // Setting this signal will trigger the effect in the form component
+    this.requestToLoad.set(request);
+    // Scroll to the top of the page to make the form visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
