@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthStateService } from './auth-state.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
-import { IllustrationComponent } from '../../shared/ui/illustration/illustration.component';
+import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
 
 @Component({
   selector: 'app-auth-modal-container',

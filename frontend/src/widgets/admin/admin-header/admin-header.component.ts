@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AdminLayoutService } from '../../../shared/services/admin-layout.service';
-import { SettingsService } from '../../../shared/services/settings.service';
-import { MockAuthService } from '../../../entities/auth/auth.service';
+import { AdminLayoutService } from '@shared/services/admin-layout.service';
+import { SettingsService } from '@shared/services/settings.service';
+import { MockAuthService } from '@entities/auth';
 
 @Component({
   selector: 'app-admin-header',

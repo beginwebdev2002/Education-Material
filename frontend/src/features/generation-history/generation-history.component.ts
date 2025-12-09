@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, output } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MockGenerationService } from '../../shared/services/generation.service';
-import { GenerationHistoryItem } from '../../shared/models/generation.model';
+import { MockGenerationService } from '@shared/services/generation.service';
+import { GenerationHistoryItem } from '@shared/models/generation.model';
 
 @Component({
   selector: 'app-generation-history',

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SettingsService } from '../../../shared/services/settings.service';
+import { SettingsService } from '@shared/services/settings.service';
 
 @Component({
   selector: 'app-system-settings-page',

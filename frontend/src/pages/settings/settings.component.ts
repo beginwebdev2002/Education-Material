@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SettingsService, Theme, FontSize, FontFamily } from '../../shared/services/settings.service';
+import { SettingsService, Theme, FontSize, FontFamily } from '@shared/services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +20,7 @@ export class SettingsComponent {
   setFontSize(size: FontSize) {
     this.settingsService.setFontSize(size);
   }
-  
+
   setFontFamily(family: FontFamily) {
     this.settingsService.setFontFamily(family);
   }

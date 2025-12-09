@@ -7,13 +7,30 @@
     ],
     "baseUrl": "./src",
     "paths": {
-      "@app/*": ["app/*"],
-      "@pages/*": ["pages/*"],
-      "@widgets/*": ["widgets/*"],
-      "@features/*": ["features/*"],
-      "@entities/*": ["entities/*"],
-      "@shared/*": ["shared/*"],
-      "@/*": ["*"] 
+      "@app/*": [
+        "app/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@widgets/*": [
+        "widgets/*"
+      ],
+      "@features/*": [
+        "features/*"
+      ],
+      "@entities/*": [
+        "entities/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@/*": [
+        "*"
+      ]
     }
   },
   "files": [

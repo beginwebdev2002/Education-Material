@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MockAuthService } from '../../entities/auth/auth.service';
-import { AuthStateService } from '../../features/auth/auth-state.service';
-import { AuthModalContainerComponent } from '../../features/auth/auth-modal-container.component';
-import { SettingsService } from '../../shared/services/settings.service';
-import { MenuItem } from '../../shared/models/header.model';
+import { AuthStateService } from '@features/auth/auth-state.service';
+import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
+import { SettingsService } from '@shared/services/settings.service';
+import { MenuItem } from '@shared/models/header.model';
+import { MockAuthService } from '@entities/auth/auth.service';
 
 // This tells TypeScript that a function named initFlowbite exists in the global scope.
 // It is provided by the Flowbite script included in index.html.
@@ -36,7 +36,7 @@ export class HeaderComponent {
     { id: 4, label: 'Docs', path: '/docs', requiresAuth: true, adminOnly: true },
   ]);
   profileMenuItems = signal<MenuItem[]>([
-    { id: 1, label: 'Profile', path: '/profile' },
+    { id: 1, label: 'Profile', path: '/profile/a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6' },
     { id: 2, label: 'Settings', path: '/settings' },
   ]);
   adminPanelText = signal("Admin Panel")

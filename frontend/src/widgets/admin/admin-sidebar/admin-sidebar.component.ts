@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AdminLayoutService } from '../../../shared/services/admin-layout.service';
+import { AdminLayoutService } from '@shared/services/admin-layout.service';
 
 @Component({
   selector: 'app-admin-sidebar',

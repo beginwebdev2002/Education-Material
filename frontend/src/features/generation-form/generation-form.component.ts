@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy, signal, OnInit, computed, OnDestroy, effect, input, Signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MockGenerationService } from '../../shared/services/generation.service';
+import { MockGenerationService } from '@shared/services/generation.service';
 import { finalize } from 'rxjs';
-import { GenerationFormModel, GenerationHistoryItem } from '../../shared/models/generation.model';
-import { MaterialDescription, MaterialTypes, MaterialTypesKey } from '../../shared/models/material.model';
+import { GenerationFormModel, GenerationHistoryItem } from '@shared/models/generation.model';
+import { MaterialDescription, MaterialTypes, MaterialTypesKey } from '@shared/models/material.model';
 import { audienceOptions, levelOptions } from './generation-form.data';
 
 @Component({

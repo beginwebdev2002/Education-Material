@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Ad } from '../models/ad.model';
+import { Ad } from '@shared/models/ad.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdvertisingService {
@@ -8,7 +8,7 @@ export class AdvertisingService {
 
   activeAd = computed(() => this.ads().find(ad => ad.isActive));
 
-  constructor() {}
+  constructor() { }
 
   addAd(adData: Omit<Ad, 'id'>): void {
     const newAd: Ad = { ...adData, id: self.crypto.randomUUID() };

@@ -2,8 +2,10 @@ import { Component, ChangeDetectionStrategy, inject, output, signal, computed } 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { MockAuthService } from '../../../entities/auth/auth.service';
-import { AuthStateService } from '../auth-state.service';
+import { MockAuthService } from '@entities/auth/auth.service';
+import { AuthStateService } from '@features/auth/auth-state.service';
+import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { emailValidator } from '@shared/validation/signal-validator';
 
 @Component({
   selector: 'app-login-modal',
@@ -24,14 +26,48 @@ export class LoginModalComponent {
   isLoading = signal(false);
   error = signal<string | null>(null);
 
+  touchedFields = signal<Set<string>>(new Set());
+
+  formErrors = computed(() => {
+    const errors = {
+      email: createValidationSignal(this.email, [requiredValidator, minLengthValidator(3), maxLengthValidator(50), emailValidator]),
+      password: createValidationSignal(this.password, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+    }
+    return errors;
+  });
+
+  hasErrors = computed(() => {
+    const errors = this.formErrors();
+    return Object.values(errors).some(fieldErrors => fieldErrors().length > 0);
+  });
+
+  markTouched(field: string) {
+    this.touchedFields.update(s => {
+      const newSet = new Set(s);
+      newSet.add(field);
+      return newSet;
+    });
+  }
+
+  isTouched(field: string) {
+    return this.touchedFields().has(field);
+  }
+
   login(): void {
-    if (this.isLoading() || !this.email() || !this.password()) {
+    if (this.isLoading()) {
+      return;
+    }
+
+    if (this.hasErrors()) {
+      this.touchedFields.set(new Set(['email', 'password']));
+      return;
+    }
+
+    if (!this.email() || !this.password()) {
       return;
     }
     this.isLoading.set(true);
     this.error.set(null);
-
-
 
     this.authService.login({ email: this.email(), password: this.password() })
       .pipe(finalize(() => this.isLoading.set(false)))

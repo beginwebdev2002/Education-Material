@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdvertisingService } from '../../shared/services/advertising.service';
+import { AdvertisingService } from '@shared/services/advertising.service';
 
 @Component({
   selector: 'app-ad-banner',

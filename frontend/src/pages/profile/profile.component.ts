@@ -6,9 +6,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { MockAuthService } from '../../entities/auth/auth.service';
-import { User } from '../../shared/models/user.model';
+import { User } from '@shared/models/user.model';
 import { FormsModule } from '@angular/forms';
+import { MockAuthService } from '@entities/auth';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import { IllustrationNames, IllustrationsData } from "../../../models/illustration.model";
+import { IllustrationNames, IllustrationsData } from "@shared/models/illustration.model";
 
 
 

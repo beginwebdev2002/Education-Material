@@ -2,37 +2,57 @@
     <div class="grid grid-cols-2 gap-4">
         <div>
             <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                i18n="Title of Auth | Title of where your write First name">First
-                Name</label>
-            <input type="text" name="firstName" id="firstName" [(ngModel)]="firstName"
+                i18n="Title of Auth | Title of where your write First name">
+                First Name
+            </label>
+            <input type="text" name="firstName" id="firstName" [value]="firstName()"
+                (input)="firstName.set($event.target.value)" (blur)="markTouched('firstName')"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="John" i18n-placeholder="User First Name | wrote example of user first name" required>
+            @if (formErrors().firstName().length > 0 && isTouched('firstName')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ formErrors().firstName()[0] }}</p>
+            }
         </div>
         <div>
-            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>Last
-                Name</label>
-            <input type="text" name="lastName" id="lastName" [(ngModel)]="lastName"
+            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" i18n>
+                Last Name
+            </label>
+            <input type="text" name="lastName" id="lastName" [value]="lastName()"
+                (input)="lastName.set($event.target.value)" (blur)="markTouched('lastName')"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="Doe" i18n="User Last name | wrote example of user last name" required>
+            @if (formErrors().lastName().length > 0 && isTouched('lastName')) {
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ formErrors().lastName()[0] }}</p>
+            }
         </div>
     </div>
     <div>
         <label for="register-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             i18n="Title email Auth | title auth where need write email">
-            Your email</label>
-        <input type="email" name="email" id="register-email" [(ngModel)]="email"
+            Your email
+        </label>
+        <input type="email" name="email" id="register-email" [value]="email()" (input)="email.set($event.target.value)"
+            (blur)="markTouched('email')"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             placeholder="name@company.com" i18n-placeholder="wrote example of user email" required>
+        @if (formErrors().email().length > 0 && isTouched('email')) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ formErrors().email()[0] }}</p>
+        }
     </div>
     <div>
         <label i18n="title of New Password" for="register-password"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Your password</label>
-        <input type="password" name="password" id="register-password" [(ngModel)]="password" placeholder="••••••••"
+            Your password
+        </label>
+        <input type="password" name="password" id="register-password" [value]="password()"
+            (input)="password.set($event.target.value)" placeholder="••••••••" (blur)="markTouched('password')"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required>
+        @if (formErrors().password().length > 0 && isTouched('password')) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ formErrors().password()[0] }}</p>
+        }
     </div>
-    <button type="submit" [disabled]="isLoading() || registerForm.invalid"
+    <button type="submit" [disabled]="isLoading() || hasErrors()"
         class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50 disabled:cursor-not-allowed">
         {{ buttonText()}}
     </button>
@@ -40,7 +60,8 @@
     <p class="text-sm font-medium text-red-500 dark:text-red-400">{{ error() }}</p>
     }
     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-        <span i18n>Already have an account?</span> <button type="button" i18n (click)="switchToLogin()"
+        <span i18n>Already have an account?</span>
+        <button type="button" i18n (click)="switchToLogin()"
             class="text-primary-700 hover:underline dark:text-primary-500">Log in</button>
     </div>
 </form>

@@ -8,6 +8,7 @@ import { SettingsService } from './shared/services/settings.service';
 import { LoadingService } from './shared/services/loading.service';
 import { ProgressBarComponent } from './shared/ui/progress-bar/progress-bar.component';
 import { FooterComponent } from './widgets/footer/footer.component';
+import { environment } from './environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -37,10 +38,10 @@ export class AppComponent {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       takeUntilDestroyed()
     )
-    // FIX: Explicitly typed the `event` parameter as `NavigationEnd` to correct a type inference issue where `event` was being treated as `unknown`.
-    .subscribe((event: NavigationEnd) => {
-      this.showMainLayout.set(!event.urlAfterRedirects.startsWith('/admin'));
-    });
+      // FIX: Explicitly typed the `event` parameter as `NavigationEnd` to correct a type inference issue where `event` was being treated as `unknown`.
+      .subscribe((event: NavigationEnd) => {
+        this.showMainLayout.set(!event.urlAfterRedirects.startsWith('/admin'));
+      });
 
     this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       if (event instanceof NavigationStart) {

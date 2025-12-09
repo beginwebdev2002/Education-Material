@@ -16,8 +16,34 @@
         }
       },
       "schematics": {
+        "@schematics/angular:application": {},
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "path": "./src"
+        },
+        "@schematics/angular:service": {
+          "path": "./src"
+        },
+        "@schematics/angular:directive": {
+          "path": "./src"
+        },
+        "@schematics/angular:pipe": {
+          "path": "./src"
+        },
+        "@schematics/angular:module": {
+          "path": "./src"
+        },
+        "@schematics/angular:guard": {
+          "path": "./src"
+        },
+        "@schematics/angular:interceptor": {
+          "path": "./src"
+        },
+        "@schematics/angular:interface": {
+          "path": "./src"
+        },
+        "@schematics/angular:enum": {
+          "path": "./src"
         }
       },
       "root": "",
@@ -52,19 +78,37 @@
               "localize": [
                 "en-US"
               ],
-              "baseHref": "/en-US/"
+              "baseHref": "/en-US/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.en-US.ts"
+                }
+              ]
             },
             "ru-RU": {
               "localize": [
                 "ru-RU"
               ],
-              "baseHref": "/ru-RU/"
+              "baseHref": "/ru-RU/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ru-RU.ts"
+                }
+              ]
             },
             "tj-TJ": {
               "localize": [
                 "tj-TJ"
               ],
-              "baseHref": "/tj-TJ/"
+              "baseHref": "/tj-TJ/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.tj-TJ.ts"
+                }
+              ]
             },
             "production": {
               "budgets": [
@@ -84,7 +128,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

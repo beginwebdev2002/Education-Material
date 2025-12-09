@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, computed, signal, OnInit } from '@angular/core';
 import { CommonModule, TitleCasePipe, DatePipe } from '@angular/common';
-import { MockAuthService } from '../../../entities/auth/auth.service';
+import { MockAuthService } from '@entities/auth';
 import { toSignal } from "@angular/core/rxjs-interop";
-import { User } from '../../../shared/models/user.model';
-import { SkeletonLoaderComponent } from '../../../shared/ui/skeleton-loader/skeleton-loader.component';
+import { User } from '@shared/models/user.model';
+import { SkeletonLoaderComponent } from '@shared/ui/skeleton-loader/skeleton-loader.component';
 
 @Component({
   selector: 'app-users-management-page',

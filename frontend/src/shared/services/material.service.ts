@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Material } from '../models/material.model';
+import { Material } from '@shared/models/material.model';
 import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

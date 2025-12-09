@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MockMaterialService } from '../../../shared/services/material.service';
-import { Material } from '../../../shared/models/material.model';
+import { MockMaterialService } from '@shared/services/material.service';
+import { Material } from '@shared/models/material.model';
 import { FormsModule } from '@angular/forms';
 
 

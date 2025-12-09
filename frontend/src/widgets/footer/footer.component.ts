@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MockAuthService } from '../../entities/auth/auth.service';
+import { MockAuthService } from '@entities/auth/auth.service';
 
 @Component({
   selector: 'app-footer',
