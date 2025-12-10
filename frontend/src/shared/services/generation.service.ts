@@ -8,8 +8,6 @@ export class MockGenerationService {
   history = signal<GenerationHistoryItem[]>(this.loadHistory());
 
   generate(formData: GenerationFormModel): Observable<{ success: boolean; message: string }> {
-    console.log('Generation request received:', formData);
-
     const historyItem: GenerationHistoryItem = {
       id: self.crypto.randomUUID(),
       timestamp: Date.now(),

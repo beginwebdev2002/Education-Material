@@ -6,4 +6,8 @@ export class UserEndPoints {
     static getOneUser(id: string) {
         return `${this.BASE_URL}/${id}`;
     }
+
+    static getUserById(id: string) {
+        return `${this.BASE_URL}/${id}`;
+    }
 }

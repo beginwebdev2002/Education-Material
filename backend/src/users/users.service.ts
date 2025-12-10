@@ -4,17 +4,28 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { Users } from './users.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(Users.name) private readonly usersModel: Model<Users>
+    @InjectModel(Users.name) private readonly usersModel: Model<Users>,
+    private config: ConfigService,
+    private jwtService: JwtService
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    console.log("test");
-    const createdUser = new this.usersModel(createUserDto);
-    return await createdUser.save();
+    const { saltRounds } = this.config.get('bcrypt');
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(createUserDto.password, salt);
+    const result = await new this.usersModel({ ...createUserDto, password: hash }).save();
+    const payload = { sub: result.id, username: result.email };
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+      ...result.toObject()
+    };
   }
 
   async findAll() {

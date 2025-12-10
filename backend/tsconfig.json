@@ -17,6 +17,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
       ]
     },
     "incremental": true,

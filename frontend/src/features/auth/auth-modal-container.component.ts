@@ -2,13 +2,13 @@ import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { AuthStateService } from './auth-state.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
-import { RegisterModalComponent } from './register-modal/register-modal.component';
+import { SignupModalComponent } from './signup-modal/signup-modal.component';
 import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
 
 @Component({
   selector: 'app-auth-modal-container',
   standalone: true,
-  imports: [CommonModule, LoginModalComponent, RegisterModalComponent, IllustrationComponent],
+  imports: [CommonModule, LoginModalComponent, SignupModalComponent, IllustrationComponent],
   templateUrl: './auth-modal-container.component.html',
   styleUrls: ['./auth-modal-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

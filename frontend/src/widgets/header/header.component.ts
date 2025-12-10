@@ -6,6 +6,7 @@ import { AuthModalContainerComponent } from '@features/auth/auth-modal-container
 import { SettingsService } from '@shared/services/settings.service';
 import { MenuItem } from '@shared/models/header.model';
 import { MockAuthService } from '@entities/auth/auth.service';
+import { UserService } from '@shared/services/user.service';
 
 // This tells TypeScript that a function named initFlowbite exists in the global scope.
 // It is provided by the Flowbite script included in index.html.
@@ -22,10 +23,11 @@ declare const initFlowbite: () => void;
 export class HeaderComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   authService: MockAuthService = inject(MockAuthService);
+  userService: UserService = inject(UserService);
   authState: AuthStateService = inject(AuthStateService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.authService.currentUser;
+  currentUser = this.userService.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
   isAdmin = computed(() => this.currentUser()?.role === 'admin');
   isMobileMenuHide = signal(true);
@@ -36,7 +38,7 @@ export class HeaderComponent {
     { id: 4, label: 'Docs', path: '/docs', requiresAuth: true, adminOnly: true },
   ]);
   profileMenuItems = signal<MenuItem[]>([
-    { id: 1, label: 'Profile', path: '/profile/a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6' },
+    { id: 1, label: 'Profile', path: `/profile/${this.userService.currentUser()?._id}` },
     { id: 2, label: 'Settings', path: '/settings' },
   ]);
   adminPanelText = signal("Admin Panel")
@@ -53,7 +55,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.userService.logout();
   }
 
   toggleMobileMenu() {

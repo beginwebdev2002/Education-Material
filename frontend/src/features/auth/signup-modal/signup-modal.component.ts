@@ -1,23 +1,25 @@
-import { Component, ChangeDetectionStrategy, inject, output, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs';
-import { MockAuthService } from '@entities/auth/auth.service';
 import { AuthStateService } from '@features/auth/auth-state.service';
-import { createValidationSignal, maxLengthValidator, minLengthValidator, emailValidator, requiredValidator } from '@shared/validation';
-import { RegisterModalService } from './register-modal.service';
+import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { AuthService } from '../auth.service';
+import { SignupPayload } from '../models/signup.interface';
+import { UserService } from '@shared/services/user.service';
 
 @Component({
-  selector: 'app-register-modal',
+  selector: 'app-signup-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './register-modal.component.html',
-  styleUrls: ['./register-modal.component.scss'],
+  templateUrl: './signup-modal.component.html',
+  styleUrls: ['./signup-modal.component.scss'],
+  providers: [AuthService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterModalComponent implements OnInit {
-  private service: RegisterModalService = inject(RegisterModalService)
+export class SignupModalComponent implements OnInit {
+  private authService: AuthService = inject(AuthService)
   private authState: AuthStateService = inject(AuthStateService);
+  private userService: UserService = inject(UserService);
   close = output<void>();
 
   firstName = signal("");
@@ -60,8 +62,28 @@ export class RegisterModalComponent implements OnInit {
     return this.touchedFields().has(field);
   }
 
-  register(): void {
+  signup(): void {
+    this.isLoading.set(true);
+    const payload: SignupPayload = {
+      firstName: this.firstName(),
+      lastName: this.lastName(),
+      email: this.email(),
+      password: this.password(),
+    }
+    this.authService.signup(payload)
+      .subscribe({
+        next: (response) => {
+          console.log("responce:", response);
 
+          this.userService.setUser(response);
+          this.isLoading.set(false);
+          this.close.emit();
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          this.error.set(error);
+        }
+      })
   }
 
   buttonText = computed(() => {

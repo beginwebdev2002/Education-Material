@@ -1,12 +1,12 @@
 <div class="container mx-auto px-4 py-8 pt-24 max-w-5xl animate-fadeInUp">
-  @if (user(); as user) {
+  @if (currentUser(); as user) {
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
     <!-- Header -->
     <div
       class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-gray-200 dark:border-gray-700 animate-fadeInUp"
       style="animation-delay: 0.1s;">
       <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-        <img class="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600" [src]="user.avatarUrl"
+        <img class="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600" [src]="user.avatar"
           [alt]="user.firstName + ' ' + user.lastName">
         <div class="text-center sm:text-left">
           <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ user.firstName }} {{ user.lastName }}</h1>
@@ -47,37 +47,37 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
           @if (isEditing()) {
-          <input type="text" [(ngModel)]="profileForm().firstName"
+          <input type="text" (input)="currentUser()!.firstName = $event.target.value"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.firstName }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.firstName }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
           @if (isEditing()) {
-          <input type="text" [(ngModel)]="profileForm().lastName"
+          <input type="text" (input)="currentUser()!.lastName = $event.target.value"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.lastName }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.lastName }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
           @if (isEditing()) {
-          <input type="tel" [(ngModel)]="profileForm().phoneNumber"
+          <input type="tel" (input)="currentUser()!.phoneNumber = $event.target.value"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.phoneNumber || 'Not provided' }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.phoneNumber || 'Not provided' }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Citizenship</label>
           @if (isEditing()) {
-          <input type="text" [(ngModel)]="profileForm().citizenship"
+          <input type="text" (input)="currentUser()!.citizenship = $event.target.value"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.citizenship || 'Not provided' }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.citizenship || 'Not provided' }}</p>
           }
         </div>
       </div>
@@ -86,10 +86,11 @@
       <div>
         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Biography</label>
         @if (isEditing()) {
-        <textarea rows="4" [(ngModel)]="profileForm().bio"
+        <textarea rows="4" [(ngModel)]="user.bio"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
         } @else {
-        <p class="mt-1 text-lg text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none">{{ user.bio ||
+        <p class="mt-1 text-lg text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none">{{
+          currentUser()?.bio ||
           'No biography provided.' }}</p>
         }
       </div>
@@ -98,17 +99,16 @@
       <div>
         <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Social Media</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          @for (social of socialMediaLinks; track social.key) {
+          @for (social of socialMediaLinks(); track social.key) {
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
               <i [class]="social.icon" class="mr-2"></i> {{ social.name }}
             </label>
             @if (isEditing()) {
-            <input type="text" [(ngModel)]="profileForm().socialMedia![social.key]"
+            <input type="text" (input)="social.value = $event.target.value"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             } @else {
-            <p class="mt-1 text-lg text-gray-900 dark:text-white truncate">{{ user.socialMedia?.[social.key] || 'Not
-              provided' }}</p>
+            <p class="mt-1 text-lg text-gray-900 dark:text-white truncate">{{ social.value || 'Not provided' }}</p>
             }
           </div>
           }

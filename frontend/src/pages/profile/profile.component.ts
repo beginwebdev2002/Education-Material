@@ -1,14 +1,9 @@
-import { Component, ChangeDetectionStrategy, computed, inject, signal, effect, DestroyRef } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
-// FIX: Imported `ParamMap` to explicitly type route parameters.
-import { ActivatedRoute, RouterLink, ParamMap } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-
-import { User } from '@shared/models/user.model';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MockAuthService } from '@entities/auth';
+import { User } from '@entities/users/model/user.interface';
+import { UserService } from '@shared/services/user.service';
 
 
 @Component({
@@ -19,62 +14,44 @@ import { MockAuthService } from '@entities/auth';
   styleUrls: ['./profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent {
-  // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
-  private route: ActivatedRoute = inject(ActivatedRoute);
-  private authService: MockAuthService = inject(MockAuthService);
-  private destroyRef: DestroyRef = inject(DestroyRef);
+export class ProfileComponent implements OnInit {
+  private userService: UserService = inject(UserService);
+  private router: Router = inject(Router);
 
+
+  formErrors = computed(() => {
+  })
   isEditing = signal(false);
+  currentUser = signal<User | null>(this.userService.currentUser());
 
-  // FIX: Explicitly typed `params` as `ParamMap` to correctly infer the return type of `get()`.
-  private userId$ = this.route.paramMap.pipe(map((params: ParamMap) => params.get('id')));
-  private user$ = this.userId$.pipe(
-    switchMap(id => id ? this.authService.getUserById(id) : of(null))
-  );
+  socialMediaLinks = computed(() => [
+    { key: 'github', name: 'GitHub', icon: 'fab fa-github', value: this.currentUser()?.github },
+    { key: 'linkedIn', name: 'LinkedIn', icon: 'fab fa-linkedin', value: this.currentUser()?.linkedIn },
+    { key: 'telegram', name: 'Telegram', icon: 'fab fa-telegram', value: this.currentUser()?.telegram },
+    { key: 'instagram', name: 'Instagram', icon: 'fab fa-instagram', value: this.currentUser()?.instagram },
+    { key: 'whatsapp', name: 'WhatsApp', icon: 'fab fa-whatsapp', value: this.currentUser()?.whatsapp },
+  ]);
 
-  user = signal<User | null>(null);
-
-  // Use a separate signal for the form to avoid mutating the original user signal
-  profileForm = signal<Partial<User>>({});
-
-  socialMediaLinks: { key: keyof NonNullable<User['socialMedia']>, name: string, icon: string }[] = [
-    { key: 'github', name: 'GitHub', icon: 'fab fa-github' },
-    { key: 'linkedIn', name: 'LinkedIn', icon: 'fab fa-linkedin' },
-    { key: 'telegram', name: 'Telegram', icon: 'fab fa-telegram' },
-    { key: 'instagram', name: 'Instagram', icon: 'fab fa-instagram' },
-    { key: 'whatsapp', name: 'WhatsApp', icon: 'fab fa-whatsapp' },
-  ];
-
-  constructor() {
-    this.user$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(userData => {
-      this.user.set(userData);
-    });
-
-    // When the user data loads or changes, update the form signal
-    effect(() => {
-      const currentUser = this.user();
-      if (currentUser) {
-        // Create a deep copy for the form
-        this.profileForm.set(JSON.parse(JSON.stringify(currentUser)));
-      }
+  private loadUser() {
+    const idUser = localStorage.getItem('userId');
+    if (!idUser) {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.userService.findUserById(idUser).subscribe(user => {
+      this.currentUser.set(user);
     });
   }
 
+  ngOnInit(): void {
+    this.loadUser();
+  }
+
   saveProfile(): void {
-    const updatedUser = this.profileForm();
-    if (updatedUser && updatedUser.id) {
-      this.authService.updateUser(updatedUser as User); // Mock update
-    }
     this.isEditing.set(false);
   }
 
   cancelEdit(): void {
-    // Reset form data to the original user data
-    const currentUser = this.user();
-    if (currentUser) {
-      this.profileForm.set(JSON.parse(JSON.stringify(currentUser)));
-    }
     this.isEditing.set(false);
   }
 }

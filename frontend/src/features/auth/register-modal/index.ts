@@ -1,1 +1,0 @@
-export { RegisterModalComponent } from './register-modal.component';

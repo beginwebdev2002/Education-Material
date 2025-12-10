@@ -8,7 +8,6 @@ export {
     IllustrationsData,
     illustrations
 } from './illustration.model';
-export { User } from './user.model';
 export {
     GenerationFormModel,
     GenerationHistoryItem
