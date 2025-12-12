@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthStateService } from '@features/auth/auth-state.service';
+import { AuthStateService } from '@features/auth/data-access/auth-state.service';
+import { AuthUiService } from '@features/auth/auth-ui.service';
 import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
 import { SettingsService } from '@shared/services/settings.service';
 import { MenuItem } from '@shared/models/header.model';
 import { MockAuthService } from '@entities/auth/auth.service';
-import { UserService } from '@shared/services/user.service';
 
 // This tells TypeScript that a function named initFlowbite exists in the global scope.
 // It is provided by the Flowbite script included in index.html.
@@ -23,11 +23,11 @@ declare const initFlowbite: () => void;
 export class HeaderComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   authService: MockAuthService = inject(MockAuthService);
-  userService: UserService = inject(UserService);
   authState: AuthStateService = inject(AuthStateService);
+  authUi: AuthUiService = inject(AuthUiService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.userService.currentUser;
+  currentUser = this.authState.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
   isAdmin = computed(() => this.currentUser()?.role === 'admin');
   isMobileMenuHide = signal(true);
@@ -38,7 +38,7 @@ export class HeaderComponent {
     { id: 4, label: 'Docs', path: '/docs', requiresAuth: true, adminOnly: true },
   ]);
   profileMenuItems = signal<MenuItem[]>([
-    { id: 1, label: 'Profile', path: `/profile/${this.userService.currentUser()?._id}` },
+    { id: 1, label: 'Profile', path: `/profile/${this.authState.currentUser()?._id}` },
     { id: 2, label: 'Settings', path: '/settings' },
   ]);
   adminPanelText = signal("Admin Panel")
@@ -55,7 +55,7 @@ export class HeaderComponent {
   }
 
   logout(): void {
-    this.userService.logout();
+    this.authState.logout();
   }
 
   toggleMobileMenu() {

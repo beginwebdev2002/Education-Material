@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class AuthStateService {
+export class AuthUiService {
   isModalOpen = signal(false);
   mode = signal<'login' | 'register'>('login');
 

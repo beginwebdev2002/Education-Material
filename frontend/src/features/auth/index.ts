@@ -1,2 +1,2 @@
 export { AuthModalContainerComponent } from './auth-modal-container.component';
-export { AuthStateService } from './auth-state.service';
+export { AuthUiService } from './auth-ui.service';

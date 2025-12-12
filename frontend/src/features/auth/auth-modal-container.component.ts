@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthStateService } from './auth-state.service';
+import { AuthUiService } from './auth-ui.service';
 import { LoginModalComponent } from './login-modal/login-modal.component';
 import { SignupModalComponent } from './signup-modal/signup-modal.component';
 import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
@@ -14,7 +14,7 @@ import { IllustrationComponent } from '@shared/ui/illustration/illustration.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthModalContainerComponent {
-  authState: AuthStateService = inject(AuthStateService);
+  authState: AuthUiService = inject(AuthUiService);
 
   close(): void {
     this.authState.closeModal();

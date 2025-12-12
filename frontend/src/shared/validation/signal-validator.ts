@@ -22,6 +22,9 @@ export function createValidationSignal<T>(
 }
 
 export function requiredValidator(value: string): string | null {
+    if (value.length === 0) {
+        return null
+    }
     if (typeof value === 'string' && value.trim().length === 0) {
         return 'This is a required field.';
     }
@@ -65,6 +68,9 @@ export function patternValidator(pattern: RegExp): SignalValidatorFn<string> {
 }
 
 export function emailValidator(value: string): string | null {
+    if (value.length === 0) {
+        return null
+    }
     if (typeof value === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
         return 'Invalid email format.';
     }

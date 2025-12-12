@@ -10,7 +10,12 @@
           [alt]="user.firstName + ' ' + user.lastName">
         <div class="text-center sm:text-left">
           <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ user.firstName }} {{ user.lastName }}</h1>
+          @if (isEditing()) {
+          <input type="text" [(ngModel)]="user.email"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          } @else {
           <p class="text-md text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+          }
           <span class="inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
             [class]="user.role === 'admin' ? 'bg-red-500' : 'bg-blue-500'">
             {{ user.role | titlecase }}
@@ -20,7 +25,7 @@
       <div class="flex-shrink-0 mt-4 sm:mt-0 self-center sm:self-auto">
         @if (isEditing()) {
         <div class="flex space-x-2">
-          <button (click)="saveProfile()"
+          <button (click)="saveProfile()" [disabled]="hasErrors()"
             class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300">
             <i class="fa-solid fa-save mr-2"></i>
             Save Changes
@@ -47,37 +52,37 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
           @if (isEditing()) {
-          <input type="text" (input)="currentUser()!.firstName = $event.target.value"
+          <input type="text" [(ngModel)]="user.firstName"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.firstName }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.firstName }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
           @if (isEditing()) {
-          <input type="text" (input)="currentUser()!.lastName = $event.target.value"
+          <input type="text" [(ngModel)]="user.lastName"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.lastName }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.lastName }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
           @if (isEditing()) {
-          <input type="tel" (input)="currentUser()!.phoneNumber = $event.target.value"
+          <input type="tel" [(ngModel)]="user.phoneNumber"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.phoneNumber || 'Not provided' }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.phoneNumber || 'Not provided' }}</p>
           }
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Citizenship</label>
           @if (isEditing()) {
-          <input type="text" (input)="currentUser()!.citizenship = $event.target.value"
+          <input type="text" [(ngModel)]="user.citizenship"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ currentUser()?.citizenship || 'Not provided' }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.citizenship || 'Not provided' }}</p>
           }
         </div>
       </div>
@@ -90,7 +95,7 @@
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
         } @else {
         <p class="mt-1 text-lg text-gray-900 dark:text-white prose prose-lg dark:prose-invert max-w-none">{{
-          currentUser()?.bio ||
+          user.bio ||
           'No biography provided.' }}</p>
         }
       </div>
@@ -105,7 +110,7 @@
               <i [class]="social.icon" class="mr-2"></i> {{ social.name }}
             </label>
             @if (isEditing()) {
-            <input type="text" (input)="social.value = $event.target.value"
+            <input type="text" [(ngModel)]="social.value"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             } @else {
             <p class="mt-1 text-lg text-gray-900 dark:text-white truncate">{{ social.value || 'Not provided' }}</p>

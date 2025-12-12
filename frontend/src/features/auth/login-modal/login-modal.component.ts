@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { MockAuthService } from '@entities/auth/auth.service';
-import { AuthStateService } from '@features/auth/auth-state.service';
+import { AuthUiService } from '@features/auth/auth-ui.service';
 import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { emailValidator } from '@shared/validation/signal-validator';
 
@@ -18,7 +18,7 @@ import { emailValidator } from '@shared/validation/signal-validator';
 export class LoginModalComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   private authService: MockAuthService = inject(MockAuthService);
-  private authState: AuthStateService = inject(AuthStateService);
+  private authState: AuthUiService = inject(AuthUiService);
   close = output<void>();
 
   email = signal('admin@edugen.com');

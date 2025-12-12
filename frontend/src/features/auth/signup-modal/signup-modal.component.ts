@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthStateService } from '@features/auth/auth-state.service';
+import { AuthStateService } from '@features/auth/data-access/auth-state.service';
+import { AuthUiService } from '@features/auth/auth-ui.service';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
-import { AuthService } from '../auth.service';
-import { SignupPayload } from '../models/signup.interface';
-import { UserService } from '@shared/services/user.service';
+import { AuthService } from '@features/auth/data-access/auth.service';
+import { SignupPayload } from '@features/auth/models/signup.interface';
 
 @Component({
   selector: 'app-signup-modal',
@@ -19,7 +19,7 @@ import { UserService } from '@shared/services/user.service';
 export class SignupModalComponent implements OnInit {
   private authService: AuthService = inject(AuthService)
   private authState: AuthStateService = inject(AuthStateService);
-  private userService: UserService = inject(UserService);
+  private authUi: AuthUiService = inject(AuthUiService);
   close = output<void>();
 
   firstName = signal("");
@@ -75,7 +75,7 @@ export class SignupModalComponent implements OnInit {
         next: (response) => {
           console.log("responce:", response);
 
-          this.userService.setUser(response);
+          this.authState.setUser(response);
           this.isLoading.set(false);
           this.close.emit();
         },
@@ -95,6 +95,6 @@ export class SignupModalComponent implements OnInit {
   });
 
   switchToLogin(): void {
-    this.authState.setMode('login');
+    this.authUi.setMode('login');
   }
 }

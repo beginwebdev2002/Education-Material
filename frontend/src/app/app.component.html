@@ -1,0 +1,15 @@
+@if (showMainLayout()) {
+  <div class="flex flex-col min-h-screen">
+    <app-header></app-header>
+    <main class="flex-grow container mx-auto p-4 sm:p-6 lg:p-8 pt-20 text-gray-800 dark:text-gray-200">
+      <router-outlet></router-outlet>
+    </main>
+    <app-footer></app-footer>
+  </div>
+} @else {
+  <router-outlet></router-outlet>
+}
+
+@if (loadingService.isLoading()) {
+  <app-progress-bar></app-progress-bar>
+}
