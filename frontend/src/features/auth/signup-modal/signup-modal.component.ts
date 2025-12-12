@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthStateService } from '@features/auth/data-access/auth-state.service';
+import { AuthStateService } from '@features/auth/auth-state.service';
 import { AuthUiService } from '@features/auth/auth-ui.service';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { AuthService } from '@features/auth/data-access/auth.service';
-import { SignupPayload } from '@features/auth/models/signup.interface';
+import { SignupPayload } from '@features/auth/models/signup.dto';
 
 @Component({
   selector: 'app-signup-modal',

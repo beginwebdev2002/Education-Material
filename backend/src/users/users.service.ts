@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,10 +22,26 @@ export class UsersService {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(createUserDto.password, salt);
     const result = await new this.usersModel({ ...createUserDto, password: hash }).save();
-    const payload = { sub: result.id, username: result.email };
+    const payload = { _id: result.id, email: result.email };
     return {
       accessToken: await this.jwtService.signAsync(payload),
       ...result.toObject()
+    };
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.usersModel.findOne({ email: loginUserDto.email }).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const isMatch = await bcrypt.compare(loginUserDto.password, user.password);
+    if (!isMatch) {
+      throw new Error('Invalid password');
+    }
+    const payload = { _id: user.id, email: user.email };
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+      ...user.toObject()
     };
   }
 

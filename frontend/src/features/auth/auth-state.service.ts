@@ -1,5 +1,5 @@
 import { Injectable, Signal, computed, signal } from '@angular/core';
-import { AuthResponse } from '@features/auth/models/signup.interface';
+import { AuthResponse } from '@features/auth/models/signup.dto';
 import { User } from '@entities/users/model/user.interface';
 
 @Injectable({

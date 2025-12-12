@@ -3,10 +3,10 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { User } from '@entities/users/model/user.interface';
-import { UserService } from '@entities/users/data-access/user.service';
-import { AuthStateService } from '@features/auth/data-access/auth-state.service';
+import { UserService } from '@entities/users/user.service';
+import { AuthStateService } from '@features/auth/auth-state.service';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
-import { AuthResponse } from '@features/auth/models/signup.interface';
+import { AuthResponse } from '@features/auth/models/signup.dto';
 
 
 @Component({
@@ -57,10 +57,6 @@ export class ProfileComponent implements OnInit {
   hasErrors = computed(() => {
     const errors = this.formErrors();
     return Object.values(errors).some(fieldErrors => {
-      console.log("error: ", fieldErrors());
-      console.log("obj: ", this.formErrors());
-
-
       return fieldErrors().length > 0
     });
   });

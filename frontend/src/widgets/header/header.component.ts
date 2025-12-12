@@ -1,12 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthStateService } from '@features/auth/data-access/auth-state.service';
-import { AuthUiService } from '@features/auth/auth-ui.service';
 import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
-import { SettingsService } from '@shared/services/settings.service';
+import { AuthStateService } from '@features/auth/auth-state.service';
+import { AuthUiService } from '@features/auth/auth-ui.service';
 import { MenuItem } from '@shared/models/header.model';
-import { MockAuthService } from '@entities/auth/auth.service';
+import { SettingsService } from '@shared/services/settings.service';
 
 // This tells TypeScript that a function named initFlowbite exists in the global scope.
 // It is provided by the Flowbite script included in index.html.
@@ -21,8 +20,6 @@ declare const initFlowbite: () => void;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
-  authService: MockAuthService = inject(MockAuthService);
   authState: AuthStateService = inject(AuthStateService);
   authUi: AuthUiService = inject(AuthUiService);
   settingsService: SettingsService = inject(SettingsService);

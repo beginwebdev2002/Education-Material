@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { AuthResponse } from '@features/auth/models/signup.interface';
-import { UserEndPoints } from '../users.constants';
-import { AuthStateService } from '@features/auth/data-access/auth-state.service';
+import { AuthResponse } from '@features/auth/models/signup.dto';
+import { UserEndPoints } from './users.constants';
+import { AuthStateService } from '@features/auth/auth-state.service';
 
 @Injectable({
     providedIn: 'root',

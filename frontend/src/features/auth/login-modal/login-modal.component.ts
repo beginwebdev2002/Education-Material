@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, output, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs';
-import { MockAuthService } from '@entities/auth/auth.service';
 import { AuthUiService } from '@features/auth/auth-ui.service';
 import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { emailValidator } from '@shared/validation/signal-validator';
+import { finalize } from 'rxjs';
+import { AuthService } from '../data-access/auth.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,7 +17,7 @@ import { emailValidator } from '@shared/validation/signal-validator';
 })
 export class LoginModalComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
-  private authService: MockAuthService = inject(MockAuthService);
+  private authService: AuthService = inject(AuthService);
   private authState: AuthUiService = inject(AuthUiService);
   close = output<void>();
 

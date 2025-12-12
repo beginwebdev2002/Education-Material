@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, Routes } from '@angular/router';
+import { AuthService } from '@features/auth/data-access/auth.service';
 import { AdminLayoutComponent } from './pages/admin/admin-layout.component';
-import { MockAuthService } from './entities/auth/auth.service';
 
 const authGuard: CanActivateFn = (route, state) => {
   // FIX: Added explicit type to authService to resolve 'unknown' type error.
-  const authService: MockAuthService = inject(MockAuthService);
+  const authService: AuthService = inject(AuthService);
   // FIX: Added explicit `Router` type to the injected router to fix 'unknown' type inference.
   const router: Router = inject(Router);
 

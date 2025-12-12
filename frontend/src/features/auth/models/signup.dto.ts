@@ -10,3 +10,5 @@ export interface SignupPayload {
 export interface AuthResponse extends User {
     accessToken: string;
 }
+
+

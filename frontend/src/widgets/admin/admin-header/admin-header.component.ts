@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '@features/auth/data-access/auth.service';
 import { AdminLayoutService } from '@shared/services/admin-layout.service';
 import { SettingsService } from '@shared/services/settings.service';
-import { MockAuthService } from '@entities/auth';
 
 @Component({
   selector: 'app-admin-header',
@@ -16,7 +16,7 @@ import { MockAuthService } from '@entities/auth';
 export class AdminHeaderComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   layoutService: AdminLayoutService = inject(AdminLayoutService);
-  authService: MockAuthService = inject(MockAuthService);
+  authService: AuthService = inject(AuthService);
   settingsService: SettingsService = inject(SettingsService);
 
   currentUser = this.authService.currentUser;
