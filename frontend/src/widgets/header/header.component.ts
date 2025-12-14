@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '@entities/user/data-access/user.service';
 import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
-import { AuthStateService } from '@features/auth/auth-state.service';
 import { AuthUiService } from '@features/auth/auth-ui.service';
 import { AuthService } from '@features/auth/auth.service';
 import { MenuItem } from '@shared/models/header.model';
@@ -21,12 +21,12 @@ declare const initFlowbite: () => void;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  // authState: AuthStateService = inject(AuthStateService);
   authService: AuthService = inject(AuthService);
+  userService: UserService = inject(UserService);
   authUi: AuthUiService = inject(AuthUiService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.authService.currentUser;
+  currentUser = this.userService.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
   isAdmin = computed(() => this.currentUser()?.role === 'admin');
   isMobileMenuHide = signal(true);
@@ -40,13 +40,14 @@ export class HeaderComponent {
 
   profileMenuItems = computed<MenuItem[]>(() => {
     return [
-      { id: 1, label: 'Profile', path: `/profile/${this.authService.currentUser()?._id}` },
+      { id: 1, label: 'Profile', path: `/profile/${this.userService.currentUser()?._id}` },
       { id: 2, label: 'Settings', path: '/settings' },
     ]
   });
   adminPanelText = signal("Admin Panel")
 
   logout(): void {
+    this.userService.clearUser();
     this.authService.logout();
   }
 

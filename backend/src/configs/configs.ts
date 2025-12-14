@@ -10,5 +10,17 @@ export default () => ({
     jwt: {
         secret: process.env.JWT_SECRET ?? "secretKey",
         expiresIn: process.env.JWT_EXPIRES_IN ?? "30d"
+    },
+    cors: {
+        origin: process.env.API_URL,
+        credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    },
+    cookies: {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        maxAge: 3600000,
+        path: '/',
     }
 });

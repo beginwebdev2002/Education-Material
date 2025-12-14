@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '@entities/user/data-access/user.service';
 import { AuthUiService } from '@features/auth/auth-ui.service';
 import { AuthService } from '@features/auth/auth.service';
 import { SignupPayload } from '@features/auth/models/signup.dto';
@@ -16,7 +17,8 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupModalComponent implements OnInit {
-  private authService: AuthService = inject(AuthService)
+  private authService: AuthService = inject(AuthService);
+  private userService: UserService = inject(UserService);
   private authUi: AuthUiService = inject(AuthUiService);
   close = output<void>();
 
@@ -73,7 +75,7 @@ export class SignupModalComponent implements OnInit {
         next: (response) => {
           console.log("responce:", response);
 
-          this.authService.setUser(response);
+          this.userService.setUser(response);
           this.isLoading.set(false);
           this.close.emit();
         },

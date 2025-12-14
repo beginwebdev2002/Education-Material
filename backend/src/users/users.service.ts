@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { LoginUserDto } from './dto/login-user.dto';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -17,14 +18,19 @@ export class UsersService {
     private jwtService: JwtService
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, res: Response) {
     const { saltRounds } = this.config.get('bcrypt');
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(createUserDto.password, salt);
     const result = await new this.usersModel({ ...createUserDto, password: hash }).save();
     const payload = { _id: result.id, email: result.email };
+    const accessToken = await this.jwtService.signAsync(payload);
+    this.setCookie(res, accessToken);
+
+    console.log('Res: ', result.toObject());
+
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
       ...result.toObject()
     };
   }
@@ -59,5 +65,17 @@ export class UsersService {
 
   async remove(id: string) {
     return await this.usersModel.findByIdAndDelete(id).exec();
+  }
+  async me(request: Request) {
+    const accessToken = request.cookies
+    return await this.usersModel.findOne().exec();
+  }
+  private setCookie(res: Response, token: string) {
+    res.cookie('token', token, {
+      httpOnly: this.config.get('cookies.httpOnly'),
+      secure: this.config.get('cookies.secure'),
+      sameSite: this.config.get('cookies.sameSite'),
+      maxAge: this.config.get('cookies.maxAge')
+    });
   }
 }
