@@ -24,7 +24,7 @@ export class UserService {
   }
 
   fetchProfile() {
-    return this.http.get<AuthResponse>(UserEndPoints.fetchProfile);
+    return this.http.get<AuthResponse>(UserEndPoints.fetchProfile, { withCredentials: true });
   }
 
   deleteUser() {

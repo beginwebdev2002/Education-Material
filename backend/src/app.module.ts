@@ -1,11 +1,11 @@
+import { UsersModule } from '@/modules/users/infrastructure/users.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import Configs from './configs/configs';
-import { TasksModule } from './tasks/tasks.module';
-import { UsersModule } from '@/modules/users/infrastructure/users.module';
+import { AuthModule } from './modules/auth/infrastructure/auth.module';
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGO_URL ?? ""),
@@ -13,8 +13,8 @@ import { UsersModule } from '@/modules/users/infrastructure/users.module';
       isGlobal: true,
       load: [Configs],
     }),
-    TasksModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

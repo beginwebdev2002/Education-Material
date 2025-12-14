@@ -2,7 +2,7 @@ import { CreateUserDto } from '@modules/users/application/dto/create-user.dto';
 import { LoginUserDto } from '@modules/users/application/dto/login-user.dto';
 import { UpdateUserDto } from '@modules/users/application/dto/update-user.dto';
 import { Users } from '@modules/users/domain/users.schema';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,7 +15,7 @@ import { UsersRepository } from '../infrastructure/users.repository';
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private readonly usersModel: Model<Users>,
-    private userRepository: UsersRepository,
+    private usersRepository: UsersRepository,
     private config: ConfigService,
     private jwtService: JwtService
   ) { }
@@ -24,8 +24,8 @@ export class UsersService {
     const { saltRounds } = this.config.get('bcrypt');
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(createUserDto.password, salt);
-    const result = await this.userRepository.create({ ...createUserDto, password: hash });
-    const payload = { _id: result._id, email: result.email };
+    const result = await this.usersRepository.create({ ...createUserDto, password: hash });
+    const payload = { _id: result.id, email: result.email };
     const accessToken = await this.jwtService.signAsync(payload);
     this.setCookieToken(res, accessToken);
     return {
@@ -35,13 +35,13 @@ export class UsersService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user = await this.usersModel.findOne({ email: loginUserDto.email }).exec();
+    const user = await this.usersRepository.findByEmail(loginUserDto.email);
     if (!user) {
       throw new Error('User not found');
     }
     const isMatch = await bcrypt.compare(loginUserDto.password, user.password);
     if (!isMatch) {
-      throw new Error('Invalid password');
+      throw new BadRequestException('Invalid password');
     }
     const payload = { _id: user.id, email: user.email };
     return {
@@ -51,7 +51,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.usersModel.find().exec();
+    return this.usersRepository.findAll();
   }
 
   async findOne(id: string) {
@@ -66,7 +66,9 @@ export class UsersService {
     return await this.usersModel.findByIdAndDelete(id).exec();
   }
   async me(request: Request) {
-    const accessToken = request.cookies
+    // const accessToken = request.cookies
+    console.log('Me: ', JSON.stringify(request.cookies));
+
     return await this.usersModel.findOne().exec();
   }
   private setCookieToken(res: Response, token: string) {
