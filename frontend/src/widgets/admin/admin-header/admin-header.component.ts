@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '@features/auth/data-access/auth.service';
+import { AuthService } from '@features/auth/auth.service';
 import { AdminLayoutService } from '@shared/services/admin-layout.service';
 import { SettingsService } from '@shared/services/settings.service';
 

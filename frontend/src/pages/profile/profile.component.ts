@@ -1,12 +1,12 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User } from '@entities/users/model/user.interface';
-import { UserService } from '@entities/users/user.service';
+import { Router } from '@angular/router';
+import { User } from '@entities/user/model/user.interface';
 import { AuthStateService } from '@features/auth/auth-state.service';
-import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { AuthService } from '@features/auth/auth.service';
 import { AuthResponse } from '@features/auth/models/signup.dto';
+import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 
 @Component({
@@ -18,12 +18,13 @@ import { AuthResponse } from '@features/auth/models/signup.dto';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
-  private userService: UserService = inject(UserService);
+  private authService: AuthService = inject(AuthService);
   private authState: AuthStateService = inject(AuthStateService);
   private router: Router = inject(Router);
 
   firstName = signal('');
   lastName = signal('');
+  email = signal('');
   github = signal('');
   linkedIn = signal('');
   telegram = signal('');
@@ -32,19 +33,26 @@ export class ProfileComponent implements OnInit {
 
 
   formErrors = computed(() => {
-    const errors = {
+    return {
       firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
       lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+      email: createValidationSignal(this.email, [requiredValidator, emailValidator]),
       github: createValidationSignal(this.github, [maxLengthValidator(100)]),
       linkedIn: createValidationSignal(this.linkedIn, [maxLengthValidator(100)]),
       telegram: createValidationSignal(this.telegram, [maxLengthValidator(100)]),
       instagram: createValidationSignal(this.instagram, [maxLengthValidator(100)]),
       whatsapp: createValidationSignal(this.whatsapp, [maxLengthValidator(100)]),
     }
-    return errors;
   })
   isEditing = signal(false);
-  currentUser = signal<User | null>(this.authState.currentUser());
+  currentUser = signal<User | null>(this.authService.currentUser());
+
+  constructor() {
+    effect(() => {
+      this.hasErrors();
+      console.log(this.hasErrors());
+    })
+  }
 
   socialMediaLinks = computed(() => [
     { key: 'github', name: 'GitHub', icon: 'fab fa-github', value: this.currentUser()?.github },
@@ -61,22 +69,26 @@ export class ProfileComponent implements OnInit {
     });
   });
 
+
   private loadUser() {
     const idUser = localStorage.getItem('userId');
     if (!idUser) {
       this.router.navigate(['/']);
       return;
     }
-    this.userService.findUserById(idUser)
+    this.authService.findUserById(idUser)
       .subscribe((user: AuthResponse) => {
-        this.userValueInitializer();
         this.currentUser.set(user);
+        this.userValueInitializer();
+        console.log("user: ", user);
+
       });
   }
 
   private userValueInitializer() {
     this.firstName.set(this.currentUser()?.firstName || '');
     this.lastName.set(this.currentUser()?.lastName || '');
+    this.email.set(this.currentUser()?.email || '');
     this.github.set(this.currentUser()?.github || '');
     this.linkedIn.set(this.currentUser()?.linkedIn || '');
     this.telegram.set(this.currentUser()?.telegram || '');

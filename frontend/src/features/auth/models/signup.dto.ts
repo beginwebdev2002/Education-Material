@@ -1,4 +1,4 @@
-import { User } from "@entities/users/model/user.interface";
+import { User } from "@entities/user/model/user.interface";
 
 export interface SignupPayload {
     email: string;

@@ -1,11 +1,11 @@
 import { Injectable, Signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse, SignupPayload } from '@features/auth/models/signup.dto';
-import { UserEndPoints } from '@entities/users/users.constants';
+import { UserEndPoints } from '@entities/user/users.constants';
 import { computed, signal } from '@angular/core';
-import { User } from '@entities/users/model/user.interface';
-import { Observable } from 'rxjs';
-import { LoginDto } from '../models/login.dto';
+import { User } from '@entities/user/model/user.interface';
+import { map, Observable } from 'rxjs';
+import { LoginDto } from './models/login.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -39,6 +39,16 @@ export class AuthService {
             localStorage.setItem("userId", user._id);
             localStorage.setItem('accessToken', user.accessToken);
         }
+    }
+
+    findUserById(id: string): Observable<AuthResponse> {
+        return this.http.get<AuthResponse>(UserEndPoints.getUserById(id))
+            .pipe(
+                map((user: AuthResponse) => {
+                    this.setUser(user);
+                    return user;
+                })
+            );
     }
 
 

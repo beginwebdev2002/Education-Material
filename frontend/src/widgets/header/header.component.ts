@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
 import { AuthStateService } from '@features/auth/auth-state.service';
 import { AuthUiService } from '@features/auth/auth-ui.service';
+import { AuthService } from '@features/auth/auth.service';
 import { MenuItem } from '@shared/models/header.model';
 import { SettingsService } from '@shared/services/settings.service';
 
@@ -20,39 +21,33 @@ declare const initFlowbite: () => void;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  authState: AuthStateService = inject(AuthStateService);
+  // authState: AuthStateService = inject(AuthStateService);
+  authService: AuthService = inject(AuthService);
   authUi: AuthUiService = inject(AuthUiService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.authState.currentUser;
+  currentUser = this.authService.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
   isAdmin = computed(() => this.currentUser()?.role === 'admin');
   isMobileMenuHide = signal(true);
+
   menuItems = signal<MenuItem[]>([
     { id: 1, label: 'Home', path: '/', exact: true },
     { id: 2, label: 'Materials', path: '/materials' },
     { id: 3, label: 'Dashboard', path: '/dashboard', requiresAuth: true },
     { id: 4, label: 'Docs', path: '/docs', requiresAuth: true, adminOnly: true },
   ]);
-  profileMenuItems = signal<MenuItem[]>([
-    { id: 1, label: 'Profile', path: `/profile/${this.authState.currentUser()?._id}` },
-    { id: 2, label: 'Settings', path: '/settings' },
-  ]);
+
+  profileMenuItems = computed<MenuItem[]>(() => {
+    return [
+      { id: 1, label: 'Profile', path: `/profile/${this.authService.currentUser()?._id}` },
+      { id: 2, label: 'Settings', path: '/settings' },
+    ]
+  });
   adminPanelText = signal("Admin Panel")
 
-  constructor() {
-    effect(() => {
-      this.currentUser(); // Establish dependency on the signal
-      setTimeout(() => {
-        if (typeof initFlowbite === 'function') {
-          initFlowbite();
-        }
-      }, 0);
-    });
-  }
-
   logout(): void {
-    this.authState.logout();
+    this.authService.logout();
   }
 
   toggleMobileMenu() {

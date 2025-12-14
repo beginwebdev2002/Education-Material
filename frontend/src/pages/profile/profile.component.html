@@ -9,12 +9,12 @@
         <img class="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600" [src]="user.avatar"
           [alt]="user.firstName + ' ' + user.lastName">
         <div class="text-center sm:text-left">
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ user.firstName }} {{ user.lastName }}</h1>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ firstName() }} {{ lastName() }}</h1>
           @if (isEditing()) {
-          <input type="text" [(ngModel)]="user.email"
+          <input type="text" (input)="email.set($event.target.value)" [value]="email()"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="text-md text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+          <p class="text-md text-gray-500 dark:text-gray-400">{{ email() }}</p>
           }
           <span class="inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
             [class]="user.role === 'admin' ? 'bg-red-500' : 'bg-blue-500'">
@@ -52,10 +52,10 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
           @if (isEditing()) {
-          <input type="text" [(ngModel)]="user.firstName"
+          <input type="text" (input)="firstName()" [value]="firstName()"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ user.firstName }}</p>
+          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ firstName() }}</p>
           }
         </div>
         <div>

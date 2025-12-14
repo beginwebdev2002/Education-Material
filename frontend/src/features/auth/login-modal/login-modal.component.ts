@@ -5,7 +5,7 @@ import { AuthUiService } from '@features/auth/auth-ui.service';
 import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { emailValidator } from '@shared/validation/signal-validator';
 import { finalize } from 'rxjs';
-import { AuthService } from '../data-access/auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login-modal',

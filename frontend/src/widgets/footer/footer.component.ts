@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '@features/auth/data-access/auth.service';
+import { AuthService } from '@features/auth/auth.service';
 
 @Component({
   selector: 'app-footer',

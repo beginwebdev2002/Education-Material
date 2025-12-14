@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, Routes } from '@angular/router';
-import { AuthService } from '@features/auth/data-access/auth.service';
+import { AuthService } from '@features/auth/auth.service';
 import { AdminLayoutComponent } from '../pages/admin/admin-layout.component';
 
 const authGuard: CanActivateFn = (route, state) => {

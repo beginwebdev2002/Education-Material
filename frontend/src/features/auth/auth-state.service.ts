@@ -1,6 +1,6 @@
 import { Injectable, Signal, computed, signal } from '@angular/core';
 import { AuthResponse } from '@features/auth/models/signup.dto';
-import { User } from '@entities/users/model/user.interface';
+import { User } from '@entities/user/model/user.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -14,23 +14,16 @@ export class AuthStateService {
 
     isAdmin = computed(() => this.currentUser()?.role === 'admin');
 
-    setUser(user: AuthResponse): void {
-        this.currentUserSignal.set(user);
-        if (typeof window !== 'undefined') {
-            localStorage.setItem("userId", user._id);
-            localStorage.setItem('accessToken', user.accessToken);
-        }
-    }
 
-    clearUser(): void {
-        this.currentUserSignal.set(null);
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('userId');
-        }
-    }
+    // clearUser(): void {
+    //     this.currentUserSignal.set(null);
+    //     if (typeof window !== 'undefined') {
+    //         localStorage.removeItem('accessToken');
+    //         localStorage.removeItem('userId');
+    //     }
+    // }
 
-    logout(): void {
-        this.clearUser();
-    }
+    // logout(): void {
+    //     this.clearUser();
+    // }
 }
