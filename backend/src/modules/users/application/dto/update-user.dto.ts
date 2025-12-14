@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 import { IsString, Length, IsPhoneNumber, IsUrl, IsOptional, IsEnum } from 'class-validator';
-import { IsAllowedHost } from '../../common/validators/is-allowed-host.validator';
-import { UserRole } from '../entities/user.entity';
+import { IsAllowedHost } from '@common/validators/is-allowed-host.validator';
+import { UserRole } from '@modules/users/domain/user.interface';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
     @IsString()

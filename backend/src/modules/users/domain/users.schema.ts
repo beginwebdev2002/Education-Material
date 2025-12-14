@@ -1,14 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { UserRole } from '@modules/users/domain/user.interface';
 
 export type UsersDocument = Users & Document;
-
-export enum Role {
-    ADMIN = 'ADMIN',
-    USER = 'USER'
-}
 @Schema({ timestamps: true })
 export class Users {
+    _id: string;
 
 
     @Prop({ required: true })
@@ -37,10 +34,10 @@ export class Users {
 
     @Prop({
         type: String,
-        enum: Role,
-        default: Role.USER
+        enum: UserRole,
+        default: UserRole.USER
     })
-    role: Role;
+    role: UserRole;
 
     @Prop()
     whatsappLink: string;
@@ -55,4 +52,4 @@ export class Users {
     linkedinLink: string;
 }
 
-export const UsersSchema = SchemaFactory.createForClass(Users);
+export const UserSchema = SchemaFactory.createForClass(Users);

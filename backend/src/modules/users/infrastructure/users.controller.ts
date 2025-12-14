@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res } from '@nestjs/common';
 import type { Response, Request } from 'express';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersService } from './users.service';
-import { title } from 'process';
+import { CreateUserDto } from '@modules/users/application/dto/create-user.dto';
+import { LoginUserDto } from '@modules/users/application/dto/login-user.dto';
+import { UpdateUserDto } from '@modules/users/application/dto/update-user.dto';
+import { UsersService } from '@modules/users/application/users.service';
 
 @Controller('users')
 export class UsersController {

@@ -20,6 +20,12 @@
       ],
       "@modules/*": [
         "src/modules/*"
+      ],
+      "@configs/*": [
+        "src/configs/*"
+      ],
+      "@common/*": [
+        "src/common/*"
       ]
     },
     "incremental": true,
