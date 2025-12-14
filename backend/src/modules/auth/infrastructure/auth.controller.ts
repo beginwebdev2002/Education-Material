@@ -12,7 +12,7 @@ export class AuthController {
     ) {
 
     }
-    @Post()
+    @Post('signup')
     async signup(
         @Body() createUserDto: SignupDto,
         @Res({ passthrough: true }) res: Response
@@ -20,7 +20,7 @@ export class AuthController {
         return this.authService.create(createUserDto, res);
     }
 
-    @Post()
+    @Post('signin')
     @HttpCode(HttpStatus.OK)
     async signin(@Body() body: SigninDto) {
         return this.authService.login(body)

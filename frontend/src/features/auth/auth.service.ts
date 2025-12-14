@@ -7,7 +7,7 @@ import { SigninDto } from './models/signin.dto';
 import { AUTH_ENDPOINTS } from '@core/api/auth.endpoints';
 import { USER_ENDPOINTS } from '@core/api/user.endpoints';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthService {
     private http: HttpClient = inject(HttpClient);
     signup(payload: SignupPayload): Observable<AuthResponse> {

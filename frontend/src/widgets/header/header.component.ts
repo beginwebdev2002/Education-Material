@@ -25,6 +25,7 @@ export class HeaderComponent {
   userService: UserService = inject(UserService);
   authUi: AuthUiService = inject(AuthUiService);
   settingsService: SettingsService = inject(SettingsService);
+  isMenuOpen = signal(false);
 
   currentUser = this.userService.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
