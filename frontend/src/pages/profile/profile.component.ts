@@ -78,13 +78,13 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
-    this.userService.fetchProfile()
-      .subscribe((user: AuthResponse) => {
-        this.currentUser.set(user);
-        this.userValueInitializer();
-        console.log("user: ", user);
+    // this.userService.fetchProfile()
+    //   .subscribe((user: AuthResponse) => {
+    //     this.currentUser.set(user);
+    //     this.userValueInitializer();
+    //     console.log("user: ", user);
 
-      });
+    //   });
   }
 
   private userValueInitializer() {

@@ -1,9 +1,9 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse } from '@features/auth/models/signup.dto';
-import { UserEndPoints } from '../constants/users.constants';
 import { User } from '../model/user.interface';
 import { tap } from 'rxjs';
+// import { USER_ENDPOINTS } from '@core/api';
 
 @Injectable({
   providedIn: 'root',
@@ -20,19 +20,19 @@ export class UserService {
   isAdmin = computed(() => this.currentUser()?.role === 'admin');
 
   updateProfile() {
-    return this.http.put<AuthResponse>(UserEndPoints.fetchProfile, this.currentUser());
+    // return this.http.put<AuthResponse>(USER_ENDPOINTS().UPDATE_PROFILE.url, this.currentUser());
   }
 
   fetchProfile() {
-    return this.http.get<AuthResponse>(UserEndPoints.fetchProfile, { withCredentials: true });
+    // return this.http.get<AuthResponse>(USER_ENDPOINTS().GET_PROFILE.url, { withCredentials: true });
   }
 
   deleteUser() {
-    return this.http.delete(UserEndPoints.deleteUserUrl(this.currentUser()!._id)).pipe(
-      tap(() => {
-        this.clearUser();
-      })
-    );
+    // return this.http.delete(USER_ENDPOINTS().DELETE_PROFILE.url).pipe(
+    //   tap(() => {
+    //     this.clearUser();
+    //   })
+    // );
   }
 
   public setUser(user: AuthResponse): void {

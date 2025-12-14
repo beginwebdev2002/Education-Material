@@ -2,7 +2,7 @@ export interface illustrations {
     notFound: string;
     welcome: string;
     materialList: string;
-    login: string;
+    signin: string;
     dashboard: string;
     emptyState: string;
 }

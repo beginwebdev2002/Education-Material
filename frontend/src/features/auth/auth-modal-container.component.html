@@ -6,7 +6,7 @@
       <div class="grid md:grid-cols-2">
         <!-- Illustration Side -->
         <div class="hidden md:flex flex-col items-center justify-center p-8 bg-primary-50 dark:bg-gray-700/50">
-          <app-illustration type="login"></app-illustration>
+          <app-illustration type="signin"></app-illustration>
           <h3 i18n="title of Auth modal" class="mt-6 text-2xl font-bold text-center text-gray-900 dark:text-white">
             Unlock Your Potential</h3>
           <p i18n="subtitle of Auth modal" class="mt-2 text-center text-gray-600 dark:text-gray-300">Generate
@@ -27,10 +27,10 @@
               {{authModeTitle()}}
             </h3>
             @switch (authState.mode()) {
-            @case ('login') {
-            <app-login-modal (close)="close()" />
+            @case ('signin') {
+            <app-signin-modal (close)="close()" />
             }
-            @case ('register') {
+            @case ('signup') {
             <app-signup-modal (close)="close()" />
             }
             }

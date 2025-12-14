@@ -52,7 +52,7 @@ export class UsersManagementPageComponent implements OnInit {
     return (userId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 10) * 2 + 1;
   }
 
-  getMockLastLogin(userId: string): Date {
+  getMockLastSignin(userId: string): Date {
     const d = new Date();
     // Simple hash to make it deterministic
     const offset = userId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 30;

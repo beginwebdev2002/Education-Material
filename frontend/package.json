@@ -23,6 +23,7 @@
     "@nestjs/passport": "^11.0.5",
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
+    "@types/angular": "^1.8.9",
     "bcrypt": "^6.0.0",
     "flowbite": "^4.0.1",
     "passport": "^0.7.0",

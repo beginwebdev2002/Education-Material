@@ -3,9 +3,9 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AuthUiService {
   isModalOpen = signal(false);
-  mode = signal<'login' | 'register'>('login');
+  mode = signal<'signin' | 'signup'>('signin');
 
-  openModal(initialMode: 'login' | 'register' = 'login'): void {
+  openModal(initialMode: 'signin' | 'signup' = 'signin'): void {
     this.mode.set(initialMode);
     this.isModalOpen.set(true);
   }
@@ -14,7 +14,7 @@ export class AuthUiService {
     this.isModalOpen.set(false);
   }
 
-  setMode(mode: 'login' | 'register'): void {
+  setMode(mode: 'signin' | 'signup'): void {
     this.mode.set(mode);
   }
 }

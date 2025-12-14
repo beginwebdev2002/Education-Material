@@ -94,7 +94,7 @@ export class SignupModalComponent implements OnInit {
     }
   });
 
-  switchToLogin(): void {
-    this.authUi.setMode('login');
+  switchToSignin(): void {
+    this.authUi.setMode('signin');
   }
 }

@@ -32,7 +32,7 @@
           <th scope="col" class="px-6 py-3" i18n>User</th>
           <th scope="col" class="px-6 py-3" i18n>Role</th>
           <th scope="col" class="px-6 py-3">Stats</th>
-          <th scope="col" class="px-6 py-3 hidden lg:table-cell" i18n>Last Login</th>
+          <th scope="col" class="px-6 py-3 hidden lg:table-cell" i18n>Last signin</th>
           <th scope="col" class="px-6 py-3"><span class="sr-only" i18n>Actions</span></th>
         </tr>
       </thead>
@@ -88,7 +88,7 @@
             <div class="text-xs text-gray-500 dark:text-gray-400" i18n>created</div>
           </td>
           <td class="px-6 py-4 hidden lg:table-cell">
-            <div class="text-sm text-gray-900 dark:text-white">{{ getMockLastLogin(user._id) | date:'medium' }}</div>
+            <div class="text-sm text-gray-900 dark:text-white">{{ getMockLastSignin(user._id) | date:'medium' }}</div>
           </td>
           <td class="px-6 py-4 text-right">
             <button [id]="'user-dropdown-button-' + user._id" [attr.data-dropdown-toggle]="'user-dropdown-' + user._id"

@@ -20,9 +20,9 @@ export function getIllustrationData(illustration: IllustrationNames): Illustrati
             alt: 'Material List Illustration'
         },
         {
-            name: "login",
+            name: "signin",
             url: 'illustrations/women-cyber-security.svg',
-            alt: 'Login Illustration'
+            alt: 'Signin Illustration'
         },
         {
             name: "dashboard",

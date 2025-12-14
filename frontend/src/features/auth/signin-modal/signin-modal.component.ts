@@ -8,14 +8,14 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-login-modal',
+  selector: 'app-signin-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.scss'],
+  templateUrl: './signin-modal.component.html',
+  styleUrls: ['./signin-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginModalComponent {
+export class SigninModalComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   private authService: AuthService = inject(AuthService);
   private authState: AuthUiService = inject(AuthUiService);
@@ -53,7 +53,7 @@ export class LoginModalComponent {
     return this.touchedFields().has(field);
   }
 
-  login(): void {
+  signin(): void {
     if (this.isLoading()) {
       return;
     }
@@ -69,14 +69,14 @@ export class LoginModalComponent {
     this.isLoading.set(true);
     this.error.set(null);
 
-    this.authService.login({ email: this.email(), password: this.password() })
+    this.authService.signin({ email: this.email(), password: this.password() })
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: () => {
           this.close.emit();
         },
         error: (err) => {
-          this.error.set($localize`Login failed. Please try again.`);
+          this.error.set($localize`Signin failed. Please try again.`);
           console.error(err);
         }
       });
@@ -85,11 +85,11 @@ export class LoginModalComponent {
     if (this.isLoading()) {
       return $localize`:@@buttonLoggingIn:Logging in...`;
     } else {
-      return $localize`:@@buttonLogIn:Log in to your account`;
+      return $localize`:@@buttonSignin:Log in to your account`;
     }
   });
 
   switchToRegister(): void {
-    this.authState.setMode('register');
+    this.authState.setMode('signup');
   }
 }

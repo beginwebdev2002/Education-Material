@@ -1,27 +1,25 @@
-import { Injectable, Signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthResponse, SignupPayload } from '@features/auth/models/signup.dto';
-import { UserEndPoints } from '@entities/user/constants/users.constants';
-import { computed, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '@entities/user/model/user.interface';
-import { map, Observable } from 'rxjs';
-import { LoginDto } from './models/login.dto';
+import { AuthResponse, SignupPayload } from '@features/auth/models/signup.dto';
+import { Observable } from 'rxjs';
+import { SigninDto } from './models/signin.dto';
+import { AUTH_ENDPOINTS } from '@core/api/auth.endpoints';
+import { USER_ENDPOINTS } from '@core/api/user.endpoints';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AuthService {
     private http: HttpClient = inject(HttpClient);
     signup(payload: SignupPayload): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(UserEndPoints.BASE_URL, payload, { withCredentials: true });
+        return this.http.post<AuthResponse>(AUTH_ENDPOINTS.SIGN_UP.url, payload, { withCredentials: true });
     }
 
-    login(payload: LoginDto): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(UserEndPoints.LOGIN, payload, { withCredentials: true });
+    signin(payload: SigninDto): Observable<AuthResponse> {
+        return this.http.post<AuthResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true });
     }
 
     getAllUsers() {
-        return this.http.get<User[]>(UserEndPoints.BASE_URL)
+        return this.http.get<User[]>(USER_ENDPOINTS.GET_ALL_USERS.url)
     }
 
 

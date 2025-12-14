@@ -1,8 +1,8 @@
-<form class="space-y-4" #loginForm="ngForm" (ngSubmit)="login()">
+<form class="space-y-4" #signinForm="ngForm" (ngSubmit)="signin()">
   <div>
-    <label i18n="Title email Auth | title auth where need write email" for="login-email"
+    <label i18n="Title email Auth | title auth where need write email" for="signin-email"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-    <input type="email" name="email" id="login-email" [(ngModel)]="email" i18n-placeholder="@@loginEmailPlaceholder"
+    <input type="email" name="email" id="signin-email" [(ngModel)]="email" i18n-placeholder="@@signinEmailPlaceholder"
       (blur)="markTouched('email')"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
       placeholder="name@company.com" required>
@@ -11,10 +11,10 @@
     }
   </div>
   <div>
-    <label i18n="Title password Auth | title auth where need write password" for="login-password"
+    <label i18n="Title password Auth | title auth where need write password" for="signin-password"
       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
       password</label>
-    <input type="password" name="password" id="login-password" [(ngModel)]="password" placeholder="••••••••"
+    <input type="password" name="password" id="signin-password" [(ngModel)]="password" placeholder="••••••••"
       (blur)="markTouched('password')"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
       required>
