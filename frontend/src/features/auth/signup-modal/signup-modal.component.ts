@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserStorageService } from '@core/storage';
 import { UserService } from '@entities/user';
 import { AuthUiService } from '@features/auth';
 import { AuthService } from '@features/auth';
@@ -18,7 +19,7 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
 })
 export class SignupModalComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
-  private userService: UserService = inject(UserService);
+  private userStorageService: UserStorageService = inject(UserStorageService);
   private authUi: AuthUiService = inject(AuthUiService);
   close = output<void>();
 
@@ -75,7 +76,7 @@ export class SignupModalComponent implements OnInit {
         next: (response) => {
           console.log("responce:", response);
 
-          this.userService.setUser(response);
+          this.userStorageService.saveUser(response);
           this.isLoading.set(false);
           this.close.emit();
         },

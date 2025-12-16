@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UserStorageService } from '@core/storage';
+import { UserModel } from '@entities/user';
 import { UserService } from '@entities/user/data-access/user.service';
 
 @Component({
@@ -12,6 +14,6 @@ import { UserService } from '@entities/user/data-access/user.service';
 })
 export class FooterComponent {
   // FIX: Added explicit type to authService to resolve 'unknown' type error.
-  userService: UserService = inject(UserService);
-  currentUser = this.userService.currentUser;
+  userService: UserStorageService = inject(UserStorageService);
+  currentUser = signal<UserModel | null>(this.userService.loadUser());
 }

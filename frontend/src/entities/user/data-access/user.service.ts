@@ -1,23 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { USER_ENDPOINTS } from '@core/api';
 import { UserModel } from '@entities/user';
-import { SignInResponse } from '@features/auth';
-// import { USER_ENDPOINTS } from '@core/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private readonly http = inject(HttpClient);
-
-  private currentUserSignal = signal<SignInResponse | null>(null);
-
-  currentUser: Signal<UserModel | null> = this.currentUserSignal.asReadonly();
-
-  isAuthenticated = computed(() => this.currentUser() !== null);
-
-  isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
-
   updateProfile() {
     // return this.http.put<AuthResponse>(USER_ENDPOINTS().UPDATE_PROFILE.url, this.currentUser());
   }
@@ -34,16 +24,8 @@ export class UserService {
     // );
   }
 
-  public setUser(user: SignInResponse): void {
-    this.currentUserSignal.set(user);
-  }
-
-  clearUser(): void {
-    this.currentUserSignal.set(null);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('userId');
-    }
+  getAllUsers() {
+    return this.http.get<UserModel[]>(USER_ENDPOINTS.GET_ALL_USERS.url);
   }
 
 }

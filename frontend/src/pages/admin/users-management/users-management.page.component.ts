@@ -1,6 +1,7 @@
 import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
+import { UserService } from '@entities/user';
 import { AuthService } from '@features/auth';
 import { SkeletonLoaderComponent } from '@shared/ui';
 
@@ -14,12 +15,12 @@ import { SkeletonLoaderComponent } from '@shared/ui';
 })
 export class UsersManagementPageComponent implements OnInit {
   // FIX: Added explicit type to authService to resolve 'unknown' type error.
-  private authService: AuthService = inject(AuthService);
+  private userService: UserService = inject(UserService);
   // FIX: Provided an initialValue to toSignal. This ensures the signal is of type `User[]` from the start,
   // preventing it from being `undefined` initially and causing downstream type inference issues.
 
   isLoading = signal(true);
-  allUsers = toSignal(this.authService.getAllUsers(), { initialValue: [] });
+  allUsers = toSignal(this.userService.getAllUsers(), { initialValue: [] });
 
   searchTerm = signal('');
 

@@ -1,10 +1,11 @@
 
 import { Injectable } from '@angular/core';
+import { UserModel } from '@entities/user';
 
 @Injectable({
     providedIn: 'root'
 })
-export class StorageService {
+export class UserStorageService {
     private readonly USER_KEY = 'currentUserData';
     saveUser(data: any): void {
         try {
@@ -15,7 +16,7 @@ export class StorageService {
         }
     }
 
-    loadUser(): any | null {
+    loadUser(): UserModel | null {
         try {
             const serializedData = localStorage.getItem(this.USER_KEY);
             if (serializedData === null) {

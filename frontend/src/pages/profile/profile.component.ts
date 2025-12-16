@@ -2,6 +2,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserStorageService } from '@core/storage';
 import { UserService } from '@entities/user';
 import { UserModel } from '@entities/user';
 import { AuthStateService } from '@features/auth';
@@ -18,9 +19,7 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
-  private authService: AuthService = inject(AuthService);
-  private userService: UserService = inject(UserService);
-  private authState: AuthStateService = inject(AuthStateService);
+  private userStorage: UserStorageService = inject(UserStorageService);
   private router: Router = inject(Router);
 
   firstName = signal('');
@@ -46,7 +45,7 @@ export class ProfileComponent implements OnInit {
     }
   })
   isEditing = signal(false);
-  currentUser = signal<UserModel | null>(this.userService.currentUser());
+  currentUser = signal<UserModel | null>(this.userStorage.loadUser());
 
   constructor() {
     effect(() => {

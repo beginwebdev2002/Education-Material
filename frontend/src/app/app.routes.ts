@@ -1,15 +1,16 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, Routes } from '@angular/router';
-import { UserService } from '@entities/user/data-access/user.service';
-import { AdminLayoutComponent } from '../pages/admin/admin-layout.component';
+import { UserService } from '@entities/user';
+import { AdminLayoutComponent } from '@pages/admin';
+import { UserStorageService } from '@core/storage';
 
 const authGuard: CanActivateFn = (route, state) => {
-  const userService: UserService = inject(UserService);
+  const userStorage: UserStorageService = inject(UserStorageService);
   const router: Router = inject(Router);
 
-  if (userService.currentUser()) {
+  if (userStorage.loadUser()) {
     if (state.url.startsWith('/admin')) {
-      if (userService.currentUser()?.role === 'ADMIN') {
+      if (userStorage.loadUser()?.role === 'ADMIN') {
         return true;
       }
       return router.parseUrl('/'); // Redirect non-admins from admin area
@@ -25,28 +26,28 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('../pages/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () => import('@pages/home').then(m => m.HomeComponent),
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('../pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('@pages/dashboard').then(m => m.DashboardComponent),
     canActivate: [authGuard]
   },
   {
     path: 'materials',
-    loadComponent: () => import('../pages/materials/materials.component').then(m => m.MaterialsComponent),
+    loadComponent: () => import('@pages/materials').then(m => m.MaterialsComponent),
   },
   {
     path: 'profile/:id',
-    loadComponent: () => import('../pages/profile/profile.component').then(m => m.ProfileComponent),
+    loadComponent: () => import('@pages/profile').then(m => m.ProfileComponent),
   },
   {
     path: 'settings',
-    loadComponent: () => import('../pages/settings/settings.component').then(m => m.SettingsComponent),
+    loadComponent: () => import('@pages/settings').then(m => m.SettingsComponent),
   },
   {
     path: 'docs',
-    loadComponent: () => import('../pages/docs/docs.component').then(m => m.DocsComponent),
+    loadComponent: () => import('@pages/docs').then(m => m.DocsComponent),
   },
   {
     path: 'admin',

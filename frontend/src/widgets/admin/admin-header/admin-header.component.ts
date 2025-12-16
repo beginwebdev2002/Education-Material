@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UserStorageService } from '@core/storage';
 import { UserService } from '@entities/user';
 import { AuthService } from '@features/auth';
 import { AdminLayoutService, SettingsService } from '@shared/services';
@@ -16,11 +17,11 @@ import { AdminLayoutService, SettingsService } from '@shared/services';
 export class AdminHeaderComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   layoutService: AdminLayoutService = inject(AdminLayoutService);
-  userService: UserService = inject(UserService);
+  userStorageService: UserStorageService = inject(UserStorageService);
   authService: AuthService = inject(AuthService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.userService.currentUser;
+  currentUser = signal(this.userStorageService.loadUser());
   searchQuery = signal('');
 
   logout() {
