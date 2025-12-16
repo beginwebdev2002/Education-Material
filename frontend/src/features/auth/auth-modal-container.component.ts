@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SigninModalComponent, SignupModalComponent, AuthUiService } from '@features/auth';
 import { IllustrationComponent } from '@shared/ui';
@@ -6,7 +6,7 @@ import { IllustrationComponent } from '@shared/ui';
 @Component({
   selector: 'app-auth-modal-container',
   standalone: true,
-  imports: [CommonModule, SigninModalComponent, SignupModalComponent, IllustrationComponent],
+  imports: [CommonModule, forwardRef(() => SigninModalComponent), forwardRef(() => SignupModalComponent), IllustrationComponent],
   templateUrl: './auth-modal-container.component.html',
   styleUrls: ['./auth-modal-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
