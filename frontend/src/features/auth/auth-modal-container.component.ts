@@ -1,9 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthUiService } from './auth-ui.service';
-import { SigninModalComponent } from './signin-modal/signin-modal.component';
-import { SignupModalComponent } from './signup-modal/signup-modal.component';
-import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
+import { SigninModalComponent, SignupModalComponent, AuthUiService } from '@features/auth';
+import { IllustrationComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-auth-modal-container',

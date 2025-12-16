@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
+import { IllustrationComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-home',

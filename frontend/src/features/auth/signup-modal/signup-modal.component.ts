@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserService } from '@entities/user/data-access/user.service';
-import { AuthUiService } from '@features/auth/auth-ui.service';
-import { AuthService } from '@features/auth/auth.service';
-import { SignupPayload } from '@features/auth/models/signup.dto';
+import { UserService } from '@entities/user';
+import { AuthUiService } from '@features/auth';
+import { AuthService } from '@features/auth';
+import { SignUpRequest } from '@features/auth';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 @Component({
@@ -64,7 +64,7 @@ export class SignupModalComponent implements OnInit {
 
   signup(): void {
     this.isLoading.set(true);
-    const payload: SignupPayload = {
+    const payload: SignUpRequest = {
       firstName: this.firstName(),
       lastName: this.lastName(),
       email: this.email(),

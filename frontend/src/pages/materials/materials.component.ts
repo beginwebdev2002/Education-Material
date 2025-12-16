@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy, computed, inject, signal, OnInit } 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { MockMaterialService } from '@shared/services/material.service';
-import { SkeletonLoaderComponent } from '@shared/ui/skeleton-loader/skeleton-loader.component';
-import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
+import { MockMaterialService } from '@shared/services';
+import { SkeletonLoaderComponent } from '@shared/ui';
+import { IllustrationComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-materials',

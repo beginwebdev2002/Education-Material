@@ -1,16 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UserService } from '@entities/user/data-access/user.service';
-import { AuthModalContainerComponent } from '@features/auth/auth-modal-container.component';
-import { AuthUiService } from '@features/auth/auth-ui.service';
-import { AuthService } from '@features/auth/auth.service';
-import { MenuItem } from '@shared/models/header.model';
-import { SettingsService } from '@shared/services/settings.service';
-
-// This tells TypeScript that a function named initFlowbite exists in the global scope.
-// It is provided by the Flowbite script included in index.html.
-declare const initFlowbite: () => void;
+import { UserService } from '@entities/user';
+import { AuthModalContainerComponent, AuthUiService, AuthService } from '@features/auth';
+import { MenuItem } from '@shared/models';
+import { SettingsService } from '@shared/services';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +23,7 @@ export class HeaderComponent {
 
   currentUser = this.userService.currentUser;
   isLoggedIn = computed(() => !!this.currentUser());
-  isAdmin = computed(() => this.currentUser()?.role === 'admin');
+  isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
   isMobileMenuHide = signal(true);
 
   menuItems = signal<MenuItem[]>([

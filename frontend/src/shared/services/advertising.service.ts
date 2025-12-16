@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { Ad } from '@shared/models/ad.model';
+import { Ad } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class AdvertisingService {

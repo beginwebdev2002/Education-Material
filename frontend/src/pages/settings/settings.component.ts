@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SettingsService, Theme, FontSize, FontFamily } from '@shared/services/settings.service';
+import { SettingsService, Theme, FontSize, FontFamily } from '@shared/services';
 
 @Component({
   selector: 'app-settings',

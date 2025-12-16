@@ -1,8 +1,7 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthResponse } from '@features/auth/models/signup.dto';
-import { User } from '../model/user.interface';
-import { tap } from 'rxjs';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { UserModel } from '@entities/user';
+import { SignInResponse } from '@features/auth';
 // import { USER_ENDPOINTS } from '@core/api';
 
 @Injectable({
@@ -11,13 +10,13 @@ import { tap } from 'rxjs';
 export class UserService {
   private readonly http = inject(HttpClient);
 
-  private currentUserSignal = signal<AuthResponse | null>(null);
+  private currentUserSignal = signal<SignInResponse | null>(null);
 
-  currentUser: Signal<User | null> = this.currentUserSignal.asReadonly();
+  currentUser: Signal<UserModel | null> = this.currentUserSignal.asReadonly();
 
   isAuthenticated = computed(() => this.currentUser() !== null);
 
-  isAdmin = computed(() => this.currentUser()?.role === 'admin');
+  isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
 
   updateProfile() {
     // return this.http.put<AuthResponse>(USER_ENDPOINTS().UPDATE_PROFILE.url, this.currentUser());
@@ -35,7 +34,7 @@ export class UserService {
     // );
   }
 
-  public setUser(user: AuthResponse): void {
+  public setUser(user: SignInResponse): void {
     this.currentUserSignal.set(user);
   }
 

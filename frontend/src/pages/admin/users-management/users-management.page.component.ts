@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
-import { AuthService } from '@features/auth/auth.service';
-import { SkeletonLoaderComponent } from '@shared/ui/skeleton-loader/skeleton-loader.component';
+import { AuthService } from '@features/auth';
+import { SkeletonLoaderComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-users-management-page',

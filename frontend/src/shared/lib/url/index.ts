@@ -1,1 +1,0 @@
-export { bindUrl } from './bind-url';

@@ -1,16 +1,5 @@
-export {
-    Material,
-    MaterialDescription,
-    MaterialTypes
-} from './material.model';
-export {
-    IllustrationNames,
-    IllustrationsData,
-    illustrations
-} from './illustration.model';
-export {
-    GenerationFormModel,
-    GenerationHistoryItem
-} from './generation.model';
-
-export { MenuItem } from './header.model'
+export * from './ad.model';
+export * from './material.model';
+export * from './illustration.model';
+export * from './generation.model';
+export * from './header.model'

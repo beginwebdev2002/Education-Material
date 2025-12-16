@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GenerationFormModel, GenerationHistoryItem } from '@shared/models/generation.model';
+import { GenerationFormModel, GenerationHistoryItem } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class MockGenerationService {

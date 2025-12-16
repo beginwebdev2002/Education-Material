@@ -1,4 +1,4 @@
-export interface User {
+export interface UserModel {
     _id: string; // UUID
     avatar?: string;
     firstName: string;
@@ -6,7 +6,7 @@ export interface User {
     email: string;
     avatarUrl: string;
     password?: string;
-    role: 'user' | 'admin';
+    role: UserRole;
     phoneNumber?: string;
     telegram?: string;
     instagram?: string;
@@ -16,3 +16,5 @@ export interface User {
     citizenship?: string;
     bio?: string;
 }
+
+export type UserRole = 'USER' | 'ADMIN'

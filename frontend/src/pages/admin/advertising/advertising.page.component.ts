@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdvertisingService } from '@shared/services/advertising.service';
-import { Ad, AdType } from '@shared/models/ad.model';
+import { AdvertisingService } from '@shared/services';
+import { Ad, AdType } from '@shared/models';
 
 @Component({
   selector: 'app-advertising-page',

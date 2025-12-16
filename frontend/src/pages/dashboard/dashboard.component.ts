@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { GenerationFormComponent } from '@features/generation-form/generation-form.component';
-import { GenerationHistoryComponent } from '@features/generation-history/generation-history.component';
-import { GenerationHistoryItem } from '@shared/models/generation.model';
-import { IllustrationComponent } from '@shared/ui/illustration/illustration.component';
-import { AdBannerComponent } from '@widgets/ad-banner/ad-banner.component';
+import { GenerationFormComponent } from '@features/generation-form';
+import { GenerationHistoryComponent } from '@features/generation-history';
+import { GenerationHistoryItem } from '@shared/models';
+import { IllustrationComponent } from '@shared/ui';
+import { AdBannerComponent } from '@widgets/ad-banner';
 
 @Component({
   selector: 'app-dashboard',

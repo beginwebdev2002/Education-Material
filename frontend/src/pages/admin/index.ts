@@ -1,1 +1,9 @@
-export { AdminLayoutComponent } from './admin-layout.component';
+export * from './admin-layout.component';
+export * from './advertising/advertising.page.component';
+export * from './ai-management/ai-management.page.component';
+export * from './analytics/analytics.page.component';
+export * from './dashboard-overview/dashboard-overview.page.component';
+export * from './materials-control/materials-control.page.component';
+export * from './system-settings/system-settings.page.component';
+export * from './users-management/users-management.page.component';
+export * from './statistics/statistics.page.component';

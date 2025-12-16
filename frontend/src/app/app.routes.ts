@@ -1,20 +1,15 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, Routes } from '@angular/router';
-import { AuthService } from '@features/auth/auth.service';
-import { AdminLayoutComponent } from '../pages/admin/admin-layout.component';
 import { UserService } from '@entities/user/data-access/user.service';
+import { AdminLayoutComponent } from '../pages/admin/admin-layout.component';
 
 const authGuard: CanActivateFn = (route, state) => {
-  // FIX: Added explicit type to authService to resolve 'unknown' type error.
-  const authService: AuthService = inject(AuthService);
   const userService: UserService = inject(UserService);
-  // FIX: Added explicit `Router` type to the injected router to fix 'unknown' type inference.
   const router: Router = inject(Router);
 
   if (userService.currentUser()) {
-    // Check for admin role for admin routes
     if (state.url.startsWith('/admin')) {
-      if (userService.currentUser()?.role === 'admin') {
+      if (userService.currentUser()?.role === 'ADMIN') {
         return true;
       }
       return router.parseUrl('/'); // Redirect non-admins from admin area
@@ -22,7 +17,6 @@ const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Redirect to the home page if not logged in
   return router.parseUrl('/');
 };
 

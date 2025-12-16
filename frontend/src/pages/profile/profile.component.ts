@@ -2,11 +2,10 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '@entities/user/data-access/user.service';
-import { User } from '@entities/user/model/user.interface';
-import { AuthStateService } from '@features/auth/auth-state.service';
-import { AuthService } from '@features/auth/auth.service';
-import { AuthResponse } from '@features/auth/models/signup.dto';
+import { UserService } from '@entities/user';
+import { UserModel } from '@entities/user';
+import { AuthStateService } from '@features/auth';
+import { AuthService } from '@features/auth';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 
@@ -47,7 +46,7 @@ export class ProfileComponent implements OnInit {
     }
   })
   isEditing = signal(false);
-  currentUser = signal<User | null>(this.userService.currentUser());
+  currentUser = signal<UserModel | null>(this.userService.currentUser());
 
   constructor() {
     effect(() => {

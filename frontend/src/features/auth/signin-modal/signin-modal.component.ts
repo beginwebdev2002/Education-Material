@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthUiService } from '@features/auth/auth-ui.service';
-import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
-import { emailValidator } from '@shared/validation/signal-validator';
 import { finalize } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { AuthUiService } from '@features/auth';
+import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { emailValidator } from '@shared/validation';
+import { AuthService } from '@features/auth';
 
 @Component({
   selector: 'app-signin-modal',

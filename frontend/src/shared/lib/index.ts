@@ -1,1 +1,1 @@
-export { bindUrl } from './url';
+export * from './url/bind-url';

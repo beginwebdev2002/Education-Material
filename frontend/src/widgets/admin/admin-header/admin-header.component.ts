@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserService } from '@entities/user/data-access/user.service';
-import { AuthService } from '@features/auth/auth.service';
-import { AdminLayoutService } from '@shared/services/admin-layout.service';
-import { SettingsService } from '@shared/services/settings.service';
+import { UserService } from '@entities/user';
+import { AuthService } from '@features/auth';
+import { AdminLayoutService, SettingsService } from '@shared/services';
 
 @Component({
   selector: 'app-admin-header',
