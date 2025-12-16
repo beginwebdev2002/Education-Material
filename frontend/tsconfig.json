@@ -12,16 +12,11 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "ES6",
-      "DOM"
-    ],
     "baseUrl": "./src",
     "paths": {
       "@app/*": [
