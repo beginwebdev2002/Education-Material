@@ -40,20 +40,20 @@
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" [src]="currentUser().avatar" alt="user photo">
+            <img class="w-8 h-8 rounded-full" [src]="currentUser()?.avatar" alt="user photo">
           </button>
           <!-- Dropdown menu -->
           <div [class]="{'hidden': !isMenuOpen()}"
             class="z-50 absolute right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
             id="user-dropdown">
             <div class="px-4 py-3">
-              <span class="block text-sm text-gray-900 dark:text-white">{{ currentUser().firstName }} {{
-                currentUser().lastName }}</span>
-              <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ currentUser().email }}</span>
+              <span class="block text-sm text-gray-900 dark:text-white">{{ currentUser()?.firstName }} {{
+                currentUser()?.lastName }}</span>
+              <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ currentUser()?.email }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               @for (menuItem of profileMenuItems(); track menuItem.id) {
-              @if ((!menuItem.requiresAuth || isLoggedIn()) && (!menuItem.adminOnly || isAdmin())) {
+              @if ((!menuItem.requiresAuth || !!currentUser()) && (!menuItem.adminOnly || isAdmin())) {
               <li>
                 <a [routerLink]="menuItem.path" (click)="isMenuOpen.set(false)"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
@@ -96,7 +96,7 @@
       <ul
         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         @for (menuItem of menuItems(); track menuItem.id) {
-        @if ((!menuItem.requiresAuth || isLoggedIn()) && (!menuItem.adminOnly || isAdmin())) {
+        @if ((!menuItem.requiresAuth || !!currentUser()) && (!menuItem.adminOnly || isAdmin())) {
         <li>
           <a [routerLink]="menuItem.path" routerLinkActive="text-primary-700 dark:text-primary-500"
             [routerLinkActiveOptions]="{exact: menuItem.exact || false}" (click)="toggleMobileMenu()"

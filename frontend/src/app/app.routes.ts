@@ -5,12 +5,13 @@ import { AdminLayoutComponent } from '@pages/admin';
 import { UserStorageService } from '@core/storage';
 
 const authGuard: CanActivateFn = (route, state) => {
-  const userStorage: UserStorageService = inject(UserStorageService);
+  const userStorageService: UserStorageService = inject(UserStorageService);
+  const currentUser = userStorageService.loadUser();
   const router: Router = inject(Router);
 
-  if (userStorage.loadUser()) {
+  if (currentUser()) {
     if (state.url.startsWith('/admin')) {
-      if (userStorage.loadUser()?.role === 'ADMIN') {
+      if (currentUser()?.role === 'ADMIN') {
         return true;
       }
       return router.parseUrl('/'); // Redirect non-admins from admin area

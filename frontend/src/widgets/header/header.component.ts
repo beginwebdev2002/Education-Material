@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { UserStorageService } from '@core/storage';
-import { UserService } from '@entities/user';
-import { AuthModalContainerComponent, AuthUiService, AuthService } from '@features/auth';
+import { UserModel } from '@entities/user';
+import { AuthModalContainerComponent, AuthService, AuthUiService } from '@features/auth';
 import { MenuItem } from '@shared/models';
 import { SettingsService } from '@shared/services';
 
@@ -22,9 +23,9 @@ export class HeaderComponent {
   settingsService: SettingsService = inject(SettingsService);
   isMenuOpen = signal(false);
 
-  currentUser = signal(this.userStorage.loadUser()!);
-  isLoggedIn = computed(() => !!this.currentUser());
-  isAdmin = computed(() => this.currentUser().role === 'ADMIN');
+  currentUser = this.userStorage.loadUser();
+  userData$ = this.userStorage.userData$;
+  isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
   isMobileMenuHide = signal(true);
 
   menuItems = signal<MenuItem[]>([
@@ -40,7 +41,17 @@ export class HeaderComponent {
       { id: 2, label: 'Settings', path: '/settings' },
     ]
   });
-  adminPanelText = signal("Admin Panel")
+  adminPanelText = signal("Admin Panel");
+
+  constructor() {
+    effect(() => {
+
+    })
+
+    this.userData$.subscribe((next) => {
+      this.currentUser = signal(next);
+    })
+  }
 
   logout(): void {
     this.userStorage.clearUser();

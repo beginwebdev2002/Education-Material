@@ -2,10 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserStorageService } from '@core/storage';
-import { UserService } from '@entities/user';
-import { AuthUiService } from '@features/auth';
-import { AuthService } from '@features/auth';
-import { SignUpRequest } from '@features/auth';
+import { AuthService, AuthUiService, SignUpRequest, createSignupForm, signupModel } from '@features/auth';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 @Component({
@@ -18,20 +15,28 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupModalComponent implements OnInit {
+  // outputs
+  close = output<void>();
+
+  // dependencies
   private authService: AuthService = inject(AuthService);
   private userStorageService: UserStorageService = inject(UserStorageService);
   private authUi: AuthUiService = inject(AuthUiService);
-  close = output<void>();
 
+  // state
+  private signupModel = signupModel;
+  signupForm = createSignupForm();
+
+  // signals
   firstName = signal("");
   lastName = signal("");
   email = signal("");
   password = signal("");
   isLoading = signal(false);
   error = signal<string | null>(null);
-
   touchedFields = signal<Set<string>>(new Set());
 
+  // computed
   formErrors = computed(() => {
     const errors = {
       firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
@@ -63,7 +68,7 @@ export class SignupModalComponent implements OnInit {
     return this.touchedFields().has(field);
   }
 
-  signup(): void {
+  signupSubmit(): void {
     this.isLoading.set(true);
     const payload: SignUpRequest = {
       firstName: this.firstName(),

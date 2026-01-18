@@ -141,3 +141,7 @@
 .dark .custom-scrollbar {
     scrollbar-color: #4b5563 transparent;
 }
+
+*[class*="dark:bg-gray-900"] {
+    transition: background-color .3s ease-in-out;
+}

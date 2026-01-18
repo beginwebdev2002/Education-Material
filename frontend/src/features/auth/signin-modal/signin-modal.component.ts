@@ -21,8 +21,8 @@ export class SigninModalComponent {
   private authState: AuthUiService = inject(AuthUiService);
   close = output<void>();
 
-  email = signal('admin@edugen.com');
-  password = signal('password'); // mock
+  email = signal('gptchat.654@gmail.com');
+  password = signal('3255443345'); // mock
   isLoading = signal(false);
   error = signal<string | null>(null);
 

@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
     }
   })
   isEditing = signal(false);
-  currentUser = signal<UserModel | null>(this.userStorage.loadUser());
+  currentUser = this.userStorage.loadUser();
 
   constructor() {
     effect(() => {

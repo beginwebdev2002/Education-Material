@@ -21,10 +21,11 @@ export class AdminHeaderComponent {
   authService: AuthService = inject(AuthService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = signal(this.userStorageService.loadUser());
+  currentUser = this.userStorageService.loadUser();
   searchQuery = signal('');
 
   logout() {
     this.authService.logout();
+    this.currentUser()?._id
   }
 }
