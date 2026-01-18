@@ -14,8 +14,8 @@ import { UsersRepository } from './users.repository';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         global: true,
-        secret: configService.get('JWT_SECRET'), // TODO: use environment variable
-        signOptions: { expiresIn: configService.get('JWT_EXPIRES_IN') },
+        secret: configService.get('jwt.secret'),
+        signOptions: { expiresIn: configService.get('jwt.expiresIn') },
       }),
       inject: [ConfigService],
     }),
