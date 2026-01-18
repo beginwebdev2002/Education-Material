@@ -11,6 +11,8 @@
     </a>
     <div class="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
       <button (click)="settingsService.toggleTheme()" type="button"
+        [attr.aria-label]="settingsService.theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        title="Toggle theme"
         class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-colors">
         @if (settingsService.theme() === 'dark') {
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
