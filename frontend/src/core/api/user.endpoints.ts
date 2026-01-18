@@ -26,4 +26,5 @@ export const USER_ENDPOINTS: ModuleEndpoints<UserEndpointKeys> = {
     },
 }
 
+
 type UserEndpointKeys = 'GET_PROFILE' | 'UPDATE_PROFILE' | 'DELETE_PROFILE' | 'GET_ALL_USERS';
