@@ -24,7 +24,12 @@ export class AuthService {
     }
 
     signin(payload: SignInRequest): Observable<SignInResponse> {
-        return this.http.post<SignInResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true });
+        return this.http.post<SignInResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true })
+            .pipe(
+                tap((user) => {
+                    this.userStorageService.saveUser(user);
+                })
+            );
     }
 
 
