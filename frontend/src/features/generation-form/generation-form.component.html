@@ -213,6 +213,7 @@
                 Weeks</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(teachingWeeks() ?? 0) <= 1"
+                  aria-label="Decrease teaching weeks" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
                 <input type="number" [(ngModel)]="teachingWeeks" min="1" max="36"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
@@ -220,6 +221,7 @@
                   [class.focus:!ring-red-500]="teachingWeeksError()"
                   [class.focus:!border-red-500]="teachingWeeksError()">
                 <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(teachingWeeks() ?? 0) >= 36"
+                  aria-label="Increase teaching weeks" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(teachingWeeksError()) {
@@ -240,12 +242,14 @@
                 week</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changeLectures(-1)" [disabled]="(lecturesPerWeek() ?? 0) <= 0"
+                  aria-label="Decrease lectures per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
                 <input type="number" [(ngModel)]="lecturesPerWeek" min="0" max="10"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
                   [class.!border-red-500]="lecturesError()" [class.!dark:border-red-500]="lecturesError()"
                   [class.focus:!ring-red-500]="lecturesError()" [class.focus:!border-red-500]="lecturesError()">
                 <button type="button" (click)="changeLectures(1)" [disabled]="(lecturesPerWeek() ?? 0) >= 10"
+                  aria-label="Increase lectures per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(lecturesError()) {
@@ -267,6 +271,7 @@
                 / week</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changePresentations(-1)" [disabled]="(presentationsPerWeek() ?? 0) <= 0"
+                  aria-label="Decrease presentations per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
                 <input type="number" [(ngModel)]="presentationsPerWeek" min="0" max="10"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
@@ -274,6 +279,7 @@
                   [class.focus:!ring-red-500]="presentationsError()"
                   [class.focus:!border-red-500]="presentationsError()">
                 <button type="button" (click)="changePresentations(1)" [disabled]="(presentationsPerWeek() ?? 0) >= 10"
+                  aria-label="Increase presentations per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(presentationsError()) {
