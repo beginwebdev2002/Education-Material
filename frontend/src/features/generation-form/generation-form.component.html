@@ -190,36 +190,39 @@
       <div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           @for (format of materialFormats(); track format.id) {
-          <div (click)="toggleFormat(format.key)"
-            class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
+          <div
+            class="relative p-4 border rounded-lg transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
             [class.bg-primary-50]="formats()[format.key]" [class.dark:bg-primary-900/40]="formats()[format.key]"
             [class.border-primary-500]="formats()[format.key]" [class.ring-2]="formats()[format.key]"
             [class.ring-primary-500]="formats()[format.key]" [class.border-gray-300]="!formats()[format.key]"
             [class.dark:border-gray-600]="!formats()[format.key]" [class.bg-gray-50]="!formats()[format.key]"
             [class.dark:bg-gray-700/50]="!formats()[format.key]">
-            <div class="flex flex-col items-center justify-center text-center flex-grow">
+            <button type="button" (click)="toggleFormat(format.key)" [attr.aria-pressed]="formats()[format.key]"
+              class="flex flex-col items-center justify-center text-center flex-grow w-full focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg p-1 -m-1">
               <i [class]="format.icon" class="text-3xl mb-3 transition-colors"
                 [class.text-primary-600]="formats()[format.key]" [class.dark:text-primary-400]="formats()[format.key]"
                 [class.text-gray-500]="!formats()[format.key]" [class.dark:text-gray-400]="!formats()[format.key]"></i>
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ format.name }}</span>
               <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ format.sub }}</p>
-            </div>
+            </button>
 
             <!-- Syllabus/Program Options -->
             @if(formats()['program'] && format.key === 'program') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
-              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Teaching
+              <label for="teaching-weeks-input" class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Teaching
                 Weeks</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(teachingWeeks() ?? 0) <= 1"
+                  aria-label="Decrease teaching weeks" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="teachingWeeks" min="1" max="36"
+                <input id="teaching-weeks-input" type="number" [(ngModel)]="teachingWeeks" min="1" max="36"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
                   [class.!border-red-500]="teachingWeeksError()" [class.!dark:border-red-500]="teachingWeeksError()"
                   [class.focus:!ring-red-500]="teachingWeeksError()"
                   [class.focus:!border-red-500]="teachingWeeksError()">
                 <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(teachingWeeks() ?? 0) >= 36"
+                  aria-label="Increase teaching weeks" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(teachingWeeksError()) {
@@ -236,16 +239,18 @@
             @if(formats()['lecture'] && format.key === 'lecture') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
-              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Lectures /
+              <label for="lectures-input" class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Lectures /
                 week</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changeLectures(-1)" [disabled]="(lecturesPerWeek() ?? 0) <= 0"
+                  aria-label="Decrease lectures per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="lecturesPerWeek" min="0" max="10"
+                <input id="lectures-input" type="number" [(ngModel)]="lecturesPerWeek" min="0" max="10"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
                   [class.!border-red-500]="lecturesError()" [class.!dark:border-red-500]="lecturesError()"
                   [class.focus:!ring-red-500]="lecturesError()" [class.focus:!border-red-500]="lecturesError()">
                 <button type="button" (click)="changeLectures(1)" [disabled]="(lecturesPerWeek() ?? 0) >= 10"
+                  aria-label="Increase lectures per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(lecturesError()) {
@@ -262,18 +267,20 @@
             @if(formats()['presentation'] && format.key === 'presentation') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
-              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2"
+              <label for="presentations-input" class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2"
                 i18n>Presentations
                 / week</label>
               <div class="flex items-center justify-center space-x-2">
                 <button type="button" (click)="changePresentations(-1)" [disabled]="(presentationsPerWeek() ?? 0) <= 0"
+                  aria-label="Decrease presentations per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="presentationsPerWeek" min="0" max="10"
+                <input id="presentations-input" type="number" [(ngModel)]="presentationsPerWeek" min="0" max="10"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
                   [class.!border-red-500]="presentationsError()" [class.!dark:border-red-500]="presentationsError()"
                   [class.focus:!ring-red-500]="presentationsError()"
                   [class.focus:!border-red-500]="presentationsError()">
                 <button type="button" (click)="changePresentations(1)" [disabled]="(presentationsPerWeek() ?? 0) >= 10"
+                  aria-label="Increase presentations per week" i18n-aria-label
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
               @if(presentationsError()) {
