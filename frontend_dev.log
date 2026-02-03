@@ -1,0 +1,44 @@
+
+> education-material@0.0.0 dev /app/frontend
+> ng serve
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names                            |  Raw size
+main.js             | main                             | 154.26 kB |
+styles.css          | styles                           |  78.79 kB |
+chunk-32E6VUCL.js   | -                                |  33.28 kB |
+chunk-OTI2FJDF.js   | -                                |  31.90 kB |
+chunk-FLXHTGT6.js   | -                                |  22.85 kB |
+chunk-7YORKVXC.js   | -                                |  20.78 kB |
+chunk-PO7IYNK7.js   | -                                |  16.54 kB |
+chunk-3R2LSIOJ.js   | -                                |  15.79 kB |
+chunk-35XTAEDW.js   | -                                |  12.75 kB |
+chunk-TUJZQ32J.js   | -                                |   5.75 kB |
+chunk-6OHBRJ4I.js   | -                                |   5.59 kB |
+chunk-W44S4ENO.js   | -                                |   3.41 kB |
+chunk-SAQ25CWQ.js   | -                                |   1.15 kB |
+polyfills.js        | polyfills                        | 250 bytes |
+
+                    | Initial total                    | 403.09 kB
+
+Lazy chunk files    | Names                            |  Raw size
+chunk-CZ6NTA7T.js   | index                            | 150.88 kB |
+chunk-MOOB6J4T.js   | index                            |  34.00 kB |
+chunk-7WPHLLOQ.js   | index                            |  20.52 kB |
+chunk-BP7KRJVH.js   | index                            |  15.51 kB |
+chunk-L7ZRSQZO.js   | index                            |  14.48 kB |
+chunk-KPH5X2AZ.js   | index                            |  13.49 kB |
+chunk-D37UT6LY.js   | materials-control-page-component | 293 bytes |
+chunk-J2CYYIPB.js   | users-management-page-component  | 291 bytes |
+chunk-MFRML7E7.js   | system-settings-page-component   | 289 bytes |
+chunk-J24SL4Y3.js   | advertising-page-component       | 283 bytes |
+chunk-XAPXBCJ3.js   | ai-management-page-component     | 255 bytes |
+chunk-NKFCN7KA.js   | statistics-page-component        | 251 bytes |
+chunk-LY4FRF4N.js   | analytics-page-component         | 249 bytes |
+
+Application bundle generation complete. [7.561 seconds] - 2026-02-03T10:20:36.824Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
