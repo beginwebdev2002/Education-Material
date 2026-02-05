@@ -190,8 +190,10 @@
       <div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           @for (format of materialFormats(); track format.id) {
-          <div (click)="toggleFormat(format.key)"
-            class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
+          <div (click)="toggleFormat(format.key)" (keydown.enter)="toggleFormat(format.key); $event.preventDefault()"
+            (keydown.space)="toggleFormat(format.key); $event.preventDefault()" tabindex="0" role="checkbox"
+            [attr.aria-checked]="formats()[format.key]" [attr.aria-label]="format.name + ' ' + format.sub"
+            class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800"
             [class.bg-primary-50]="formats()[format.key]" [class.dark:bg-primary-900/40]="formats()[format.key]"
             [class.border-primary-500]="formats()[format.key]" [class.ring-2]="formats()[format.key]"
             [class.ring-primary-500]="formats()[format.key]" [class.border-gray-300]="!formats()[format.key]"
@@ -208,7 +210,8 @@
             <!-- Syllabus/Program Options -->
             @if(formats()['program'] && format.key === 'program') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
-              (click)="$event.stopPropagation()">
+              (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+              (keydown.space)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Teaching
                 Weeks</label>
               <div class="flex items-center justify-center space-x-2">
@@ -235,7 +238,8 @@
             <!-- Lecture Options -->
             @if(formats()['lecture'] && format.key === 'lecture') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
-              (click)="$event.stopPropagation()">
+              (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+              (keydown.space)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2" i18n>Lectures /
                 week</label>
               <div class="flex items-center justify-center space-x-2">
@@ -261,7 +265,8 @@
             <!-- Presentation Options -->
             @if(formats()['presentation'] && format.key === 'presentation') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
-              (click)="$event.stopPropagation()">
+              (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+              (keydown.space)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2"
                 i18n>Presentations
                 / week</label>
@@ -289,7 +294,8 @@
             <!-- Test Options -->
             @if(formats()['test'] && format.key === 'test') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn text-center w-full"
-              (click)="$event.stopPropagation()">
+              (click)="$event.stopPropagation()" (keydown.enter)="$event.stopPropagation()"
+              (keydown.space)="$event.stopPropagation()">
               <label [for]="'test-questions-' + format.id"
                 class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2" i18n>Number of Questions</label>
               <div class="flex justify-center">
