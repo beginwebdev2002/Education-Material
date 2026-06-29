@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import Configs from './configs/configs';
 import { AuthModule } from './modules/auth/infrastructure/auth.module';
+import { SeedModule } from './modules/seed/seed.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +22,7 @@ import { AuthModule } from './modules/auth/infrastructure/auth.module';
     }),
     UsersModule,
     AuthModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

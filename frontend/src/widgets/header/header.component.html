@@ -26,16 +26,13 @@
         </svg>
         }
       </button>
-      @if (currentUser()) {
-      <div class="flex items-center space-x-3">
-        @if (isAdmin()) {
-        <a routerLink="/admin"
+      <div class="flex items-center space-x-3" *hasRole="['ADMIN', 'USER']">
+        <a *hasRole="['ADMIN']" routerLink="/admin"
           class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 items-center hidden sm:flex transition-colors">
           <i class="fa-solid fa-user-shield mr-2"></i>
           <span
             i18n="site header|An introduction header for this sample@@introductionHeader">{{adminPanelText()}}</span>
         </a>
-        }
         <div class="relative">
           <button type="button" (click)="isMenuOpen.set(!isMenuOpen())"
             class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -74,15 +71,13 @@
           </div>
         </div>
       </div>
-      } @else {
-      <div class="space-x-2">
+      <div class="space-x-2" *hasRole="['GUEST']">
         <button (click)="authUi.openModal('signin')" type="button"
           class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 transition-colors">Signin</button>
         <button (click)="authUi.openModal('signup')" type="button"
           class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors">Sign
           Up</button>
       </div>
-      }
       <button (click)="toggleMobileMenu()" type="button"
         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="navbar-user" aria-expanded="false">

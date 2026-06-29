@@ -13,6 +13,9 @@ export class UserStorageService {
         try {
             const serializedData = JSON.stringify(data);
             localStorage.setItem(this.USER_KEY, serializedData);
+            if (data?.accessToken) {
+                localStorage.setItem('access_token', data.accessToken);
+            }
             this.userData$.next(data);
         } catch (e) {
             console.error("Ошибка при сохранении в localStorage", e);
@@ -37,6 +40,7 @@ export class UserStorageService {
 
     clearUser(): void {
         localStorage.removeItem(this.USER_KEY);
+        localStorage.removeItem('access_token');
         this.userData$.next(null)
     }
 }

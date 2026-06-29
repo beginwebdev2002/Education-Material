@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { USER_ENDPOINTS } from '@core/api';
+import { USER_ENDPOINTS } from '@shared/api/api.endpoint';
 import { UserModel } from '@entities/user';
 
 @Injectable({

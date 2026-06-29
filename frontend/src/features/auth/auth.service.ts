@@ -4,8 +4,7 @@ import { UserModel } from '@entities/user/model/user.model';
 import { SignInResponse, SignUpRequest } from '@features/auth';
 import { Observable, tap } from 'rxjs';
 import { SignInRequest } from '@features/auth';
-import { AUTH_ENDPOINTS } from '@core/api';
-import { USER_ENDPOINTS } from '@core/api';
+import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api/api.endpoint';
 import { UserService } from '@entities/user';
 import { UserStorageService } from '@core/storage';
 
@@ -24,7 +23,12 @@ export class AuthService {
     }
 
     signin(payload: SignInRequest): Observable<SignInResponse> {
-        return this.http.post<SignInResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true });
+        return this.http.post<SignInResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true })
+            .pipe(
+                tap((user) => {
+                    this.userStorageService.saveUser(user);
+                })
+            );
     }
 
 

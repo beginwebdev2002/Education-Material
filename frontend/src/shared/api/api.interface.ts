@@ -4,10 +4,6 @@ export interface ApiEndpoint {
     description: string;
 }
 
-
-// export type ModuleEndpoints<T extends keyof any> = {
-//     [K in T]: ApiEndpoint;
-// };
 export type ModuleEndpoints<T extends keyof any> = {
     [K in T]: ApiEndpoint;
 };

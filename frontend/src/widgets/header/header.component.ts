@@ -7,11 +7,12 @@ import { UserModel } from '@entities/user';
 import { AuthModalContainerComponent, AuthService, AuthUiService } from '@features/auth';
 import { MenuItem } from '@shared/models';
 import { SettingsService } from '@shared/services';
+import { HasRoleDirective } from '@shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, AuthModalContainerComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, AuthModalContainerComponent, HasRoleDirective],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

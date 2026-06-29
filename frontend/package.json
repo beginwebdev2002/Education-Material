@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "ng serve",
+    "start": "ng serve",
+    "start:dev": "ng s --watch",
     "build": "ng build",
     "preview": "ng serve --configuration=production",
     "internalization": "ng extract-i18n"

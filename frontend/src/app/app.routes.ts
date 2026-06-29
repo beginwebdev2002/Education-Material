@@ -53,7 +53,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'statistics', pathMatch: 'full' },
       {
