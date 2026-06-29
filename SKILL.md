@@ -19,6 +19,11 @@ Describe when this skill should be used.
 
 # Project Skills
 
+## Global
+
+- [typescript-advanced-types]: Typescript advanced types
+- [rest-api-design]: Rest API design
+
 ## Frontend (Angular)
 
 - [angular-component]: Angular component
@@ -26,10 +31,12 @@ Describe when this skill should be used.
 - [angular-http]: Angular http
 - [angular-routing]: Angular routing
 - [angular-signals]: Angular signals
-- [angular-di]: Angular di
+- [angular-di]: Angular Dependency Injection
 - [angular-best-practices]: Angular best practices
+- [feature-sliced-design]: Feature sliced design Architecture
 
 ## Backend (NestJS)
 
 - [nestjs-best-practices]: NestJS best practices
-- [nestjs-expert]: NestJS expert
+- [nestjs-expert]: NestJS expert best practices
+- [mongoose-mongodb]: Mongoose MongoDB
