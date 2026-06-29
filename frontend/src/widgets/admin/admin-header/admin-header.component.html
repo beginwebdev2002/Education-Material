@@ -25,6 +25,7 @@
       <div class="flex items-center space-x-3">
         <!-- Theme Toggle -->
         <button (click)="settingsService.toggleTheme()" type="button"
+          [attr.aria-label]="settingsService.theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
           class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
           @if (settingsService.theme() === 'dark') {
           <i class="fa-solid fa-sun w-5 h-5"></i>
