@@ -8,5 +8,5 @@ export interface IUserRepository {
     delete(id: string): Promise<boolean>;
 
     // Специфический запрос для домена
-    findByEmail(email: string): Promise<UsersDocument | null>;
+    findByEmail(email: string): Promise<Users | null>;
 }

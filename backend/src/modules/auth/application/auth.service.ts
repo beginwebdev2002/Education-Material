@@ -38,10 +38,12 @@ export class AuthService {
         if (!isMatch) {
             throw new BadRequestException('Invalid password');
         }
-        const payload = { _id: user.id, email: user.email };
+        const payload = { _id: user._id.toString(), email: user.email };
+        const { password: _, ...userWithoutPassword } = user;
         return {
             accessToken: await this.jwtService.signAsync(payload),
-            ...user.toObject()
+            ...userWithoutPassword,
+            id: user._id.toString(),
         };
     }
 

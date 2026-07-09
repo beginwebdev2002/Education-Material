@@ -37,11 +37,11 @@ export class UsersRepository implements IUserRepository {
         }
         return true;
     }
-    async findByEmail(email: string): Promise<UsersDocument | null> {
-        return this.usersModel.findOne({ email }).exec();
+    async findByEmail(email: string): Promise<Users | null> {
+        return this.usersModel.findOne({ email }).lean<Users>().exec();
     }
 
-    async findAll(): Promise<UsersDocument[]> {
-        return this.usersModel.find().exec();
+    async findAll(): Promise<Users[]> {
+        return this.usersModel.find().select('-password').lean<Users[]>().exec();
     }
 }
