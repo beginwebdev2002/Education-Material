@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MockMaterialService } from '@shared/services';
 
 
 @Component({
   selector: 'app-materials-control-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './materials-control.page.component.html',
   styleUrls: ['./materials-control.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

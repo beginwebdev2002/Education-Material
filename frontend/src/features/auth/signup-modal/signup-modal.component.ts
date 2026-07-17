@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserStorageService } from '@core/storage';
-import { AuthService, AuthUiService, SignUpRequest, createSignupForm, signupModel } from '@features/auth';
-import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { AuthService, AuthUiService, SignUpRequest } from '@features/auth';
+import { emailValidator, firstError, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 import { TranslationService } from '@shared/services';
 
 @Component({
   selector: 'app-signup-modal',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './signup-modal.component.html',
   styleUrls: ['./signup-modal.component.scss'],
   providers: [AuthService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignupModalComponent implements OnInit {
+export class SignupModalComponent {
   // outputs
   close = output<void>();
 
@@ -26,64 +25,42 @@ export class SignupModalComponent implements OnInit {
   private authUi: AuthUiService = inject(AuthUiService);
   private i18n: TranslationService = inject(TranslationService);
 
-  // state
-  private signupModel = signupModel;
-  signupForm = createSignupForm();
+  protected readonly firstError = firstError;
 
-  // signals
-  firstName = signal("");
-  lastName = signal("");
-  email = signal("");
-  password = signal("");
-  isLoading = signal(false);
-  error = signal<string | null>(null);
-  touchedFields = signal<Set<string>>(new Set());
-
-  // computed
-  formErrors = computed(() => {
-    const errors = {
-      firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      email: createValidationSignal(this.email, [requiredValidator, minLengthValidator(3), maxLengthValidator(50), emailValidator]),
-      password: createValidationSignal(this.password, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-    }
-
-    return errors;
-  })
-
-  hasErrors = computed(() => {
-    const errors = this.formErrors();
-    return Object.values(errors).some(fieldErrors => fieldErrors().length > 0);
+  form = new FormGroup({
+    firstName: new FormControl('', {
+      nonNullable: true,
+      validators: [requiredValidator(), minLengthValidator(3), maxLengthValidator(50)],
+    }),
+    lastName: new FormControl('', {
+      nonNullable: true,
+      validators: [requiredValidator(), minLengthValidator(3), maxLengthValidator(50)],
+    }),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [requiredValidator(), minLengthValidator(3), maxLengthValidator(50), emailValidator()],
+    }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [requiredValidator(), minLengthValidator(3), maxLengthValidator(50)],
+    }),
   });
 
-  ngOnInit(): void {
-  }
-
-  markTouched(field: string) {
-    this.touchedFields.update(s => {
-      const newSet = new Set(s);
-      newSet.add(field);
-      return newSet;
-    });
-  }
-
-  isTouched(field: string) {
-    return this.touchedFields().has(field);
-  }
+  isLoading = signal(false);
+  error = signal<string | null>(null);
 
   signupSubmit(): void {
-    this.isLoading.set(true);
-    const payload: SignUpRequest = {
-      firstName: this.firstName(),
-      lastName: this.lastName(),
-      email: this.email(),
-      password: this.password(),
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+
+    this.isLoading.set(true);
+    const payload: SignUpRequest = this.form.getRawValue();
+
     this.authService.signup(payload)
       .subscribe({
         next: (response) => {
-          console.log("responce:", response);
-
           this.userStorageService.saveUser(response);
           this.isLoading.set(false);
           this.close.emit();

@@ -1,19 +1,21 @@
-import { Component, ChangeDetectionStrategy, signal, OnInit, computed, OnDestroy, effect, inject, input, Signal, WritableSignal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, OnInit, computed, OnDestroy, effect, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { MockGenerationService, TranslationService } from '@shared/services';
 import { GenerationFormModel, GenerationHistoryItem, MaterialDescription, MaterialTypes, MaterialTypesKey } from '@shared/models';
+type FormatsValue = Record<MaterialTypesKey, boolean>;
 import { audienceOptions, levelOptions } from '@features/generation-form';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { firstError, integerValidator, maxValidator, minValidator, requiredValidator } from '@shared/validation';
 
 @Component({
   selector: 'app-generation-form',
   templateUrl: './generation-form.component.html',
   styleUrls: ['./generation-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
 })
 export class GenerationFormComponent implements OnInit, OnDestroy {
   requestToLoad = input<GenerationHistoryItem | null>(null);
@@ -21,23 +23,31 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
   private readonly DRAFT_KEY = 'generation-form-draft';
   private progressInterval: ReturnType<typeof setInterval> | undefined;
 
-  // --- Signal-based Form State ---
-  subject = signal('');
-  selectedAudience = signal('university'); // Corresponds to InstitutionType
-  selectedLevel = signal<string | null>(null); // Corresponds to CourseLevel
-  topic = signal('');
-  formats = signal<MaterialTypes>({
-    id: 1,
-    program: true,
-    lecture: false,
-    presentation: false,
-    test: false,
+  protected readonly firstError = firstError;
+
+  // --- Reactive form ---
+  form = new FormGroup({
+    subject: new FormControl('', { nonNullable: true, validators: [requiredValidator()] }),
+    selectedAudience: new FormControl('university', { nonNullable: true }), // Corresponds to InstitutionType
+    selectedLevel: new FormControl<string | null>(null),
+    topic: new FormControl('', { nonNullable: true, validators: [requiredValidator()] }),
+    formats: new FormGroup({
+      program: new FormControl(true, { nonNullable: true }),
+      lecture: new FormControl(false, { nonNullable: true }),
+      presentation: new FormControl(false, { nonNullable: true }),
+      test: new FormControl(false, { nonNullable: true }),
+    }),
+    teachingWeeks: new FormControl<number | null>(16, [integerValidator(), minValidator(1), maxValidator(36)]),
+    lecturesPerWeek: new FormControl<number | null>(1, [integerValidator(), minValidator(0), maxValidator(10)]),
+    presentationsPerWeek: new FormControl<number | null>(1, [integerValidator(), minValidator(0), maxValidator(10)]),
+    testQuestions: new FormControl<number | null>(100, [integerValidator(), minValidator(50), maxValidator(300)]),
   });
-  // Format-specific options
-  teachingWeeks = signal<number | null>(16);
-  lecturesPerWeek = signal<number | null>(1);
-  presentationsPerWeek = signal<number | null>(1);
-  testQuestions = signal<number | null>(100);
+
+  // Bridges the FormGroup's live value back to a signal so the existing
+  // computed()s below stay reactive without rewriting their logic.
+  private formValue = toSignal(this.form.valueChanges, { initialValue: this.form.getRawValue() });
+
+  templateFile = signal<File | null>(null);
 
   materialFormats = signal<MaterialDescription[]>(
     [
@@ -69,7 +79,6 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
         sub: 'Test',
         icon: 'fa-solid fa-clipboard-question'
       }])
-  templateFile = signal<File | null>(null);
 
   // --- Wizard State ---
   currentStep = signal(1);
@@ -79,42 +88,38 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
 
   levelOptions = signal(levelOptions);
 
-  // --- Validation Signals ---
-  teachingWeeksError = signal<string | null>(null);
-  lecturesError = signal<string | null>(null);
-  presentationsError = signal<string | null>(null);
-  testQuestionsError = signal<string | null>(null);
-
   // --- Computed Signals ---
   dynamicCourseLevels = computed(() => {
-    const audience = this.selectedAudience();
+    const audience = this.formValue().selectedAudience ?? 'university';
     return this.levelOptions()[audience] || [];
   });
 
   isAnyFormatSelected = computed(() => {
-    const currentFormats = this.formats();
-    return currentFormats.program || currentFormats.lecture || currentFormats.presentation || currentFormats.test;
+    const formats = this.formValue().formats as Partial<FormatsValue> | undefined;
+    return !!(formats?.program || formats?.lecture || formats?.presentation || formats?.test);
   });
 
   isStep1Valid = computed(() => {
-    return this.subject().trim() !== '' && !!this.selectedLevel();
+    this.formValue();
+    return this.form.controls.subject.valid && !!this.form.controls.selectedLevel.value;
   });
   isStep2Valid = computed(() => {
-    return this.topic().trim() !== '';
+    this.formValue();
+    return this.form.controls.topic.valid;
   });
 
   isFormatsValid = computed(() => {
-    const currentFormats = this.formats();
-    if (currentFormats.program && this.teachingWeeksError() !== null) {
+    const formats = this.formValue().formats as Partial<FormatsValue> | undefined;
+    if (formats?.program && this.form.controls.teachingWeeks.invalid) {
       return false;
     }
-    if (currentFormats.lecture && this.lecturesError() !== null) {
+    if (formats?.lecture && this.form.controls.lecturesPerWeek.invalid) {
       return false;
     }
-    if (currentFormats.presentation && this.presentationsError() !== null) {
+    if (formats?.presentation && this.form.controls.presentationsPerWeek.invalid) {
       return false;
     }
-    if (currentFormats.test && this.testQuestionsError() !== null) {
+    if (formats?.test && this.form.controls.testQuestions.invalid) {
       return false;
     }
     return true;
@@ -133,20 +138,15 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
   generatedFileUrl = signal<string | null>(null);
   private previousFileUrl: string | null = null;
   private i18n = inject(TranslationService);
+  private generationService = inject(MockGenerationService);
 
-  constructor(private generationService: MockGenerationService) {
+  constructor() {
     effect(() => {
       const request = this.requestToLoad();
       if (request) {
         this.loadFromHistory(request);
       }
     });
-
-    // --- Validation Effects ---
-    this.createNumericValidationEffect(this.teachingWeeks, this.teachingWeeksError, 1, 36, 'program');
-    this.createNumericValidationEffect(this.lecturesPerWeek, this.lecturesError, 0, 10, 'lecture');
-    this.createNumericValidationEffect(this.presentationsPerWeek, this.presentationsError, 0, 10, 'presentation');
-    this.createNumericValidationEffect(this.testQuestions, this.testQuestionsError, 50, 300, 'test');
   }
 
   ngOnInit(): void {
@@ -154,7 +154,7 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
     // Set initial level based on default audience
     const initialLevels = this.dynamicCourseLevels();
     if (initialLevels.length > 0) {
-      this.selectedLevel.set(initialLevels[0]);
+      this.form.controls.selectedLevel.setValue(initialLevels[0]);
     }
   }
 
@@ -163,33 +163,6 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
     if (this.previousFileUrl) {
       URL.revokeObjectURL(this.previousFileUrl);
     }
-  }
-
-  private createNumericValidationEffect(
-    valueSignal: Signal<number | null>,
-    errorSignal: WritableSignal<string | null>,
-    min: number,
-    max: number,
-    formatKey: MaterialTypesKey
-  ) {
-    effect(() => {
-      // Only validate if the corresponding format is selected
-      if (!this.formats()[formatKey]) {
-        errorSignal.set(null);
-        return;
-      }
-
-      const value = valueSignal();
-      if (value === null) {
-        errorSignal.set('Value is required.');
-      } else if (!Number.isInteger(value)) {
-        errorSignal.set('Must be a whole number.');
-      } else if (value < min || value > max) {
-        errorSignal.set(`Must be between ${min} and ${max}.`);
-      } else {
-        errorSignal.set(null);
-      }
-    });
   }
 
   private checkDraftExists(): void {
@@ -201,10 +174,10 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
   }
 
   handleAudienceChange(newAudience: string): void {
-    this.selectedAudience.set(newAudience);
+    this.form.controls.selectedAudience.setValue(newAudience);
     // Reset level when audience changes
     const newLevels = this.levelOptions()[newAudience] || [];
-    this.selectedLevel.set(newLevels.length > 0 ? newLevels[0] : null);
+    this.form.controls.selectedLevel.setValue(newLevels.length > 0 ? newLevels[0] : null);
   }
 
   onFileSelected(event: Event): void {
@@ -240,26 +213,27 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleFormat(format: keyof GenerationFormModel['formats']): void {
-    this.formats.update(currentFormats => ({
-      ...currentFormats,
-      [format]: !currentFormats[format]
-    }));
+  toggleFormat(format: MaterialTypesKey): void {
+    const control = this.form.controls.formats.controls[format];
+    control.setValue(!control.value);
     if (this.isAnyFormatSelected()) {
       this.formatSelectionError.set(null);
     }
   }
 
   changeTeachingWeeks(amount: number): void {
-    this.teachingWeeks.update(v => Math.max(1, Math.min(36, (v || 0) + amount)));
+    const control = this.form.controls.teachingWeeks;
+    control.setValue(Math.max(1, Math.min(36, (control.value || 0) + amount)));
   }
 
   changeLectures(amount: number): void {
-    this.lecturesPerWeek.update(v => Math.max(0, Math.min(10, (v || 0) + amount)));
+    const control = this.form.controls.lecturesPerWeek;
+    control.setValue(Math.max(0, Math.min(10, (control.value || 0) + amount)));
   }
 
   changePresentations(amount: number): void {
-    this.presentationsPerWeek.update(v => Math.max(0, Math.min(10, (v || 0) + amount)));
+    const control = this.form.controls.presentationsPerWeek;
+    control.setValue(Math.max(0, Math.min(10, (control.value || 0) + amount)));
   }
 
   generate(): void {
@@ -284,17 +258,18 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
       this.generatedFileUrl.set(null);
     }
 
+    const raw = this.form.getRawValue();
     const formModel: GenerationFormModel = {
-      subject: this.subject(),
-      audience: this.selectedAudience(),
-      level: this.selectedLevel()!,
-      topic: this.topic(),
-      formats: this.formats(),
+      subject: raw.subject,
+      audience: raw.selectedAudience,
+      level: raw.selectedLevel!,
+      topic: raw.topic,
+      formats: raw.formats as MaterialTypes,
       templateFile: this.templateFile(),
-      teachingWeeks: this.teachingWeeks()!,
-      lecturesPerWeek: this.lecturesPerWeek()!,
-      presentationsPerWeek: this.presentationsPerWeek()!,
-      testQuestions: this.testQuestions()!,
+      teachingWeeks: raw.teachingWeeks!,
+      lecturesPerWeek: raw.lecturesPerWeek!,
+      presentationsPerWeek: raw.presentationsPerWeek!,
+      testQuestions: raw.testQuestions!,
     };
 
     this.generationService.generate(formModel)
@@ -358,18 +333,7 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
 
   saveDraft(): void {
     if (typeof window !== 'undefined') {
-      const draft = {
-        subject: this.subject(),
-        audience: this.selectedAudience(),
-        level: this.selectedLevel(),
-        topic: this.topic(),
-        formats: this.formats(),
-        teachingWeeks: this.teachingWeeks(),
-        lecturesPerWeek: this.lecturesPerWeek(),
-        presentationsPerWeek: this.presentationsPerWeek(),
-        testQuestions: this.testQuestions(),
-      };
-      localStorage.setItem(this.DRAFT_KEY, JSON.stringify(draft));
+      localStorage.setItem(this.DRAFT_KEY, JSON.stringify(this.form.getRawValue()));
       this.draftExists.set(true);
       this.showDraftStatus('Draft saved successfully!');
     }
@@ -380,15 +344,17 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
       const savedDraft = localStorage.getItem(this.DRAFT_KEY);
       if (savedDraft) {
         const draftData = JSON.parse(savedDraft);
-        this.subject.set(draftData.subject || '');
-        this.selectedAudience.set(draftData.audience || 'university');
-        this.selectedLevel.set(draftData.level || '1st Course');
-        this.topic.set(draftData.topic || '');
-        this.formats.set(draftData.formats || { program: true, lecture: false, presentation: false, test: false });
-        this.teachingWeeks.set(draftData.teachingWeeks ?? 16);
-        this.lecturesPerWeek.set(draftData.lecturesPerWeek ?? 1);
-        this.presentationsPerWeek.set(draftData.presentationsPerWeek ?? 1);
-        this.testQuestions.set(draftData.testQuestions ?? 100);
+        this.form.patchValue({
+          subject: draftData.subject || '',
+          selectedAudience: draftData.audience || draftData.selectedAudience || 'university',
+          selectedLevel: draftData.level || draftData.selectedLevel || '1st Course',
+          topic: draftData.topic || '',
+          formats: draftData.formats || { program: true, lecture: false, presentation: false, test: false },
+          teachingWeeks: draftData.teachingWeeks ?? 16,
+          lecturesPerWeek: draftData.lecturesPerWeek ?? 1,
+          presentationsPerWeek: draftData.presentationsPerWeek ?? 1,
+          testQuestions: draftData.testQuestions ?? 100,
+        });
         this.clearFileSelection();
         this.showDraftStatus('Draft loaded!');
       }
@@ -400,18 +366,19 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
       const defaultFormats: MaterialTypes = { id: 1, program: true, lecture: false, presentation: false, test: false };
       localStorage.removeItem(this.DRAFT_KEY);
       this.draftExists.set(false);
-      this.subject.set('');
-      this.selectedAudience.set('university');
-      this.topic.set('');
-      this.formats.set(defaultFormats);
-      this.templateFile.set(null);
-      this.teachingWeeks.set(16);
-      this.lecturesPerWeek.set(1);
-      this.presentationsPerWeek.set(1);
-      this.testQuestions.set(100);
 
       const defaultLevels = this.levelOptions()['university'] || [];
-      this.selectedLevel.set(defaultLevels.length > 0 ? defaultLevels[0] : null);
+      this.form.reset({
+        subject: '',
+        selectedAudience: 'university',
+        selectedLevel: defaultLevels.length > 0 ? defaultLevels[0] : null,
+        topic: '',
+        formats: defaultFormats,
+        teachingWeeks: 16,
+        lecturesPerWeek: 1,
+        presentationsPerWeek: 1,
+        testQuestions: 100,
+      });
 
       this.clearFileSelection();
       this.showDraftStatus(this.i18n.translate('generationForm.draft.clearedMessage'));
@@ -424,15 +391,17 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
   }
 
   loadFromHistory(item: GenerationHistoryItem): void {
-    this.subject.set(item.formData.subject);
-    this.selectedAudience.set(item.formData.audience);
-    this.selectedLevel.set(item.formData.level);
-    this.topic.set(item.formData.topic);
-    this.formats.set(item.formData.formats);
-    this.teachingWeeks.set(item.formData.teachingWeeks ?? 16);
-    this.lecturesPerWeek.set(item.formData.lecturesPerWeek ?? 1);
-    this.presentationsPerWeek.set(item.formData.presentationsPerWeek ?? 1);
-    this.testQuestions.set(item.formData.testQuestions ?? 100);
+    this.form.patchValue({
+      subject: item.formData.subject,
+      selectedAudience: item.formData.audience,
+      selectedLevel: item.formData.level,
+      topic: item.formData.topic,
+      formats: item.formData.formats,
+      teachingWeeks: item.formData.teachingWeeks ?? 16,
+      lecturesPerWeek: item.formData.lecturesPerWeek ?? 1,
+      presentationsPerWeek: item.formData.presentationsPerWeek ?? 1,
+      testQuestions: item.formData.testQuestions ?? 100,
+    });
     this.templateFile.set(null);
     this.clearFileSelection();
     this.currentStep.set(1);

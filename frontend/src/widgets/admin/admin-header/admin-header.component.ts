@@ -9,7 +9,6 @@ import { AdminLayoutService, SettingsService } from '@shared/services';
 @Component({
   selector: 'app-admin-header',
   styleUrls: ['./admin-header.component.scss'],
-  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './admin-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

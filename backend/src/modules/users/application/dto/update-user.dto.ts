@@ -18,7 +18,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
     @IsString()
     @IsEnum(UserRole)
-    role: UserRole = UserRole.USER;
+    @IsOptional()
+    role?: UserRole;
 
     @IsString()
     @Length(5, 15)

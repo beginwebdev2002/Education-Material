@@ -16,7 +16,6 @@ import { initFlowbite } from 'flowbite';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent, ProgressBarComponent, FooterComponent],
 })
 export class AppComponent implements AfterViewInit {

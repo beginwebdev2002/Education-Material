@@ -20,9 +20,9 @@ const LOCALE_KEY = 'locale';
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
     readonly locales: LocaleInfo[] = [
-        { code: 'en', labelShort: 'EN', flag: 'flags/usa.png', name: 'English' },
-        { code: 'ru', labelShort: 'RU', flag: 'flags/russian.png', name: 'Русский' },
-        { code: 'tj', labelShort: 'TJ', flag: 'flags/tajikistan.png', name: 'Тоҷикӣ' },
+        { code: 'en', labelShort: 'EN', flag: '/flags/usa.png', name: 'English' },
+        { code: 'ru', labelShort: 'RU', flag: '/flags/russian.png', name: 'Русский' },
+        { code: 'tj', labelShort: 'TJ', flag: '/flags/tajikistan.png', name: 'Тоҷикӣ' },
     ];
 
     private readonly dictionaries: Record<Locale, TranslationDict> = {

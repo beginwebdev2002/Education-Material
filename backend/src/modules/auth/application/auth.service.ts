@@ -23,27 +23,29 @@ export class AuthService {
         const payload = { _id: result.id, email: result.email };
         const accessToken = await this.jwtService.signAsync(payload);
         this.setCookieToken(res, accessToken);
+        const { password, ...userWithoutPassword } = result.toObject();
         return {
             accessToken,
-            ...result.toObject()
+            ...userWithoutPassword
         };
     }
 
     async login(loginUserDto: SigninDto, res: Response) {
         const user = await this.usersRepository.findByEmail(loginUserDto.email);
         if (!user) {
-            throw new Error('User not found');
+            throw new UnauthorizedException('Invalid email or password');
         }
         const isMatch = await bcrypt.compare(loginUserDto.password, user.password);
         if (!isMatch) {
-            throw new BadRequestException('Invalid password');
+            throw new UnauthorizedException('Invalid email or password');
         }
         const payload = { _id: user.id, email: user.email };
         const accessToken = await this.jwtService.signAsync(payload);
         this.setCookieToken(res, accessToken);
+        const { password, ...userWithoutPassword } = user.toObject();
         return {
             accessToken,
-            ...user.toObject()
+            ...userWithoutPassword
         };
     }
 

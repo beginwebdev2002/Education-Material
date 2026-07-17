@@ -2,7 +2,7 @@
   <button (click)="toggle()" type="button" [attr.aria-label]="'languageSwitcher.selectLanguage' | translate"
     title="{{ 'languageSwitcher.selectLanguage' | translate }}"
     class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm px-2.5 py-2.5 transition-colors">
-    <img class="w-5" [src]="i18n.current().flag" [alt]="i18n.current().name">
+    <img [src]="i18n.current().flag" [alt]="i18n.current().name" class="w-5 h-5 rounded-sm object-cover">
     <span class="font-medium">{{ i18n.current().labelShort }}</span>
   </button>
   <div [class.hidden]="!isOpen()"
@@ -12,9 +12,10 @@
       <li>
         <button (click)="select(locale.code)" type="button"
           class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-          [class.font-semibold]="locale.code === i18n.locale()" [class.text-primary-700]="locale.code === i18n.locale()"
+          [class.font-semibold]="locale.code === i18n.locale()"
+          [class.text-primary-700]="locale.code === i18n.locale()"
           [class.dark:text-primary-400]="locale.code === i18n.locale()">
-          <img class="w-5" [src]="locale.flag" [alt]="locale.name">
+          <img [src]="locale.flag" [alt]="locale.name" class="w-5 h-5 rounded-sm object-cover">
           <span>{{ locale.name }}</span>
         </button>
       </li>

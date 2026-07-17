@@ -11,7 +11,6 @@ interface Activity {
 
 @Component({
   selector: 'app-dashboard-overview-page',
-  standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './dashboard-overview.page.component.html',
   styleUrls: ['./dashboard-overview.page.component.scss'],

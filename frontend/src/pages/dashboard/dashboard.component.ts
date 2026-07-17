@@ -10,7 +10,6 @@ import { AdBannerComponent } from '@widgets/ad-banner';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [GenerationFormComponent, GenerationHistoryComponent, IllustrationComponent, AdBannerComponent],
 })
 export class DashboardComponent {

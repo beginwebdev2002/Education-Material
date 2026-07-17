@@ -1,14 +1,14 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdvertisingService, TranslationService } from '@shared/services';
 import { Ad, AdType } from '@shared/models';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { requiredValidator } from '@shared/validation';
 
 @Component({
   selector: 'app-advertising-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './advertising.page.component.html',
   styleUrls: ['./advertising.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,11 +17,11 @@ export class AdvertisingPageComponent {
   advertisingService = inject(AdvertisingService);
   private i18n = inject(TranslationService);
 
-  newAd = signal<{ title: string; content: string; type: AdType; isActive: boolean }>({
-    title: '',
-    content: '',
-    type: 'text',
-    isActive: false,
+  form = new FormGroup({
+    title: new FormControl('', { nonNullable: true, validators: [requiredValidator()] }),
+    type: new FormControl<AdType>('text', { nonNullable: true }),
+    content: new FormControl('', { nonNullable: true, validators: [requiredValidator()] }),
+    isActive: new FormControl(false, { nonNullable: true }),
   });
 
   adTypes: AdType[] = [
@@ -33,14 +33,16 @@ export class AdvertisingPageComponent {
   ads = this.advertisingService.ads;
 
   addAd(): void {
-    if (this.newAd().title && this.newAd().content) {
-      this.advertisingService.addAd(this.newAd());
-      this.newAd.set({ title: '', content: '', type: 'text', isActive: false });
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
     }
+    this.advertisingService.addAd(this.form.getRawValue());
+    this.form.reset({ title: '', content: '', type: 'text', isActive: false });
   }
 
-  onTypeChange(newType: AdType): void {
-    this.newAd.update(ad => ({ ...ad, type: newType, content: '' }));
+  onTypeChange(): void {
+    this.form.controls.content.setValue('');
   }
 
   toggleAdStatus(ad: Ad): void {

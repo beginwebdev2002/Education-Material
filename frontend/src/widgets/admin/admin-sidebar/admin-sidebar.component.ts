@@ -5,7 +5,6 @@ import { AdminLayoutService } from '@shared/services';
 
 @Component({
   selector: 'app-admin-sidebar',
-  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './admin-sidebar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

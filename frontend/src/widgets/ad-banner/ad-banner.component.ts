@@ -4,7 +4,6 @@ import { AdvertisingService } from '@shared/services';
 
 @Component({
   selector: 'app-ad-banner',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './ad-banner.component.html',
   styleUrls: ['./ad-banner.component.scss'],

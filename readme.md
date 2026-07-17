@@ -70,11 +70,11 @@ npm install
 
 ### Запуск проекта
 ```bash
-# Frontend (порт 4200)
+# Frontend (порт 4500)
 cd frontend
 npm start
 
-# Backend (порт 3000)
+# Backend (порт 4400)
 cd backend
 npm run start:dev
 ```

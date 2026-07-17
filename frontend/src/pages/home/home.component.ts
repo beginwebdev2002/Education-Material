@@ -8,7 +8,6 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterLink, IllustrationComponent, TranslatePipe],
 })
 export class HomeComponent { }

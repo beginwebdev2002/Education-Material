@@ -7,7 +7,6 @@ import { SkeletonLoaderComponent } from '@shared/ui';
 
 @Component({
   selector: 'app-users-management-page',
-  standalone: true,
   imports: [CommonModule, TitleCasePipe, DatePipe, SkeletonLoaderComponent],
   templateUrl: './users-management.page.component.html',
   styleUrls: ['./users-management.page.component.scss'],

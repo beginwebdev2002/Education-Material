@@ -12,8 +12,8 @@
           <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'admin.systemSettings.maintenanceModeDesc' | translate }}</p>
         </div>
         <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" [ngModel]="settingsService.maintenanceMode()"
-            (ngModelChange)="settingsService.maintenanceMode.set($event)" class="sr-only peer">
+          <input type="checkbox" [checked]="settingsService.maintenanceMode()"
+            (change)="settingsService.maintenanceMode.set($any($event.target).checked)" class="sr-only peer">
           <div
             class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
           </div>
@@ -27,8 +27,8 @@
           <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'admin.systemSettings.userRegistrationDesc' | translate }}</p>
         </div>
         <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" [ngModel]="settingsService.userRegistration()"
-            (ngModelChange)="settingsService.userRegistration.set($event)" class="sr-only peer">
+          <input type="checkbox" [checked]="settingsService.userRegistration()"
+            (change)="settingsService.userRegistration.set($any($event.target).checked)" class="sr-only peer">
           <div
             class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
           </div>
@@ -42,8 +42,8 @@
           <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'admin.systemSettings.communityMaterialsDesc' | translate }}</p>
         </div>
         <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" [ngModel]="settingsService.communityMaterials()"
-            (ngModelChange)="settingsService.communityMaterials.set($event)" class="sr-only peer">
+          <input type="checkbox" [checked]="settingsService.communityMaterials()"
+            (change)="settingsService.communityMaterials.set($any($event.target).checked)" class="sr-only peer">
           <div
             class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
           </div>
@@ -59,16 +59,16 @@
       <!-- Max Generations per Day -->
       <div>
         <label for="max-generations" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.systemSettings.maxGenerationsLabel' | translate }}</label>
-        <input type="number" id="max-generations" [ngModel]="settingsService.maxGenerationsPerDay()"
-          (ngModelChange)="settingsService.maxGenerationsPerDay.set(+$event)"
+        <input type="number" id="max-generations" [value]="settingsService.maxGenerationsPerDay()"
+          (change)="settingsService.maxGenerationsPerDay.set(+$any($event.target).value)"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full max-w-xs p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       </div>
 
       <!-- Default Language -->
       <div>
         <label for="default-language" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.systemSettings.defaultLanguageLabel' | translate }}</label>
-        <select id="default-language" [ngModel]="settingsService.defaultLanguage()"
-          (ngModelChange)="settingsService.defaultLanguage.set($event)"
+        <select id="default-language" [value]="settingsService.defaultLanguage()"
+          (change)="settingsService.defaultLanguage.set($any($event.target).value)"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full max-w-xs p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
           @for (lang of languages; track lang.code) {
           <option [value]="lang.code">{{ lang.name }}</option>

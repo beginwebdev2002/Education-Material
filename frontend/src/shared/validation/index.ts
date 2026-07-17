@@ -1,8 +1,10 @@
 export {
-    SignalValidatorFn,
-    createValidationSignal,
     requiredValidator,
     minLengthValidator,
     maxLengthValidator,
-    emailValidator
-} from './signal-validator';
+    emailValidator,
+    minValidator,
+    maxValidator,
+    integerValidator,
+    firstError,
+} from './reactive-validators';

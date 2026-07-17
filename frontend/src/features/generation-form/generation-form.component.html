@@ -23,7 +23,7 @@
   </div>
 </div>
 } @else {
-<div class="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg animate-fadeIn">
+<div class="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg animate-fadeIn" [formGroup]="form">
   <!-- Stepper -->
   <div class="flex items-center justify-center mb-10">
     <div class="flex items-center">
@@ -82,8 +82,7 @@
       <!-- Subject -->
       <div>
         <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step1.subjectLabel' | translate }}</label>
-        <input type="text" id="subject" name="subject" [ngModel]="subject()" (ngModelChange)="subject.set($event)"
-          required
+        <input type="text" id="subject" formControlName="subject"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           [attr.placeholder]="'generationForm.step1.subjectPlaceholder' | translate">
       </div>
@@ -94,15 +93,15 @@
           @for (option of audienceOptions(); track option.key) {
           <button type="button" (click)="handleAudienceChange(option.key)"
             class="p-4 border rounded-lg text-center transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
-            [class.bg-primary-50]="selectedAudience() === option.key"
-            [class.dark:bg-primary-900/40]="selectedAudience() === option.key"
-            [class.border-primary-500]="selectedAudience() === option.key"
-            [class.ring-2]="selectedAudience() === option.key"
-            [class.ring-primary-500]="selectedAudience() === option.key"
-            [class.border-gray-300]="selectedAudience() !== option.key"
-            [class.dark:border-gray-600]="selectedAudience() !== option.key"
-            [class.bg-gray-50]="selectedAudience() !== option.key"
-            [class.dark:bg-gray-700/50]="selectedAudience() !== option.key">
+            [class.bg-primary-50]="form.controls.selectedAudience.value === option.key"
+            [class.dark:bg-primary-900/40]="form.controls.selectedAudience.value === option.key"
+            [class.border-primary-500]="form.controls.selectedAudience.value === option.key"
+            [class.ring-2]="form.controls.selectedAudience.value === option.key"
+            [class.ring-primary-500]="form.controls.selectedAudience.value === option.key"
+            [class.border-gray-300]="form.controls.selectedAudience.value !== option.key"
+            [class.dark:border-gray-600]="form.controls.selectedAudience.value !== option.key"
+            [class.bg-gray-50]="form.controls.selectedAudience.value !== option.key"
+            [class.dark:bg-gray-700/50]="form.controls.selectedAudience.value !== option.key">
             <span class="text-3xl"
               [innerHTML]="{school: '🏫', college: '🏛️', university: '🎓', professional: '💼'}[option.key]"></span>
             <span class="block mt-2 font-semibold text-gray-800 dark:text-gray-200 text-sm">{{ option.label | translate }}</span>
@@ -113,7 +112,7 @@
       <!-- Level Selection -->
       <div class="animate-fadeIn">
         <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step1.courseLevelLabel' | translate }}</label>
-        <select id="level" name="level" [ngModel]="selectedLevel()" (ngModelChange)="selectedLevel.set($event)" required
+        <select id="level" formControlName="selectedLevel"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
           @for(option of dynamicCourseLevels(); track option) {
           <option [value]="option">{{ option }}</option>
@@ -131,7 +130,7 @@
       <!-- Topic Description -->
       <div>
         <label for="topic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step2.topicLabel' | translate }}</label>
-        <textarea id="topic" name="topic" rows="6" [ngModel]="topic()" (ngModelChange)="topic.set($event)" required
+        <textarea id="topic" rows="6" formControlName="topic"
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           [attr.placeholder]="'generationForm.step2.topicPlaceholder' | translate"></textarea>
       </div>
@@ -170,7 +169,7 @@
     </div>
     }
     @case (3) {
-    <div class="space-y-8 animate-fadeIn">
+    <div class="space-y-8 animate-fadeIn" [formGroup]="form.controls.formats">
       <div class="text-center">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'generationForm.step3.title' | translate }}</h2>
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'generationForm.step3.subtitle' | translate }}</p>
@@ -181,123 +180,124 @@
           @for (format of materialFormats(); track format.id) {
           <div (click)="toggleFormat(format.key)"
             class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
-            [class.bg-primary-50]="formats()[format.key]" [class.dark:bg-primary-900/40]="formats()[format.key]"
-            [class.border-primary-500]="formats()[format.key]" [class.ring-2]="formats()[format.key]"
-            [class.ring-primary-500]="formats()[format.key]" [class.border-gray-300]="!formats()[format.key]"
-            [class.dark:border-gray-600]="!formats()[format.key]" [class.bg-gray-50]="!formats()[format.key]"
-            [class.dark:bg-gray-700/50]="!formats()[format.key]">
+            [class.bg-primary-50]="form.controls.formats.value[format.key]" [class.dark:bg-primary-900/40]="form.controls.formats.value[format.key]"
+            [class.border-primary-500]="form.controls.formats.value[format.key]" [class.ring-2]="form.controls.formats.value[format.key]"
+            [class.ring-primary-500]="form.controls.formats.value[format.key]" [class.border-gray-300]="!form.controls.formats.value[format.key]"
+            [class.dark:border-gray-600]="!form.controls.formats.value[format.key]" [class.bg-gray-50]="!form.controls.formats.value[format.key]"
+            [class.dark:bg-gray-700/50]="!form.controls.formats.value[format.key]">
             <div class="flex flex-col items-center justify-center text-center flex-grow">
               <i [class]="format.icon" class="text-3xl mb-3 transition-colors"
-                [class.text-primary-600]="formats()[format.key]" [class.dark:text-primary-400]="formats()[format.key]"
-                [class.text-gray-500]="!formats()[format.key]" [class.dark:text-gray-400]="!formats()[format.key]"></i>
+                [class.text-primary-600]="form.controls.formats.value[format.key]" [class.dark:text-primary-400]="form.controls.formats.value[format.key]"
+                [class.text-gray-500]="!form.controls.formats.value[format.key]" [class.dark:text-gray-400]="!form.controls.formats.value[format.key]"></i>
               <span class="font-semibold text-gray-800 dark:text-gray-200">{{ format.name }}</span>
               <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ format.sub }}</p>
             </div>
 
             <!-- Syllabus/Program Options -->
-            @if(formats()['program'] && format.key === 'program') {
+            @if(form.controls.formats.value.program && format.key === 'program') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.teachingWeeksLabel' | translate }}</label>
               <div class="flex items-center justify-center space-x-2">
-                <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(teachingWeeks() ?? 0) <= 1"
+                <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(form.controls.teachingWeeks.value ?? 0) <= 1"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="teachingWeeks" min="1" max="36"
+                <input type="number" [formControl]="form.controls.teachingWeeks"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
-                  [class.!border-red-500]="teachingWeeksError()" [class.!dark:border-red-500]="teachingWeeksError()"
-                  [class.focus:!ring-red-500]="teachingWeeksError()"
-                  [class.focus:!border-red-500]="teachingWeeksError()">
-                <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(teachingWeeks() ?? 0) >= 36"
+                  [class.!border-red-500]="form.controls.teachingWeeks.invalid" [class.!dark:border-red-500]="form.controls.teachingWeeks.invalid"
+                  [class.focus:!ring-red-500]="form.controls.teachingWeeks.invalid"
+                  [class.focus:!border-red-500]="form.controls.teachingWeeks.invalid">
+                <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(form.controls.teachingWeeks.value ?? 0) >= 36"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
-              @if(teachingWeeksError()) {
+              @if(form.controls.teachingWeeks.invalid) {
               <div
                 class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>{{ teachingWeeksError() }}</span>
+                <span>{{ firstError(form.controls.teachingWeeks) }}</span>
               </div>
               }
             </div>
             }
 
             <!-- Lecture Options -->
-            @if(formats()['lecture'] && format.key === 'lecture') {
+            @if(form.controls.formats.value.lecture && format.key === 'lecture') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.lecturesPerWeekLabel' | translate }}</label>
               <div class="flex items-center justify-center space-x-2">
-                <button type="button" (click)="changeLectures(-1)" [disabled]="(lecturesPerWeek() ?? 0) <= 0"
+                <button type="button" (click)="changeLectures(-1)" [disabled]="(form.controls.lecturesPerWeek.value ?? 0) <= 0"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="lecturesPerWeek" min="0" max="10"
+                <input type="number" [formControl]="form.controls.lecturesPerWeek"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
-                  [class.!border-red-500]="lecturesError()" [class.!dark:border-red-500]="lecturesError()"
-                  [class.focus:!ring-red-500]="lecturesError()" [class.focus:!border-red-500]="lecturesError()">
-                <button type="button" (click)="changeLectures(1)" [disabled]="(lecturesPerWeek() ?? 0) >= 10"
+                  [class.!border-red-500]="form.controls.lecturesPerWeek.invalid" [class.!dark:border-red-500]="form.controls.lecturesPerWeek.invalid"
+                  [class.focus:!ring-red-500]="form.controls.lecturesPerWeek.invalid" [class.focus:!border-red-500]="form.controls.lecturesPerWeek.invalid">
+                <button type="button" (click)="changeLectures(1)" [disabled]="(form.controls.lecturesPerWeek.value ?? 0) >= 10"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
-              @if(lecturesError()) {
+              @if(form.controls.lecturesPerWeek.invalid) {
               <div
                 class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>{{ lecturesError() }}</span>
+                <span>{{ firstError(form.controls.lecturesPerWeek) }}</span>
               </div>
               }
             </div>
             }
 
             <!-- Presentation Options -->
-            @if(formats()['presentation'] && format.key === 'presentation') {
+            @if(form.controls.formats.value.presentation && format.key === 'presentation') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
               (click)="$event.stopPropagation()">
               <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.presentationsPerWeekLabel' | translate }}</label>
               <div class="flex items-center justify-center space-x-2">
-                <button type="button" (click)="changePresentations(-1)" [disabled]="(presentationsPerWeek() ?? 0) <= 0"
+                <button type="button" (click)="changePresentations(-1)" [disabled]="(form.controls.presentationsPerWeek.value ?? 0) <= 0"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
-                <input type="number" [(ngModel)]="presentationsPerWeek" min="0" max="10"
+                <input type="number" [formControl]="form.controls.presentationsPerWeek"
                   class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
-                  [class.!border-red-500]="presentationsError()" [class.!dark:border-red-500]="presentationsError()"
-                  [class.focus:!ring-red-500]="presentationsError()"
-                  [class.focus:!border-red-500]="presentationsError()">
-                <button type="button" (click)="changePresentations(1)" [disabled]="(presentationsPerWeek() ?? 0) >= 10"
+                  [class.!border-red-500]="form.controls.presentationsPerWeek.invalid" [class.!dark:border-red-500]="form.controls.presentationsPerWeek.invalid"
+                  [class.focus:!ring-red-500]="form.controls.presentationsPerWeek.invalid"
+                  [class.focus:!border-red-500]="form.controls.presentationsPerWeek.invalid">
+                <button type="button" (click)="changePresentations(1)" [disabled]="(form.controls.presentationsPerWeek.value ?? 0) >= 10"
                   class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
               </div>
-              @if(presentationsError()) {
+              @if(form.controls.presentationsPerWeek.invalid) {
               <div
                 class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>{{ presentationsError() }}</span>
+                <span>{{ firstError(form.controls.presentationsPerWeek) }}</span>
               </div>
               }
             </div>
             }
 
             <!-- Test Options -->
-            @if(formats()['test'] && format.key === 'test') {
+            @if(form.controls.formats.value.test && format.key === 'test') {
             <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn text-center w-full"
               (click)="$event.stopPropagation()">
               <label [for]="'test-questions-' + format.id"
                 class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.numberOfQuestionsLabel' | translate }}</label>
               <div class="flex justify-center">
-                <input [id]="'test-questions-' + format.id" type="number" min="50" max="300" step="10"
-                  [(ngModel)]="testQuestions"
+                <input [id]="'test-questions-' + format.id" type="number" step="10"
+                  [formControl]="form.controls.testQuestions"
                   class="w-24 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
-                  [class.!border-red-500]="testQuestionsError()" [class.!dark:border-red-500]="testQuestionsError()"
-                  [class.focus:!ring-red-500]="testQuestionsError()"
-                  [class.focus:!border-red-500]="testQuestionsError()">
+                  [class.!border-red-500]="form.controls.testQuestions.invalid" [class.!dark:border-red-500]="form.controls.testQuestions.invalid"
+                  [class.focus:!ring-red-500]="form.controls.testQuestions.invalid"
+                  [class.focus:!border-red-500]="form.controls.testQuestions.invalid">
               </div>
-              <input type="range" min="50" max="300" step="10" [(ngModel)]="testQuestions"
+              <input type="range" min="50" max="300" step="10" [value]="form.controls.testQuestions.value"
+                (input)="form.controls.testQuestions.setValue(+$any($event.target).value)"
                 class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mt-3">
-              @if(testQuestionsError()) {
+              @if(form.controls.testQuestions.invalid) {
               <div
                 class="flex items-center justify-center space-x-1 mt-2 text-xs text-red-500 dark:text-red-400 animate-fadeIn">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>{{ testQuestionsError() }}</span>
+                <span>{{ firstError(form.controls.testQuestions) }}</span>
               </div>
               }
             </div>
             }
 
-            @if(formats()[format.key]) {
+            @if(form.controls.formats.value[format.key]) {
             <div
               class="absolute top-2 right-2 w-5 h-5 bg-primary-600 rounded-full flex items-center justify-center text-white animate-scaleIn">
               <i class="fa-solid fa-check text-xs"></i>

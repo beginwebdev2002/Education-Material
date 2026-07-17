@@ -5,7 +5,6 @@ import { GenerationHistoryItem } from '@shared/models';
 
 @Component({
   selector: 'app-generation-history',
-  standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './generation-history.component.html',
   styleUrls: ['./generation-history.component.scss'],

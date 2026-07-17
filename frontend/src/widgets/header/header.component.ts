@@ -12,7 +12,6 @@ import { LanguageSwitcherComponent } from '@widgets/language-switcher';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive, AuthModalContainerComponent, HasRoleDirective, TranslatePipe, LanguageSwitcherComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

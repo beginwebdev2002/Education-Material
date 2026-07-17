@@ -1,39 +1,44 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
-import type { Request, Response } from 'express';
-import { Model } from 'mongoose';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from '@modules/users/application/dto/update-user.dto';
-import { Users } from '@modules/users/domain/users.schema';
 import { UsersRepository } from '@modules/users/infrastructure/users.repository';
+import { PaginatedUsers } from '@modules/users/domain/users.repository.interface';
+import { UserRole } from '@modules/users/domain/user.interface';
 import { JwtPayload } from '@modules/auth/domain/jwt.payload';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(Users.name) private readonly usersModel: Model<Users>,
-    private usersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
   ) { }
 
-
-
-  async findAll() {
-    return this.usersRepository.findAll();
+  async findAll(page: number, limit: number): Promise<PaginatedUsers> {
+    return this.usersRepository.findAll(page, limit);
   }
 
   async findOne(id: string) {
-    return await this.usersModel.findById(id).exec();
+    return this.usersRepository.findById(id);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    return await this.usersModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
+  async update(id: string, updateUserDto: UpdateUserDto, requester: JwtPayload) {
+    const requesterUser = await this.usersRepository.findById(requester._id);
+    const isAdmin = requesterUser?.role === UserRole.ADMIN;
+    const isSelf = requester._id === id;
+
+    if (!isAdmin && !isSelf) {
+      throw new ForbiddenException('You may only update your own profile.');
+    }
+    if (!isAdmin && updateUserDto.role !== undefined) {
+      throw new ForbiddenException('Only an admin can change a user role.');
+    }
+
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   async remove(id: string) {
-    return await this.usersModel.findByIdAndDelete(id).exec();
+    return this.usersRepository.delete(id);
   }
+
   async getProfile(payload: JwtPayload) {
-    return await this.usersRepository.findById(payload._id);
+    return this.usersRepository.findById(payload._id);
   }
 }

@@ -3,16 +3,16 @@
 <!-- Add Ad Form -->
 <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-6">
   <h5 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">{{ 'admin.advertising.createNew' | translate }}</h5>
-  <form (ngSubmit)="addAd()" class="space-y-4">
+  <form [formGroup]="form" (ngSubmit)="addAd()" class="space-y-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label for="ad-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.advertising.adTitleLabel' | translate }}</label>
-        <input type="text" id="ad-title" [(ngModel)]="newAd().title" name="ad-title" required
+        <input type="text" id="ad-title" formControlName="title"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       </div>
       <div>
         <label for="ad-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.advertising.adTypeLabel' | translate }}</label>
-        <select id="ad-type" [ngModel]="newAd().type" (ngModelChange)="onTypeChange($event)" name="ad-type"
+        <select id="ad-type" formControlName="type" (change)="onTypeChange()"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
           @for (type of adTypes; track type) {
           <option [value]="type">{{ type | titlecase }}</option>
@@ -22,13 +22,13 @@
     </div>
 
     <div>
-      @if (newAd().type === 'text') {
+      @if (form.controls.type.value === 'text') {
       <label for="ad-content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.advertising.adContentLabel' | translate }}</label>
-      <textarea id="ad-content" rows="3" [(ngModel)]="newAd().content" name="ad-content" required
+      <textarea id="ad-content" rows="3" formControlName="content"
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
       } @else {
       <label for="ad-url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'admin.advertising.mediaUrlLabel' | translate }}</label>
-      <input type="url" id="ad-url" [(ngModel)]="newAd().content" name="ad-url" required
+      <input type="url" id="ad-url" formControlName="content"
         placeholder="https://example.com/media.mp4"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
       }
@@ -36,7 +36,7 @@
 
     <div class="flex items-center">
       <label class="inline-flex items-center cursor-pointer">
-        <input type="checkbox" [(ngModel)]="newAd().isActive" name="ad-active" class="sr-only peer">
+        <input type="checkbox" formControlName="isActive" class="sr-only peer">
         <div
           class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
         </div>
@@ -44,7 +44,7 @@
       </label>
     </div>
 
-    <button type="submit" [disabled]="!newAd().title || !newAd().content"
+    <button type="submit" [disabled]="form.invalid"
       class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed">
       {{ 'admin.advertising.addAdvertisement' | translate }}
     </button>

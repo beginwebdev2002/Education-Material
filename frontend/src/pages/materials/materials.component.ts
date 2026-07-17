@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, computed, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MockMaterialService } from '@shared/services';
 import { SkeletonLoaderComponent } from '@shared/ui';
@@ -11,8 +10,7 @@ import { IllustrationComponent } from '@shared/ui';
   templateUrl: './materials.component.html',
   styleUrls: ['./materials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, SkeletonLoaderComponent, IllustrationComponent],
+  imports: [CommonModule, RouterLink, SkeletonLoaderComponent, IllustrationComponent],
 })
 export class MaterialsComponent implements OnInit {
   // FIX: Added explicit type to materialService to resolve 'unknown' type error.

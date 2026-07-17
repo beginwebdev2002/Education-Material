@@ -3,7 +3,6 @@ import { TranslationService } from '@shared/services';
 
 @Directive({
     selector: '[translate]',
-    standalone: true,
 })
 export class TranslateDirective {
     private el = inject(ElementRef<HTMLElement>);

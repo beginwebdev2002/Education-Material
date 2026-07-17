@@ -7,7 +7,6 @@ import { TranslationService } from '@shared/services';
 
 @Component({
   selector: 'app-auth-modal-container',
-  standalone: true,
   imports: [CommonModule, forwardRef(() => SigninModalComponent), forwardRef(() => SignupModalComponent), IllustrationComponent, TranslatePipe],
   templateUrl: './auth-modal-container.component.html',
   styleUrls: ['./auth-modal-container.component.scss'],
