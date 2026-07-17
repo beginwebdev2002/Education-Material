@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { UserStorageService } from '@core/storage';
 import { UserModel } from '@entities/user';
@@ -44,15 +43,7 @@ export class HeaderComponent {
   });
   adminPanelText = signal("Admin Panel");
 
-  constructor() {
-    effect(() => {
-
-    })
-
-    this.userData$.subscribe((next) => {
-      this.currentUser = signal(next);
-    })
-  }
+  constructor() {}
 
   logout(): void {
     this.userStorage.clearUser();

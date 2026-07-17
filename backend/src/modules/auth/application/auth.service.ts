@@ -29,7 +29,7 @@ export class AuthService {
         };
     }
 
-    async login(loginUserDto: SigninDto) {
+    async login(loginUserDto: SigninDto, res: Response) {
         const user = await this.usersRepository.findByEmail(loginUserDto.email);
         if (!user) {
             throw new Error('User not found');
@@ -39,8 +39,10 @@ export class AuthService {
             throw new BadRequestException('Invalid password');
         }
         const payload = { _id: user.id, email: user.email };
+        const accessToken = await this.jwtService.signAsync(payload);
+        this.setCookieToken(res, accessToken);
         return {
-            accessToken: await this.jwtService.signAsync(payload),
+            accessToken,
             ...user.toObject()
         };
     }

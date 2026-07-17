@@ -8,7 +8,19 @@ import { Subject } from 'rxjs';
 })
 export class UserStorageService {
     private readonly USER_KEY = 'currentUserData';
+    private readonly currentUserSignal = signal<UserModel | null>(this.readFromStorage());
     userData$ = new Subject<UserModel | null>();
+
+    private readFromStorage(): UserModel | null {
+        try {
+            const serializedData = localStorage.getItem(this.USER_KEY);
+            return serializedData === null ? null : JSON.parse(serializedData);
+        } catch (e) {
+            console.error("Ошибка при загрузке из localStorage", e);
+            return null;
+        }
+    }
+
     saveUser(data: any): void {
         try {
             const serializedData = JSON.stringify(data);
@@ -16,31 +28,23 @@ export class UserStorageService {
             if (data?.accessToken) {
                 localStorage.setItem('access_token', data.accessToken);
             }
+            this.currentUserSignal.set(data);
             this.userData$.next(data);
         } catch (e) {
             console.error("Ошибка при сохранении в localStorage", e);
         }
     }
 
+    // Returns the same persistent signal on every call so templates keep
+    // tracking it after login/logout instead of a one-time snapshot.
     loadUser(): Signal<UserModel | null> {
-        try {
-            const serializedData = localStorage.getItem(this.USER_KEY);
-            if (serializedData === null) {
-                return signal(null);
-            }
-            const parsedData = JSON.parse(serializedData)
-            this.userData$.next(parsedData);
-            return signal(parsedData);
-        } catch (e) {
-            console.error("Ошибка при загрузке из localStorage", e);
-            this.userData$.next(null);
-            return signal(null);
-        }
+        return this.currentUserSignal.asReadonly();
     }
 
     clearUser(): void {
         localStorage.removeItem(this.USER_KEY);
         localStorage.removeItem('access_token');
+        this.currentUserSignal.set(null);
         this.userData$.next(null)
     }
 }

@@ -22,7 +22,10 @@ export class AuthController {
 
     @Post('signin')
     @HttpCode(HttpStatus.OK)
-    async signin(@Body() body: SigninDto) {
-        return this.authService.login(body)
+    async signin(
+        @Body() body: SigninDto,
+        @Res({ passthrough: true }) res: Response
+    ) {
+        return this.authService.login(body, res)
     }
 }

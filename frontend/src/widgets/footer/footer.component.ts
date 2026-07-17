@@ -15,5 +15,5 @@ import { UserService } from '@entities/user/data-access/user.service';
 export class FooterComponent {
   // FIX: Added explicit type to authService to resolve 'unknown' type error.
   userService: UserStorageService = inject(UserStorageService);
-  currentUser = this.userService.loadUser;
+  currentUser = this.userService.loadUser();
 }
