@@ -6,11 +6,13 @@ import { AuthUiService } from '@features/auth';
 import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 import { emailValidator } from '@shared/validation';
 import { AuthService } from '@features/auth';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { TranslationService } from '@shared/services';
 
 @Component({
   selector: 'app-signin-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './signin-modal.component.html',
   styleUrls: ['./signin-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +21,7 @@ export class SigninModalComponent {
   // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   private authService: AuthService = inject(AuthService);
   private authState: AuthUiService = inject(AuthUiService);
+  private i18n: TranslationService = inject(TranslationService);
   close = output<void>();
 
   email = signal('admin@edugen.tj');
@@ -76,16 +79,16 @@ export class SigninModalComponent {
           this.close.emit();
         },
         error: (err) => {
-          this.error.set($localize`Signin failed. Please try again.`);
+          this.error.set(this.i18n.translate('auth.signin.errorFailed'));
           console.error(err);
         }
       });
   }
   buttonText = computed(() => {
     if (this.isLoading()) {
-      return $localize`:@@buttonLoggingIn:Logging in...`;
+      return this.i18n.translate('auth.signin.buttonLoggingIn');
     } else {
-      return $localize`:@@buttonSignin:Log in to your account`;
+      return this.i18n.translate('auth.signin.buttonSignin');
     }
   });
 

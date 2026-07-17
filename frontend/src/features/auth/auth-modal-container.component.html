@@ -7,10 +7,9 @@
         <!-- Illustration Side -->
         <div class="hidden md:flex flex-col items-center justify-center p-8 bg-primary-50 dark:bg-gray-700/50">
           <app-illustration type="signin"></app-illustration>
-          <h3 i18n="title of Auth modal" class="mt-6 text-2xl font-bold text-center text-gray-900 dark:text-white">
-            Unlock Your Potential</h3>
-          <p i18n="subtitle of Auth modal" class="mt-2 text-center text-gray-600 dark:text-gray-300">Generate
-            high-quality educational content in minutes.</p>
+          <h3 class="mt-6 text-2xl font-bold text-center text-gray-900 dark:text-white">
+            {{ 'auth.modal.illustrationTitle' | translate }}</h3>
+          <p class="mt-2 text-center text-gray-600 dark:text-gray-300">{{ 'auth.modal.illustrationSubtitle' | translate }}</p>
         </div>
         <!-- Form Side -->
         <div class="relative flex flex-col justify-center">
@@ -20,7 +19,7 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
             </svg>
-            <span i18n="Auth Close Modal Button @@authCloseButton" class="sr-only">Close modal</span>
+            <span class="sr-only">{{ 'auth.modal.close' | translate }}</span>
           </button>
           <div class="p-8">
             <h3 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">

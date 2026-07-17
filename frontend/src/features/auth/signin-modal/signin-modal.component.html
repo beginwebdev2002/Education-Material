@@ -1,19 +1,18 @@
 <form class="space-y-4" #signinForm="ngForm" (ngSubmit)="signin()">
   <div>
-    <label i18n="Title email Auth | title auth where need write email" for="signin-email"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-    <input type="email" name="email" id="signin-email" [(ngModel)]="email" i18n-placeholder="@@signinEmailPlaceholder"
+    <label for="signin-email"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'auth.signin.emailLabel' | translate }}</label>
+    <input type="email" name="email" id="signin-email" [(ngModel)]="email"
       (blur)="markTouched('email')"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-      placeholder="name@company.com" required>
+      [attr.placeholder]="'auth.signin.emailPlaceholder' | translate" required>
     @if (formErrors().email().length > 0 && isTouched('email')) {
     <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ formErrors().email()[0] }}</p>
     }
   </div>
   <div>
-    <label i18n="Title password Auth | title auth where need write password" for="signin-password"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-      password</label>
+    <label for="signin-password"
+      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'auth.signin.passwordLabel' | translate }}</label>
     <input type="password" name="password" id="signin-password" [(ngModel)]="password" placeholder="••••••••"
       (blur)="markTouched('password')"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -30,26 +29,24 @@
   <p class="text-sm font-medium text-red-500 dark:text-red-400">{{ error() }}</p>
   }
   <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-    Not registered? <button type="button" (click)="switchToRegister()"
-      i18n="Link to register  Auth | link to auth where need create account"
-      class="text-primary-700 hover:underline dark:text-primary-500">Create account</button>
+    {{ 'auth.signin.notRegistered' | translate }} <button type="button" (click)="switchToRegister()"
+      class="text-primary-700 hover:underline dark:text-primary-500">{{ 'auth.signin.createAccount' | translate }}</button>
   </div>
   <div class="relative flex py-3 items-center">
     <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-    <span class="flex-shrink mx-4 text-gray-400 dark:text-gray-500 text-xs"
-      i18n="Possible ways | continue with google, github and etc platform">OR CONTINUE WITH</span>
+    <span class="flex-shrink mx-4 text-gray-400 dark:text-gray-500 text-xs">{{ 'auth.signin.orContinueWith' | translate }}</span>
     <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
   </div>
   <div class="grid grid-cols-2 gap-4">
     <button type="button"
       class="w-full inline-flex justify-center items-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
       <i class="fa-brands fa-google mr-2"></i>
-      Google
+      {{ 'auth.signin.google' | translate }}
     </button>
     <button type="button"
       class="w-full inline-flex justify-center items-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
       <i class="fa-brands fa-github mr-2"></i>
-      GitHub
+      {{ 'auth.signin.github' | translate }}
     </button>
   </div>
 </form>

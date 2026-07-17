@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, signal, OnInit, computed, OnDestroy, effect, input, Signal, WritableSignal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, OnInit, computed, OnDestroy, effect, inject, input, Signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { MockGenerationService } from '@shared/services';
+import { MockGenerationService, TranslationService } from '@shared/services';
 import { GenerationFormModel, GenerationHistoryItem, MaterialDescription, MaterialTypes, MaterialTypesKey } from '@shared/models';
 import { audienceOptions, levelOptions } from '@features/generation-form';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-generation-form',
@@ -12,7 +13,7 @@ import { audienceOptions, levelOptions } from '@features/generation-form';
   styleUrls: ['./generation-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
 })
 export class GenerationFormComponent implements OnInit, OnDestroy {
   requestToLoad = input<GenerationHistoryItem | null>(null);
@@ -131,6 +132,7 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
   formatSelectionError = signal<string | null>(null);
   generatedFileUrl = signal<string | null>(null);
   private previousFileUrl: string | null = null;
+  private i18n = inject(TranslationService);
 
   constructor(private generationService: MockGenerationService) {
     effect(() => {
@@ -215,12 +217,12 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
       const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
 
       if (!allowedMimeTypes.includes(file.type)) {
-        this.fileError.set($localize`Invalid file type. Please upload a DOCX or PDF file.`);
+        this.fileError.set(this.i18n.translate('generationForm.errors.invalidFileType'));
         return;
       }
 
       if (file.size > maxSizeInBytes) {
-        this.fileError.set($localize`File is too large. Maximum size is 5MB.`);
+        this.fileError.set(this.i18n.translate('generationForm.errors.fileTooLarge'));
         return;
       }
 
@@ -262,7 +264,7 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
 
   generate(): void {
     if (!this.isAnyFormatSelected()) {
-      this.formatSelectionError.set($localize`Please select at least one output format.`);
+      this.formatSelectionError.set(this.i18n.translate('generationForm.errors.selectFormat'));
       return;
     } else {
       this.formatSelectionError.set(null);
@@ -412,7 +414,7 @@ export class GenerationFormComponent implements OnInit, OnDestroy {
       this.selectedLevel.set(defaultLevels.length > 0 ? defaultLevels[0] : null);
 
       this.clearFileSelection();
-      this.showDraftStatus($localize`:Popup message:Draft cleared!`);
+      this.showDraftStatus(this.i18n.translate('generationForm.draft.clearedMessage'));
     }
   }
 

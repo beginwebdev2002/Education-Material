@@ -2,11 +2,12 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from '@shared/services';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-system-settings-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './system-settings.page.component.html',
   styleUrls: ['./system-settings.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

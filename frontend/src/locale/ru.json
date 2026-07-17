@@ -6,7 +6,7 @@
       "dashboard": "Панель управления",
       "docs": "Документация"
     },
-    "adminPanel": "Панель администратора",
+    "adminPanel": "Админ панель",
     "profileMenu": {
       "profile": "Профиль",
       "settings": "Настройки"
@@ -188,9 +188,19 @@
       "colActions": "Действия",
       "toggleActiveStatus": "Переключить статус активности для {{title}}",
       "delete": "Удалить",
+      "confirmDelete": "Вы уверены, что хотите удалить это объявление?",
       "noAdsConfigured": "Объявления пока не настроены."
     },
     "systemSettings": {
+      "title": "Системные настройки",
+      "generalControls": "Общее управление",
+      "maintenanceModeLabel": "Технический режим",
+      "maintenanceModeDesc": "Временно ограничить доступ к сайту для пользователей, не являющихся администраторами.",
+      "userRegistrationLabel": "Разрешить регистрацию пользователей",
+      "userRegistrationDesc": "Разрешить новым пользователям регистрировать аккаунт.",
+      "communityMaterialsLabel": "Включить материалы сообщества",
+      "communityMaterialsDesc": "Показывать страницу «Материалы» всем пользователям.",
+      "generationSettingsTitle": "Настройки генерации",
       "maxGenerationsLabel": "Максимум генераций в день (на пользователя)",
       "defaultLanguageLabel": "Язык генерации по умолчанию"
     }

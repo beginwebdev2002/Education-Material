@@ -1,19 +1,21 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdvertisingService } from '@shared/services';
+import { AdvertisingService, TranslationService } from '@shared/services';
 import { Ad, AdType } from '@shared/models';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-advertising-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './advertising.page.component.html',
   styleUrls: ['./advertising.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvertisingPageComponent {
   advertisingService = inject(AdvertisingService);
+  private i18n = inject(TranslationService);
 
   newAd = signal<{ title: string; content: string; type: AdType; isActive: boolean }>({
     title: '',
@@ -47,7 +49,7 @@ export class AdvertisingPageComponent {
   }
 
   deleteAd(adId: string): void {
-    if (confirm($localize`Are you sure you want to delete this ad?`)) {
+    if (confirm(this.i18n.translate('admin.advertising.confirmDelete'))) {
       this.advertisingService.deleteAd(adId);
     }
   }

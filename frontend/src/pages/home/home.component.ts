@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IllustrationComponent } from '@shared/ui';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,6 @@ import { IllustrationComponent } from '@shared/ui';
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, IllustrationComponent],
+  imports: [RouterLink, IllustrationComponent, TranslatePipe],
 })
 export class HomeComponent { }

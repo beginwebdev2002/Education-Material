@@ -2,17 +2,20 @@ import { Component, ChangeDetectionStrategy, inject, computed, forwardRef } from
 import { CommonModule } from '@angular/common';
 import { SigninModalComponent, SignupModalComponent, AuthUiService } from '@features/auth';
 import { IllustrationComponent } from '@shared/ui';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { TranslationService } from '@shared/services';
 
 @Component({
   selector: 'app-auth-modal-container',
   standalone: true,
-  imports: [CommonModule, forwardRef(() => SigninModalComponent), forwardRef(() => SignupModalComponent), IllustrationComponent],
+  imports: [CommonModule, forwardRef(() => SigninModalComponent), forwardRef(() => SignupModalComponent), IllustrationComponent, TranslatePipe],
   templateUrl: './auth-modal-container.component.html',
   styleUrls: ['./auth-modal-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthModalContainerComponent {
   authState: AuthUiService = inject(AuthUiService);
+  private i18n: TranslationService = inject(TranslationService);
 
   close(): void {
     this.authState.closeModal();
@@ -21,17 +24,17 @@ export class AuthModalContainerComponent {
   headerTitle = computed(() => {
     const currentMode = this.authState.mode();
     if (currentMode === 'signin') {
-      return $localize`:@@AuthWelcomeBackTitle:Welcome Back!`;
+      return this.i18n.translate('auth.modal.welcomeBack');
     } else {
-      return $localize`:@@AuthCreateAccountTitle:Create a New Account`;
+      return this.i18n.translate('auth.modal.createAccountTitle');
     }
   });
   authModeTitle = computed(() => {
     const currentMode = this.authState.mode();
     if (currentMode === 'signin') {
-      return $localize`:@@AuthNoAccountPrompt:Don't have an account?`;
+      return this.i18n.translate('auth.modal.noAccountPrompt');
     } else {
-      return $localize`:@@AuthHaveAccountPrompt:Already have an account?`;
+      return this.i18n.translate('auth.modal.haveAccountPrompt');
     }
   });
 }

@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { UserStorageService } from '@core/storage';
 import { AuthService, AuthUiService, SignUpRequest, createSignupForm, signupModel } from '@features/auth';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { TranslationService } from '@shared/services';
 
 @Component({
   selector: 'app-signup-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './signup-modal.component.html',
   styleUrls: ['./signup-modal.component.scss'],
   providers: [AuthService],
@@ -22,6 +24,7 @@ export class SignupModalComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   private userStorageService: UserStorageService = inject(UserStorageService);
   private authUi: AuthUiService = inject(AuthUiService);
+  private i18n: TranslationService = inject(TranslationService);
 
   // state
   private signupModel = signupModel;
@@ -94,9 +97,9 @@ export class SignupModalComponent implements OnInit {
 
   buttonText = computed(() => {
     if (this.isLoading()) {
-      return $localize`:@@buttonCreatingAccount|Текст кнопки, когда идет процесс регистрации:Creating account...`;
+      return this.i18n.translate('auth.signup.buttonCreating');
     } else {
-      return $localize`:@@buttonCreateAccount|Текст кнопки для начала регистрации:Create account`;
+      return this.i18n.translate('auth.signup.buttonCreate');
     }
   });
 

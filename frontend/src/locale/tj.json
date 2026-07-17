@@ -1,0 +1,211 @@
+{
+  "header": {
+    "nav": {
+      "home": "Асосӣ",
+      "materials": "Маводҳо",
+      "dashboard": "Идоракунӣ",
+      "docs": "Ҳуҷҷатҳо"
+    },
+    "adminPanel": "Панели админ",
+    "profileMenu": {
+      "profile": "Профил",
+      "settings": "Танзимот"
+    },
+    "logout": "Баромадан",
+    "signin": "Ворид шудан",
+    "signup": "Бақайдгирӣ",
+    "themeToggle": {
+      "toLight": "Гузариш ба мавзӯи равшан",
+      "toDark": "Гузариш ба мавзӯи торик",
+      "title": "Иваз кардани мавзӯъ"
+    },
+    "openUserMenu": "Кушодани менюи корбар",
+    "openMainMenu": "Кушодани менюи асосӣ"
+  },
+  "footer": {
+    "about": "Генератори маводи таълимӣ дар асоси ҳуши сунъӣ, ки таълимро дигаргун месозад.",
+    "quickLinks": "Пайвандҳои зуд",
+    "links": {
+      "home": "Асосӣ",
+      "dashboard": "Идоракунӣ",
+      "materials": "Маводҳо",
+      "docs": "Ҳуҷҷатҳо",
+      "settings": "Танзимот"
+    },
+    "connect": "Бо мо алоқа гиред",
+    "social": {
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp",
+      "github": "Github"
+    },
+    "copyright": "© 2024 EduGen. Ҳамаи ҳуқуқҳо ҳифз шудаанд."
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Таълимро дигаргун созед",
+      "titleLine2": "бо маводи дар асоси ҳуши сунъӣ",
+      "subtitle": "Дигар вақти худро барои тайёр кардани лексия, презентатсия ва тест сарф накунед. Платформаи мо аз ҳуши сунъии пешрафта истифода бурда, дар тӯли якчанд дақиқа маводи таълимии босифат ва мутобиқшуда эҷод мекунад. Диққати худро ба чизи муҳимтарин — таълим — равона созед.",
+      "getStarted": "Оғоз кунед",
+      "learnMore": "Маълумоти бештар"
+    },
+    "features": {
+      "eyebrow": "Хусусиятҳо",
+      "title": "Роҳи беҳтарин барои эҷоди мундариҷа",
+      "subtitle": "Платформаи мо аз хусусиятҳое иборат аст, ки кори шуморо осон ва таълимро самараноктар мегардонанд.",
+      "instant": {
+        "title": "Эҷоди фаврӣ",
+        "desc": "Аз тавсифи содаи мавзӯъ то маҷмӯи пурраи маводҳо — лексия, презентатсия ва тестҳо — дар чанд сония.",
+        "alt": "Нишонаи ракета"
+      },
+      "templates": {
+        "title": "Ҳамгироии қолабҳо",
+        "desc": "Қолабҳои DOCX ё PDF-и худро бор кунед, то тамоми мундариҷаи эҷодшуда ба брендинг ва формати муассисаи шумо мувофиқат кунад.",
+        "alt": "Нишонаи муаммо"
+      },
+      "community": {
+        "title": "Дастгирии ҷомеа",
+        "desc": "Беҳтарин маводи худро бо ҷомеа мубодила кунед ё маводи омӯзгорони дигарро истифода баред.",
+        "alt": "Нишонаи корбарон"
+      },
+      "customizable": {
+        "title": "Танзими васеъ",
+        "desc": "Натиҷаро мувофиқи ниёзҳои худ танзим кунед — аз сатҳи таҳсил то оҳанг ва умқи мундариҷа.",
+        "alt": "Нишонаи чархҳо"
+      }
+    }
+  },
+  "auth": {
+    "modal": {
+      "welcomeBack": "Хуш омадед!",
+      "createAccountTitle": "Сохтани ҳисоби нав",
+      "noAccountPrompt": "Ҳисоб надоред?",
+      "haveAccountPrompt": "Ҳисоб доред?",
+      "illustrationTitle": "Имкониятҳои худро кушоед",
+      "illustrationSubtitle": "Дар тӯли якчанд дақиқа маводи таълимии босифат эҷод кунед.",
+      "close": "Пӯшидани равзана"
+    },
+    "signin": {
+      "emailLabel": "Почтаи электронии шумо",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Рамзи шумо",
+      "buttonLoggingIn": "Воридшавӣ...",
+      "buttonSignin": "Ворид шудан ба ҳисоб",
+      "errorFailed": "Воридшавӣ ноком шуд. Лутфан бори дигар кӯшиш кунед.",
+      "notRegistered": "Ҳанӯз ба қайд нагирифтаед?",
+      "createAccount": "Сохтани ҳисоб",
+      "orContinueWith": "Ё БО ИСТИФОДА АЗ ИНҲО ДАВОМ ДИҲЕД",
+      "google": "Google",
+      "github": "GitHub"
+    },
+    "signup": {
+      "firstNameLabel": "Ном",
+      "firstNamePlaceholder": "Ҷон",
+      "lastNameLabel": "Насаб",
+      "lastNamePlaceholder": "Дои",
+      "emailLabel": "Почтаи электронии шумо",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Рамзи шумо",
+      "buttonCreating": "Сохтани ҳисоб...",
+      "buttonCreate": "Сохтани ҳисоб",
+      "alreadyHaveAccount": "Ҳисоб доред?",
+      "login": "Ворид шудан"
+    }
+  },
+  "generationForm": {
+    "steps": {
+      "details": "Тафсилот",
+      "content": "Мундариҷа",
+      "formats": "Форматҳо"
+    },
+    "generating": "Маводи шумо эҷод мешавад",
+    "step1": {
+      "title": "Биёед аз асосӣ шурӯъ кунем",
+      "subtitle": "Дар бораи мавзӯъ ва аудиторияи мақсаднок нақл кунед.",
+      "subjectLabel": "Номи фан",
+      "subjectPlaceholder": "масалан, Муқаддимаи илми информатика",
+      "institutionLabel": "Муассисаи таълимӣ",
+      "courseLevelLabel": "Курс / сатҳ"
+    },
+    "step2": {
+      "title": "Мундариҷаи худро тавсиф кунед",
+      "subtitle": "Ҳарчанд тафсилоти бештар диҳед, натиҷа беҳтар мешавад.",
+      "topicLabel": "Тавсифи мавзӯъ / модул",
+      "topicPlaceholder": "Мафҳумҳои асосӣ, мақсадҳои таълимӣ ва нуктаҳои калидиро тавсиф кунед...",
+      "uploadTemplateLabel": "Бор кардани қолаб (ихтиёрӣ)",
+      "removeFile": "Файлро тоза кунед",
+      "clickToUpload": "Барои бор кардан пахш кунед",
+      "orDragAndDrop": "ё кашида гузоред",
+      "docxPdfMax": "DOCX ё PDF (ҳадди аксар 5МБ)"
+    },
+    "step3": {
+      "title": "Форматҳои натиҷаро интихоб кунед",
+      "subtitle": "Як ё якчанд навъи маводро барои эҷод интихоб кунед.",
+      "teachingWeeksLabel": "Ҳафтаҳои таълим",
+      "lecturesPerWeekLabel": "Лексия дар як ҳафта",
+      "presentationsPerWeekLabel": "Презентатсия дар як ҳафта",
+      "numberOfQuestionsLabel": "Шумораи саволҳо",
+      "downloadZip": "Боргирии ZIP"
+    },
+    "nav": {
+      "previous": "Қафо",
+      "next": "Пеш",
+      "generate": "Эҷоди мавод"
+    },
+    "draft": {
+      "save": "Сабти пешнавис",
+      "load": "Боргирии пешнавис",
+      "clear": "Тоза кардани пешнавис",
+      "clearedMessage": "Пешнавис тоза карда шуд!"
+    },
+    "errors": {
+      "invalidFileType": "Навъи файл нодуруст аст. Лутфан файли DOCX ё PDF бор кунед.",
+      "fileTooLarge": "Файл хеле калон аст. Андозаи ҳадди аксар 5МБ аст.",
+      "selectFormat": "Лутфан ҳадди ақал як формати натиҷаро интихоб кунед."
+    },
+    "audience": {
+      "school": "Мактаб",
+      "college": "Коллеҷ",
+      "university": "Донишгоҳ",
+      "professional": "Таҳсилоти касбӣ"
+    }
+  },
+  "admin": {
+    "advertising": {
+      "title": "Идоракунии реклама",
+      "createNew": "Эҷоди эълони нав",
+      "adTitleLabel": "Сарлавҳаи эълон",
+      "adTypeLabel": "Навъи эълон",
+      "adContentLabel": "Мундариҷаи эълон",
+      "mediaUrlLabel": "URL-и медиа",
+      "setActive": "Фаъол таъин кардан",
+      "addAdvertisement": "Илова кардани реклама",
+      "colTitle": "Сарлавҳа",
+      "colContent": "Мундариҷа / URL",
+      "colType": "Навъ",
+      "colStatus": "Ҳолат",
+      "colActions": "Амалҳо",
+      "toggleActiveStatus": "Иваз кардани ҳолати фаъолии {{title}}",
+      "delete": "Нест кардан",
+      "confirmDelete": "Оё шумо мутмаин ҳастед, ки мехоҳед ин рекламаро нест кунед?",
+      "noAdsConfigured": "Ҳанӯз ягон реклама танзим нашудааст."
+    },
+    "systemSettings": {
+      "title": "Танзимоти система",
+      "generalControls": "Идоракунии умумӣ",
+      "maintenanceModeLabel": "Режими техникӣ",
+      "maintenanceModeDesc": "Дастрасии сомонаро барои ғайри-администраторҳо муваққатан маҳдуд кунед.",
+      "userRegistrationLabel": "Бақайдгирии корбарон иҷозат диҳед",
+      "userRegistrationDesc": "Ба корбарони нав иҷозат диҳед, ки ҳисоб кушоянд.",
+      "communityMaterialsLabel": "Маводи ҷомеаро фаъол кунед",
+      "communityMaterialsDesc": "Саҳифаи «Маводҳо»-ро ба ҳамаи корбарон нишон диҳед.",
+      "generationSettingsTitle": "Танзимоти эҷод",
+      "maxGenerationsLabel": "Ҳадди аксари эҷод дар як рӯз (барои ҳар корбар)",
+      "defaultLanguageLabel": "Забони пешфарзи эҷод"
+    }
+  },
+  "languageSwitcher": {
+    "selectLanguage": "Забонро интихоб кунед"
+  }
+}

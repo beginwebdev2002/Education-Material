@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { UserStorageService } from '@core/storage';
 import { UserModel } from '@entities/user';
 import { UserService } from '@entities/user/data-access/user.service';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +11,7 @@ import { UserService } from '@entities/user/data-access/user.service';
   styleUrls: ['./footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
 })
 export class FooterComponent {
   // FIX: Added explicit type to authService to resolve 'unknown' type error.

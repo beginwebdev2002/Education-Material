@@ -4,3 +4,4 @@ export * from './generation.service';
 export * from './loading.service';
 export * from './material.service';
 export * from './settings.service';
+export * from './translation.service';

@@ -7,11 +7,13 @@ import { AuthModalContainerComponent, AuthService, AuthUiService } from '@featur
 import { MenuItem } from '@shared/models';
 import { SettingsService } from '@shared/services';
 import { HasRoleDirective } from '@shared/directives/has-role.directive';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { LanguageSwitcherComponent } from '@widgets/language-switcher';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, AuthModalContainerComponent, HasRoleDirective],
+  imports: [CommonModule, RouterLink, RouterLinkActive, AuthModalContainerComponent, HasRoleDirective, TranslatePipe, LanguageSwitcherComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,19 +31,18 @@ export class HeaderComponent {
   isMobileMenuHide = signal(true);
 
   menuItems = signal<MenuItem[]>([
-    { id: 1, label: 'Home', path: '/', exact: true },
-    { id: 2, label: 'Materials', path: '/materials' },
-    { id: 3, label: 'Dashboard', path: '/dashboard', requiresAuth: true },
-    { id: 4, label: 'Docs', path: '/docs', requiresAuth: true, adminOnly: true },
+    { id: 1, label: 'header.nav.home', path: '/', exact: true },
+    { id: 2, label: 'header.nav.materials', path: '/materials' },
+    { id: 3, label: 'header.nav.dashboard', path: '/dashboard', requiresAuth: true },
+    { id: 4, label: 'header.nav.docs', path: '/docs', requiresAuth: true, adminOnly: true },
   ]);
 
   profileMenuItems = computed<MenuItem[]>(() => {
     return [
-      { id: 1, label: 'Profile', path: `/profile/${this.currentUser()?._id}` },
-      { id: 2, label: 'Settings', path: '/settings' },
+      { id: 1, label: 'header.profileMenu.profile', path: `/profile/${this.currentUser()?._id}` },
+      { id: 2, label: 'header.profileMenu.settings', path: '/settings' },
     ]
   });
-  adminPanelText = signal("Admin Panel");
 
   constructor() {}
 

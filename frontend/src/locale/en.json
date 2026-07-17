@@ -12,7 +12,7 @@
       "settings": "Settings"
     },
     "logout": "Logout",
-    "signin": "Sign in",
+    "signin": "Signin",
     "signup": "Sign Up",
     "themeToggle": {
       "toLight": "Switch to light mode",
@@ -188,9 +188,19 @@
       "colActions": "Actions",
       "toggleActiveStatus": "Toggle active status for {{title}}",
       "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this ad?",
       "noAdsConfigured": "No advertisements configured yet."
     },
     "systemSettings": {
+      "title": "System Settings",
+      "generalControls": "General Controls",
+      "maintenanceModeLabel": "Maintenance Mode",
+      "maintenanceModeDesc": "Temporarily disable access to the site for non-admins.",
+      "userRegistrationLabel": "Enable User Registration",
+      "userRegistrationDesc": "Allow new users to sign up for an account.",
+      "communityMaterialsLabel": "Enable Community Materials",
+      "communityMaterialsDesc": "Show the \"Materials\" page to all users.",
+      "generationSettingsTitle": "Generation Settings",
       "maxGenerationsLabel": "Max Generations per Day (per user)",
       "defaultLanguageLabel": "Default Generation Language"
     }
