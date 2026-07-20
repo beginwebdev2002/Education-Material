@@ -1,0 +1,44 @@
+@if (activeAd(); as ad) {
+  @if (isVisible()) {
+    <div id="ad-banner" tabindex="-1" class="relative z-40 flex justify-between w-full p-4 border-b border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 animate-fadeIn">
+      <div class="flex items-center mx-auto">
+        @switch (ad.type) {
+          @case ('text') {
+            <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+              <span class="inline-flex p-1 me-3 bg-gray-200 rounded-full dark:bg-gray-600 w-6 h-6 items-center justify-center">
+                <i class="fa-solid fa-bullhorn text-gray-500 dark:text-gray-400"></i>
+              </span>
+              <span><span class="font-semibold text-gray-900 dark:text-white">{{ ad.title }}:</span> {{ ad.content }}</span>
+            </p>
+          }
+          @case ('image') {
+            <div class="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                <img [src]="ad.content" [alt]="ad.title" class="max-h-20 rounded-md object-cover">
+                <div>
+                  <span class="font-semibold text-gray-900 dark:text-white">{{ ad.title }}</span>
+                </div>
+            </div>
+          }
+           @case ('video') {
+            <div class="flex flex-col items-center gap-2 text-sm text-gray-500 dark:text-gray-400 w-full max-w-md">
+                <span class="font-semibold text-gray-900 dark:text-white">{{ ad.title }}</span>
+                <video [src]="ad.content" controls class="w-full rounded-md"></video>
+            </div>
+          }
+           @case ('audio') {
+             <div class="flex flex-col items-center gap-2 text-sm text-gray-500 dark:text-gray-400 w-full max-w-md">
+                <span class="font-semibold text-gray-900 dark:text-white">{{ ad.title }}</span>
+                <audio [src]="ad.content" controls class="w-full"></audio>
+            </div>
+          }
+        }
+      </div>
+      <div class="flex items-center">
+        <button (click)="dismiss()" type="button" class="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white">
+          <i class="fa-solid fa-times"></i>
+          <span class="sr-only">Dismiss</span>
+        </button>
+      </div>
+    </div>
+  }
+}

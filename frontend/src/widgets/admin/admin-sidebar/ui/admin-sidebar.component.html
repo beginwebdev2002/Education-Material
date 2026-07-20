@@ -1,0 +1,35 @@
+<aside id="default-sidebar" 
+       class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0"
+       [class.-translate-x-full]="!layoutService.isSidebarOpen()"
+       [class.translate-x-0]="layoutService.isSidebarOpen()">
+  <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between mb-5">
+      <a routerLink="/admin" class="flex items-center ps-2.5">
+        <i class="fa-solid fa-shield-halved text-2xl text-primary-600 dark:text-primary-500"></i>
+        <span class="self-center text-xl font-semibold whitespace-nowrap ml-3 dark:text-white">Admin Panel</span>
+      </a>
+      <button (click)="layoutService.closeSidebar()" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+          <span class="sr-only">Close sidebar</span>
+          <i class="fa-solid fa-times w-6 h-6"></i>
+      </button>
+    </div>
+    <ul class="space-y-2 font-medium">
+      @for(link of navLinks; track link.path) {
+        <li>
+          <a [routerLink]="link.path" routerLinkActive="bg-gray-100 dark:bg-gray-700" [routerLinkActiveOptions]="{exact: true}"
+            (click)="layoutService.closeSidebar()"
+            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <i [class]="link.icon" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+            <span class="ms-3">{{link.label}}</span>
+          </a>
+        </li>
+      }
+    </ul>
+    <div class="absolute bottom-4 left-3 right-3">
+      <a routerLink="/home" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+          <i class="fa-solid fa-arrow-left w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+          <span class="ms-3">Back to Main Site</span>
+      </a>
+    </div>
+  </div>
+</aside>

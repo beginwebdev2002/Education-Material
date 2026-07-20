@@ -1,0 +1,400 @@
+@if (isLoading()) {
+<div
+  class="p-8 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col items-center justify-center text-center animate-fadeIn min-h-[500px]">
+  <div class="relative w-24 h-24">
+    <svg class="w-full h-full text-primary-200 dark:text-primary-700" fill="none" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="5" />
+    </svg>
+    <svg class="absolute top-0 left-0 w-full h-full text-primary-600 animate-spin" style="transform-origin: 50% 50%;"
+      fill="none" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="5" stroke-dasharray="283"
+        [attr.stroke-dashoffset]="283 * (1 - progress() / 100)" stroke-linecap="round" />
+    </svg>
+    <div
+      class="absolute inset-0 flex items-center justify-center text-xl font-bold text-primary-700 dark:text-primary-300">
+      {{ progress() | number:'1.0-0' }}%
+    </div>
+  </div>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'generationForm.generating' | translate }}</h2>
+  <p class="text-gray-500 dark:text-gray-400">{{ progressMessage() }}</p>
+  <div class="w-full max-w-md bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-4">
+    <div class="bg-primary-600 h-2.5 rounded-full transition-all duration-300 ease-linear" [style.width.%]="progress()">
+    </div>
+  </div>
+</div>
+} @else {
+<div class="p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg animate-fadeIn">
+  <!-- Stepper -->
+  <div class="flex items-center justify-center mb-10">
+    <div class="flex items-center">
+      <!-- Step 1 -->
+      <button (click)="goToStep(1)" class="flex items-center text-sm font-medium transition-colors"
+        [class.text-primary-600]="currentStep() >= 1" [class.dark:text-primary-400]="currentStep() >= 1"
+        [class.text-gray-500]="currentStep() < 1" [class.dark:text-gray-400]="currentStep() < 1">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 1" [class.bg-primary-600]="currentStep() === 1"
+          [class.text-white]="currentStep() === 1" [class.border-gray-300]="currentStep() < 1"
+          [class.dark:border-gray-600]="currentStep() < 1">1</span>
+        <span class="ml-2 hidden sm:inline">{{ 'generationForm.steps.details' | translate }}</span>
+      </button>
+      <!-- Connector -->
+      <div class="flex-auto border-t-2 transition-colors duration-500 mx-4"
+        [class.border-primary-600]="currentStep() > 1" [class.border-gray-200]="currentStep() <= 1"
+        [class.dark:border-gray-700]="currentStep() <= 1"></div>
+      <!-- Step 2 -->
+      <button (click)="goToStep(2)" [disabled]="!isStep1Valid() && currentStep() < 2"
+        class="flex items-center text-sm font-medium transition-colors disabled:cursor-not-allowed"
+        [class.text-primary-600]="currentStep() >= 2" [class.dark:text-primary-400]="currentStep() >= 2"
+        [class.text-gray-500]="currentStep() < 2" [class.dark:text-gray-400]="currentStep() < 2">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 2" [class.bg-primary-600]="currentStep() === 2"
+          [class.text-white]="currentStep() === 2" [class.border-gray-300]="currentStep() < 2"
+          [class.dark:border-gray-600]="currentStep() < 2">2</span>
+        <span class="ml-2 hidden sm:inline">{{ 'generationForm.steps.content' | translate }}</span>
+      </button>
+      <!-- Connector -->
+      <div class="flex-auto border-t-2 transition-colors duration-500 mx-4"
+        [class.border-primary-600]="currentStep() > 2" [class.border-gray-200]="currentStep() <= 2"
+        [class.dark:border-gray-700]="currentStep() <= 2"></div>
+      <!-- Step 3 -->
+      <button (click)="goToStep(3)" [disabled]="!isStep2Valid() && currentStep() < 3"
+        class="flex items-center text-sm font-medium transition-colors disabled:cursor-not-allowed"
+        [class.text-primary-600]="currentStep() >= 3" [class.dark:text-primary-400]="currentStep() >= 3"
+        [class.text-gray-500]="currentStep() < 3" [class.dark:text-gray-400]="currentStep() < 3">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full border-2"
+          [class.border-primary-600]="currentStep() >= 3" [class.bg-primary-600]="currentStep() === 3"
+          [class.text-white]="currentStep() === 3" [class.border-gray-300]="currentStep() < 3"
+          [class.dark:border-gray-600]="currentStep() < 3">3</span>
+        <span class="ml-2 hidden sm:inline">{{ 'generationForm.steps.formats' | translate }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Wizard Content -->
+  <div class="min-h-[450px]">
+    @switch (currentStep()) {
+    @case (1) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'generationForm.step1.title' | translate }}</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'generationForm.step1.subtitle' | translate }}</p>
+      </div>
+      <!-- Subject -->
+      <div>
+        <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step1.subjectLabel' | translate }}</label>
+        <input type="text" id="subject" [formField]="form.subject"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          [attr.placeholder]="'generationForm.step1.subjectPlaceholder' | translate">
+        @if (form.subject().touched() && form.subject().invalid()) {
+        <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+          @for (e of form.subject().errors(); track e) { <li>{{ e.message }}</li> }
+        </ul>
+        }
+      </div>
+      <!-- Audience Selection -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step1.institutionLabel' | translate }}</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          @for (option of audienceOptions(); track option.key) {
+          <button type="button" (click)="handleAudienceChange(option.key)"
+            class="p-4 border rounded-lg text-center transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1"
+            [class.bg-primary-50]="model().selectedAudience === option.key"
+            [class.dark:bg-primary-900/40]="model().selectedAudience === option.key"
+            [class.border-primary-500]="model().selectedAudience === option.key"
+            [class.ring-2]="model().selectedAudience === option.key"
+            [class.ring-primary-500]="model().selectedAudience === option.key"
+            [class.border-gray-300]="model().selectedAudience !== option.key"
+            [class.dark:border-gray-600]="model().selectedAudience !== option.key"
+            [class.bg-gray-50]="model().selectedAudience !== option.key"
+            [class.dark:bg-gray-700/50]="model().selectedAudience !== option.key">
+            <span class="text-3xl"
+              [innerHTML]="{school: '🏫', college: '🏛️', university: '🎓', professional: '💼'}[option.key]"></span>
+            <span class="block mt-2 font-semibold text-gray-800 dark:text-gray-200 text-sm">{{ option.label | translate }}</span>
+          </button>
+          }
+        </div>
+      </div>
+      <!-- Level Selection -->
+      <div class="animate-fadeIn">
+        <label for="level" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step1.courseLevelLabel' | translate }}</label>
+        <select id="level" [formField]="form.selectedLevel"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+          @for(option of dynamicCourseLevels(); track option) {
+          <option [value]="option">{{ option }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    }
+    @case (2) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'generationForm.step2.title' | translate }}</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'generationForm.step2.subtitle' | translate }}</p>
+      </div>
+      <!-- Topic Description -->
+      <div>
+        <label for="topic" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'generationForm.step2.topicLabel' | translate }}</label>
+        <textarea id="topic" rows="6" [formField]="form.topic"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          [attr.placeholder]="'generationForm.step2.topicPlaceholder' | translate"></textarea>
+        @if (form.topic().touched() && form.topic().invalid()) {
+        <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+          @for (e of form.topic().errors(); track e) { <li>{{ e.message }}</li> }
+        </ul>
+        }
+      </div>
+      <!-- File Upload -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="template-upload">
+          {{ 'generationForm.step2.uploadTemplateLabel' | translate }}</label>
+        <label for="template-upload"
+          class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors"
+          [class.border-red-500]="fileError()" [class.dark:border-red-500]="fileError()">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            @if(fileName()) {
+            <div class="flex items-center space-x-2 px-4 text-center">
+              <i class="fa-solid fa-file-lines text-gray-500 dark:text-gray-400"></i>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-semibold truncate">{{ fileName() }}</p>
+              <button type="button" (click)="clearFileSelection(templateUploadInput); $event.preventDefault()"
+                class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 focus:outline-none">
+                <span class="sr-only">{{ 'generationForm.step2.removeFile' | translate }}</span>
+                <i class="fa-solid fa-times-circle"></i>
+              </button>
+            </div>
+            } @else {
+            <i class="fa-solid fa-cloud-arrow-up w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"></i>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">{{ 'generationForm.step2.clickToUpload' | translate }}</span>
+              {{ 'generationForm.step2.orDragAndDrop' | translate }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ 'generationForm.step2.docxPdfMax' | translate }}</p>
+            }
+          </div>
+          <input #templateUploadInput id="template-upload" type="file" class="hidden" (change)="onFileSelected($event)"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,application/pdf">
+        </label>
+        @if(fileError(); as error) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+        }
+      </div>
+    </div>
+    }
+    @case (3) {
+    <div class="space-y-8 animate-fadeIn">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ 'generationForm.step3.title' | translate }}</h2>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ 'generationForm.step3.subtitle' | translate }}</p>
+      </div>
+      <!-- Output Selection -->
+      <div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          @for (format of materialFormats(); track format.id) {
+          <div (click)="toggleFormat(format.key)"
+            class="relative p-4 border rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:-translate-y-1 flex flex-col"
+            [class.bg-primary-50]="model().formats[format.key]" [class.dark:bg-primary-900/40]="model().formats[format.key]"
+            [class.border-primary-500]="model().formats[format.key]" [class.ring-2]="model().formats[format.key]"
+            [class.ring-primary-500]="model().formats[format.key]" [class.border-gray-300]="!model().formats[format.key]"
+            [class.dark:border-gray-600]="!model().formats[format.key]" [class.bg-gray-50]="!model().formats[format.key]"
+            [class.dark:bg-gray-700/50]="!model().formats[format.key]">
+            <div class="flex flex-col items-center justify-center text-center flex-grow">
+              <i [class]="format.icon" class="text-3xl mb-3 transition-colors"
+                [class.text-primary-600]="model().formats[format.key]" [class.dark:text-primary-400]="model().formats[format.key]"
+                [class.text-gray-500]="!model().formats[format.key]" [class.dark:text-gray-400]="!model().formats[format.key]"></i>
+              <span class="font-semibold text-gray-800 dark:text-gray-200">{{ format.name }}</span>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ format.sub }}</p>
+            </div>
+
+            <!-- Syllabus/Program Options -->
+            @if(model().formats.program && format.key === 'program') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.teachingWeeksLabel' | translate }}</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changeTeachingWeeks(-1)" [disabled]="(model().teachingWeeks ?? 0) <= 1"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [formField]="form.teachingWeeks"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="form.teachingWeeks().invalid()" [class.!dark:border-red-500]="form.teachingWeeks().invalid()"
+                  [class.focus:!ring-red-500]="form.teachingWeeks().invalid()"
+                  [class.focus:!border-red-500]="form.teachingWeeks().invalid()">
+                <button type="button" (click)="changeTeachingWeeks(1)" [disabled]="(model().teachingWeeks ?? 0) >= 36"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(form.teachingWeeks().invalid()) {
+              <ul
+                class="text-xs text-red-500 dark:text-red-400 animate-fadeIn mt-2 text-center">
+                @for (e of form.teachingWeeks().errors(); track e) {
+                <li class="flex items-center justify-center space-x-1"><i class="fa-solid fa-circle-exclamation mr-1"></i>{{ e.message }}</li>
+                }
+              </ul>
+              }
+            </div>
+            }
+
+            <!-- Lecture Options -->
+            @if(model().formats.lecture && format.key === 'lecture') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.lecturesPerWeekLabel' | translate }}</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changeLectures(-1)" [disabled]="(model().lecturesPerWeek ?? 0) <= 0"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [formField]="form.lecturesPerWeek"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="form.lecturesPerWeek().invalid()" [class.!dark:border-red-500]="form.lecturesPerWeek().invalid()"
+                  [class.focus:!ring-red-500]="form.lecturesPerWeek().invalid()" [class.focus:!border-red-500]="form.lecturesPerWeek().invalid()">
+                <button type="button" (click)="changeLectures(1)" [disabled]="(model().lecturesPerWeek ?? 0) >= 10"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(form.lecturesPerWeek().invalid()) {
+              <ul class="text-xs text-red-500 dark:text-red-400 animate-fadeIn mt-2 text-center">
+                @for (e of form.lecturesPerWeek().errors(); track e) {
+                <li class="flex items-center justify-center space-x-1"><i class="fa-solid fa-circle-exclamation mr-1"></i>{{ e.message }}</li>
+                }
+              </ul>
+              }
+            </div>
+            }
+
+            <!-- Presentation Options -->
+            @if(model().formats.presentation && format.key === 'presentation') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn"
+              (click)="$event.stopPropagation()">
+              <label class="block text-xs font-medium text-center text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.presentationsPerWeekLabel' | translate }}</label>
+              <div class="flex items-center justify-center space-x-2">
+                <button type="button" (click)="changePresentations(-1)" [disabled]="(model().presentationsPerWeek ?? 0) <= 0"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">-</button>
+                <input type="number" [formField]="form.presentationsPerWeek"
+                  class="w-14 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="form.presentationsPerWeek().invalid()" [class.!dark:border-red-500]="form.presentationsPerWeek().invalid()"
+                  [class.focus:!ring-red-500]="form.presentationsPerWeek().invalid()"
+                  [class.focus:!border-red-500]="form.presentationsPerWeek().invalid()">
+                <button type="button" (click)="changePresentations(1)" [disabled]="(model().presentationsPerWeek ?? 0) >= 10"
+                  class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-lg font-bold disabled:opacity-50 transition-colors hover:bg-gray-300 dark:hover:bg-gray-500">+</button>
+              </div>
+              @if(form.presentationsPerWeek().invalid()) {
+              <ul class="text-xs text-red-500 dark:text-red-400 animate-fadeIn mt-2 text-center">
+                @for (e of form.presentationsPerWeek().errors(); track e) {
+                <li class="flex items-center justify-center space-x-1"><i class="fa-solid fa-circle-exclamation mr-1"></i>{{ e.message }}</li>
+                }
+              </ul>
+              }
+            </div>
+            }
+
+            <!-- Test Options -->
+            @if(model().formats.test && format.key === 'test') {
+            <div class="mt-4 border-t border-gray-200 dark:border-gray-600 pt-3 animate-fadeIn text-center w-full"
+              (click)="$event.stopPropagation()">
+              <label [for]="'test-questions-' + format.id"
+                class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">{{ 'generationForm.step3.numberOfQuestionsLabel' | translate }}</label>
+              <div class="flex justify-center">
+                <input [id]="'test-questions-' + format.id" type="number" step="10"
+                  [formField]="form.testQuestions"
+                  class="w-24 text-center bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-md focus:ring-primary-500 focus:border-primary-500 p-1"
+                  [class.!border-red-500]="form.testQuestions().invalid()" [class.!dark:border-red-500]="form.testQuestions().invalid()"
+                  [class.focus:!ring-red-500]="form.testQuestions().invalid()"
+                  [class.focus:!border-red-500]="form.testQuestions().invalid()">
+              </div>
+              <input type="range" min="50" max="300" step="10" [value]="model().testQuestions"
+                (input)="model.update(m => ({...m, testQuestions: +$any($event.target).value}))"
+                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 mt-3">
+              @if(form.testQuestions().invalid()) {
+              <ul class="text-xs text-red-500 dark:text-red-400 animate-fadeIn mt-2 text-center">
+                @for (e of form.testQuestions().errors(); track e) {
+                <li class="flex items-center justify-center space-x-1"><i class="fa-solid fa-circle-exclamation mr-1"></i>{{ e.message }}</li>
+                }
+              </ul>
+              }
+            </div>
+            }
+
+            @if(model().formats[format.key]) {
+            <div
+              class="absolute top-2 right-2 w-5 h-5 bg-primary-600 rounded-full flex items-center justify-center text-white animate-scaleIn">
+              <i class="fa-solid fa-check text-xs"></i>
+            </div>
+            }
+          </div>
+          }
+        </div>
+        @if(formatSelectionError(); as error) {
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>
+        }
+      </div>
+      @if (generationStatus(); as status) {
+      <div class="mt-6 p-4 rounded-lg animate-scaleIn" [class.bg-green-100]="status.success"
+        [class.dark:bg-green-900]="status.success" [class.text-green-800]="status.success"
+        [class.dark:text-green-200]="status.success" [class.bg-red-100]="!status.success"
+        [class.dark:bg-red-900]="!status.success" [class.text-red-800]="!status.success"
+        [class.dark:text-red-200]="!status.success">
+        <div class="flex flex-col items-center justify-center">
+          <p class="font-medium">{{ status.message }}</p>
+          @if (status.success && generatedFileUrl(); as url) {
+          <a [href]="url" download="educational-materials.zip"
+            class="mt-3 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+            <i class="fa-solid fa-file-archive mr-2"></i>
+            <span>{{ 'generationForm.step3.downloadZip' | translate }}</span>
+          </a>
+          }
+        </div>
+      </div>
+      }
+    </div>
+    }
+    }
+  </div>
+
+  <!-- Navigation -->
+  <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+    <div>
+      @if(currentStep() > 1) {
+      <button type="button" (click)="prevStep()"
+        class="text-gray-800 dark:text-white bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none dark:focus:ring-gray-800 transition-colors">
+        {{ 'generationForm.nav.previous' | translate }}
+      </button>
+      }
+    </div>
+    <div>
+      @if(currentStep() < 3) { <button type="button" (click)="nextStep()"
+        [disabled]="(currentStep() === 1 && !isStep1Valid()) || (currentStep() === 2 && !isStep2Valid())"
+        class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ 'generationForm.nav.next' | translate }}
+        </button>
+        }
+        @if(currentStep() === 3) {
+        <button type="button" (click)="generate()" [disabled]="!isAnyFormatSelected() || !isFormatsValid()"
+          class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-8 py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-all duration-300 ease-in-out transform hover:scale-105">
+          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+          <span>{{ 'generationForm.nav.generate' | translate }}</span>
+        </button>
+        }
+    </div>
+  </div>
+  <!-- Draft Management -->
+  <div class="text-center mt-6">
+    <div class="inline-flex rounded-md shadow-sm" role="group">
+      <button type="button" (click)="saveDraft()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-primary-500 dark:focus:text-white">
+        <i class="fa-solid fa-save w-3 h-3 me-2"></i>
+        <span>{{ 'generationForm.draft.save' | translate }}</span>
+      </button>
+      <button type="button" (click)="loadDraft()" [disabled]="!draftExists()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-primary-500 dark:focus:text-white">
+        <i class="fa-solid fa-upload w-3 h-3 me-2"></i>
+        <span>{{ 'generationForm.draft.load' | translate }}</span>
+      </button>
+      <button type="button" (click)="clearDraft()" [disabled]="!draftExists()"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-red-700 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-red-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-red-500 dark:focus:text-white">
+        <i class="fa-solid fa-trash-can w-3 h-3 me-2"></i>
+        <span>{{ 'generationForm.draft.clear' | translate }}</span>
+      </button>
+    </div>
+    @if(draftStatus()) {
+    <p class="text-center text-sm text-gray-500 dark:text-gray-400 h-5 transition-opacity duration-300 mt-2">{{
+      draftStatus() }}</p>
+    } @else {
+    <div class="h-5 mt-2"></div>
+    }
+  </div>
+</div>
+}
