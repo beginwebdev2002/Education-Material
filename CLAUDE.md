@@ -44,13 +44,13 @@ MongoDB must be running locally (`mongodb://localhost:27017`) before the backend
 
 ## Backend rules (NestJS)
 
-**Module layering** (already the convention here — keep following it): each module is split into `domain/` (schema, interfaces), `application/` (service, DTOs), `infrastructure/` (controller, repository, module wiring). Controllers only delegate to services — no business logic in controllers.
+**Module layering** (flat feature-based — already the convention here, keep following it): each business domain gets one directory under `backend/src/modules/<name>/` with, strictly: `<name>.controller.ts`, `<name>.service.ts`, `<name>.module.ts`, `entities/` (Mongoose schemas), `dto/` (validation classes). No `domain/`/`application/`/`infrastructure/` sub-layers, no `adapters/`/`ports/`/`use-cases/` — a small type shared across a module's own files (an enum, a payload interface) is a standalone file at the module root, not a subfolder. No `index.ts` barrels inside `modules/*`, `common/`, or `configs/` — always import the concrete file via its `@modules/*`/`@common/*`/`@configs/*` deep path. Controllers only delegate to services — no business logic in controllers.
 
 **Validation:** every request body is a DTO with `class-validator` decorators. The global `ValidationPipe` runs with `{ whitelist: true, forbidNonWhitelisted: true, transform: true }`.
 
 **Auth:** every route that isn't intentionally public is guarded (`@UseGuards(AuthGuard('jwt'))`), plus a `RolesGuard`/`@Roles()` check for admin-only actions. Never let a DTO field (like `role`) be settable by a non-admin caller.
 
-**Data access:** go through the module's repository, not `Model` directly from a service — one data-access path per module. Never return a raw user document with `password` still on it; the repository excludes it.
+**Data access:** the module's service injects its Mongoose `Model` directly with `@InjectModel()` — no repository/port abstraction layer. Other modules that need a domain's data (e.g. `AuthService`, `SeedService`, `RolesGuard` needing user lookups) inject that module's service class via normal Nest DI, not a Model or a DI token. Never return a raw user document with `password` still on it — the service excludes it with `.select('-password')`.
 
 **Errors:** throw NestJS HTTP exceptions (`NotFoundException`, `ConflictException`, etc.) from services, not raw `Error`s, and not from controllers.
 

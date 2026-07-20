@@ -3,10 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Configs } from '@configs';
-import { UsersModule } from '@features/users';
-import { AuthModule } from '@features/auth';
-import { SeedModule } from '@features/seed';
+import Configs from '@configs/configs';
+import { UsersModule } from '@modules/users/users.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { SeedModule } from '@modules/seed/seed.module';
 
 @Module({
   imports: [

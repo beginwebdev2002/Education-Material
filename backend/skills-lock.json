@@ -1,11 +1,4 @@
 {
   "version": 1,
-  "skills": {
-    "hexagonal-architecture": {
-      "source": "affaan-m/everything-claude-code",
-      "sourceType": "github",
-      "skillPath": "skills/hexagonal-architecture/SKILL.md",
-      "computedHash": "423c177b1d49c286960da0d20f0788d57f5cbde3c0a8b706a0f99ba400c47dad"
-    }
-  }
+  "skills": {}
 }

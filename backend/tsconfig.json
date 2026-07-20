@@ -15,11 +15,11 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@features/*": [
-        "features/*"
+      "@modules/*": [
+        "modules/*"
       ],
       "@configs/*": [
-        "configs"
+        "configs/*"
       ],
       "@common/*": [
         "common/*"
