@@ -1,1 +1,1 @@
-export * from './materials.component';
+export { MaterialsComponent } from './ui/materials.component';

@@ -1,2 +1,2 @@
-export * from './model/user.model';
-export * from './data-access/user.service';
+export { UserModel } from './model/user.model';
+export { UserService } from './api/user.service';

@@ -1,1 +1,1 @@
-export * from './generation-history.component';
+export { GenerationHistoryComponent } from './ui/generation-history.component';

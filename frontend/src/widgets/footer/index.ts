@@ -1,1 +1,1 @@
-export * from './footer.component';
+export { FooterComponent } from './ui/footer.component';

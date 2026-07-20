@@ -1,1 +1,1 @@
-export * from './ad-banner.component';
+export { AdBannerComponent } from './ui/ad-banner.component';

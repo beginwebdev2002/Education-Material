@@ -1,2 +1,1 @@
-export * from './generation-form.component';
-export * from './generation-form.data';
+export { GenerationFormComponent } from './ui/generation-form.component';

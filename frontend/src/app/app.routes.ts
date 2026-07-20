@@ -65,11 +65,11 @@ export const APP_ROUTES: Routes = [
         resolve: {
 
         },
-        loadComponent: () => import('@pages/admin/users-management/users-management.page.component').then(m => m.UsersManagementPageComponent)
+        loadComponent: () => import('@pages/admin/users-management/ui/users-management.page.component').then(m => m.UsersManagementPageComponent)
       },
       {
         path: 'materials',
-        loadComponent: () => import('@pages/admin/materials-control/materials-control.page.component').then(m => m.MaterialsControlPageComponent)
+        loadComponent: () => import('@pages/admin/materials-control/ui/materials-control.page.component').then(m => m.MaterialsControlPageComponent)
       },
       {
         path: 'analytics',
@@ -81,7 +81,7 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'system-settings',
-        loadComponent: () => import('@pages/admin/system-settings/system-settings.page.component').then(m => m.SystemSettingsPageComponent)
+        loadComponent: () => import('@pages/admin/system-settings/ui/system-settings.page.component').then(m => m.SystemSettingsPageComponent)
       },
       {
         path: 'advertising',

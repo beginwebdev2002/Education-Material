@@ -1,1 +1,1 @@
-export * from './advertising.page.component';
+export { AdvertisingPageComponent } from './ui/advertising.page.component';
