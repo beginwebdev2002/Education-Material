@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { JwtPayload } from '@modules/auth/domain/jwt-payload.interface';
+import { JwtPayload } from '@features/auth';
 
 declare global {
     namespace Express {

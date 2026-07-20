@@ -1,12 +1,13 @@
-import { UsersModule } from '@/modules/users/infrastructure/users.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import Configs from './configs/configs';
-import { AuthModule } from './modules/auth/infrastructure/auth.module';
-import { SeedModule } from './modules/seed/seed.module';
+import { Configs } from '@configs';
+import { UsersModule } from '@features/users';
+import { AuthModule } from '@features/auth';
+import { SeedModule } from '@features/seed';
+
 @Module({
   imports: [
     ConfigModule.forRoot({

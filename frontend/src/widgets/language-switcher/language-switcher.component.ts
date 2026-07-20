@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Locale, TranslationService } from '@shared/services';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { TranslatePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-language-switcher',

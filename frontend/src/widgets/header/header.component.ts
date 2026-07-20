@@ -6,8 +6,8 @@ import { UserModel } from '@entities/user';
 import { AuthModalContainerComponent, AuthService, AuthUiService } from '@features/auth';
 import { MenuItem } from '@shared/models';
 import { SettingsService } from '@shared/services';
-import { HasRoleDirective } from '@shared/directives/has-role.directive';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { HasRoleDirective } from '@shared/directives';
+import { TranslatePipe } from '@shared/pipes';
 import { LanguageSwitcherComponent } from '@widgets/language-switcher';
 
 @Component({

@@ -1,4 +1,4 @@
-import { UserModel } from '@entities/user/model/user.model'; // Core domain entity
+import { UserModel } from '@entities/user';
 
 
 // 1. Request DTO

@@ -1,5 +1,4 @@
 export * from './admin-layout.component';
-export * from './advertising/advertising.page.component';
 export * from './ai-management/ai-management.page.component';
 export * from './analytics/analytics.page.component';
 export * from './dashboard-overview/dashboard-overview.page.component';

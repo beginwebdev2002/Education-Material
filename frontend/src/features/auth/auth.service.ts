@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UserModel } from '@entities/user/model/user.model';
-import { SignInResponse, SignUpRequest } from '@features/auth';
+import { SignInRequest, SignInResponse, SignUpRequest } from '@features/auth';
 import { Observable, tap } from 'rxjs';
-import { SignInRequest } from '@features/auth';
-import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api/api.endpoint';
-import { UserService } from '@entities/user';
+import { AUTH_ENDPOINTS } from '@shared/api';
 import { UserStorageService } from '@core/storage';
 
 @Injectable({ providedIn: 'root' })

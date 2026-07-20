@@ -40,7 +40,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'profile/:id',
-    loadComponent: () => import('@pages/profile').then(m => m.ProfileComponent),
+    loadComponent: () => import('@features/profile').then(m => m.ProfileComponent),
   },
   {
     path: 'settings',
@@ -58,34 +58,34 @@ export const APP_ROUTES: Routes = [
       { path: '', redirectTo: 'statistics', pathMatch: 'full' },
       {
         path: 'statistics',
-        loadComponent: () => import('../pages/admin/statistics/statistics.page.component').then(m => m.StatisticsPageComponent)
+        loadComponent: () => import('@pages/admin/statistics/statistics.page.component').then(m => m.StatisticsPageComponent)
       },
       {
         path: 'users',
         resolve: {
 
         },
-        loadComponent: () => import('../pages/admin/users-management/users-management.page.component').then(m => m.UsersManagementPageComponent)
+        loadComponent: () => import('@pages/admin/users-management/users-management.page.component').then(m => m.UsersManagementPageComponent)
       },
       {
         path: 'materials',
-        loadComponent: () => import('../pages/admin/materials-control/materials-control.page.component').then(m => m.MaterialsControlPageComponent)
+        loadComponent: () => import('@pages/admin/materials-control/materials-control.page.component').then(m => m.MaterialsControlPageComponent)
       },
       {
         path: 'analytics',
-        loadComponent: () => import('../pages/admin/analytics/analytics.page.component').then(m => m.AnalyticsPageComponent)
+        loadComponent: () => import('@pages/admin/analytics/analytics.page.component').then(m => m.AnalyticsPageComponent)
       },
       {
         path: 'ai-management',
-        loadComponent: () => import('../pages/admin/ai-management/ai-management.page.component').then(m => m.AiManagementPageComponent)
+        loadComponent: () => import('@pages/admin/ai-management/ai-management.page.component').then(m => m.AiManagementPageComponent)
       },
       {
         path: 'system-settings',
-        loadComponent: () => import('../pages/admin/system-settings/system-settings.page.component').then(m => m.SystemSettingsPageComponent)
+        loadComponent: () => import('@pages/admin/system-settings/system-settings.page.component').then(m => m.SystemSettingsPageComponent)
       },
       {
         path: 'advertising',
-        loadComponent: () => import('../pages/admin/advertising/advertising.page.component').then(m => m.AdvertisingPageComponent)
+        loadComponent: () => import('@features/admin-advertising').then(m => m.AdvertisingPageComponent)
       },
     ]
   },

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, computed, forwardRef } from
 import { CommonModule } from '@angular/common';
 import { SigninModalComponent, SignupModalComponent, AuthUiService } from '@features/auth';
 import { IllustrationComponent } from '@shared/ui';
-import { TranslatePipe } from '@shared/pipes/translate.pipe';
+import { TranslatePipe } from '@shared/pipes';
 import { TranslationService } from '@shared/services';
 
 @Component({
