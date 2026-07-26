@@ -3,12 +3,10 @@ import { RouterOutlet, Router, NavigationStart, NavigationEnd, NavigationCancel,
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 
-import { HeaderComponent } from '../widgets/header/header.component';
-import { SettingsService } from '../shared/services/settings.service';
-import { LoadingService } from '../shared/services/loading.service';
-import { ProgressBarComponent } from '../shared/ui/progress-bar/progress-bar.component';
-import { FooterComponent } from '../widgets/footer/footer.component';
-import { environment } from '../environments/environment';
+import { HeaderComponent } from '@widgets/header';
+import { SettingsService, LoadingService } from '@shared/services';
+import { ProgressBarComponent } from '@shared/ui';
+import { FooterComponent } from '@widgets/footer';
 import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -16,7 +14,6 @@ import { initFlowbite } from 'flowbite';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent, ProgressBarComponent, FooterComponent],
 })
 export class AppComponent implements AfterViewInit {

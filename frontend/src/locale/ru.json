@@ -1,0 +1,211 @@
+{
+  "header": {
+    "nav": {
+      "home": "Главная",
+      "materials": "Материалы",
+      "dashboard": "Панель управления",
+      "docs": "Документация"
+    },
+    "adminPanel": "Админ панель",
+    "profileMenu": {
+      "profile": "Профиль",
+      "settings": "Настройки"
+    },
+    "logout": "Выйти",
+    "signin": "Войти",
+    "signup": "Регистрация",
+    "themeToggle": {
+      "toLight": "Переключить на светлую тему",
+      "toDark": "Переключить на тёмную тему",
+      "title": "Переключить тему"
+    },
+    "openUserMenu": "Открыть меню пользователя",
+    "openMainMenu": "Открыть главное меню"
+  },
+  "footer": {
+    "about": "Генератор учебных материалов на базе ИИ, который изменит подход к преподаванию.",
+    "quickLinks": "Быстрые ссылки",
+    "links": {
+      "home": "Главная",
+      "dashboard": "Панель управления",
+      "materials": "Материалы",
+      "docs": "Документация",
+      "settings": "Настройки"
+    },
+    "connect": "Свяжитесь с нами",
+    "social": {
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp",
+      "github": "Github"
+    },
+    "copyright": "© 2024 EduGen. Все права защищены."
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Измените подход к преподаванию",
+      "titleLine2": "с материалами на основе ИИ",
+      "subtitle": "Хватит тратить часы на создание лекций, презентаций и тестов. Наша платформа использует передовой ИИ для создания качественных, персонализированных учебных материалов за считанные минуты. Сосредоточьтесь на главном — на преподавании.",
+      "getStarted": "Начать",
+      "learnMore": "Узнать больше"
+    },
+    "features": {
+      "eyebrow": "Возможности",
+      "title": "Лучший способ создавать контент",
+      "subtitle": "Наша платформа предлагает множество возможностей, которые упрощают жизнь и делают преподавание эффективнее.",
+      "instant": {
+        "title": "Мгновенная генерация",
+        "desc": "От простого описания темы до полного набора материалов — лекций, презентаций и тестов — за считанные секунды.",
+        "alt": "Иконка ракеты"
+      },
+      "templates": {
+        "title": "Интеграция шаблонов",
+        "desc": "Загрузите собственные шаблоны DOCX или PDF, чтобы весь сгенерированный контент соответствовал стилю и формату вашего учебного заведения.",
+        "alt": "Иконка пазла"
+      },
+      "community": {
+        "title": "Сообщество",
+        "desc": "Делитесь лучшими материалами с сообществом или используйте материалы, созданные другими преподавателями.",
+        "alt": "Иконка пользователей"
+      },
+      "customizable": {
+        "title": "Гибкая настройка",
+        "desc": "Адаптируйте результат под свои задачи: от уровня обучения до тона изложения и глубины содержания.",
+        "alt": "Иконка шестерёнок"
+      }
+    }
+  },
+  "auth": {
+    "modal": {
+      "welcomeBack": "С возвращением!",
+      "createAccountTitle": "Создание нового аккаунта",
+      "noAccountPrompt": "Нет аккаунта?",
+      "haveAccountPrompt": "Уже есть аккаунт?",
+      "illustrationTitle": "Раскройте свой потенциал",
+      "illustrationSubtitle": "Создавайте качественные учебные материалы за считанные минуты.",
+      "close": "Закрыть окно"
+    },
+    "signin": {
+      "emailLabel": "Ваш email",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Ваш пароль",
+      "buttonLoggingIn": "Выполняется вход...",
+      "buttonSignin": "Войти в аккаунт",
+      "errorFailed": "Не удалось войти. Попробуйте ещё раз.",
+      "notRegistered": "Ещё нет аккаунта?",
+      "createAccount": "Создать аккаунт",
+      "orContinueWith": "ИЛИ ПРОДОЛЖИТЬ С ПОМОЩЬЮ",
+      "google": "Google",
+      "github": "GitHub"
+    },
+    "signup": {
+      "firstNameLabel": "Имя",
+      "firstNamePlaceholder": "Иван",
+      "lastNameLabel": "Фамилия",
+      "lastNamePlaceholder": "Иванов",
+      "emailLabel": "Ваш email",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Ваш пароль",
+      "buttonCreating": "Создание аккаунта...",
+      "buttonCreate": "Создать аккаунт",
+      "alreadyHaveAccount": "Уже есть аккаунт?",
+      "login": "Войти"
+    }
+  },
+  "generationForm": {
+    "steps": {
+      "details": "Детали",
+      "content": "Содержание",
+      "formats": "Форматы"
+    },
+    "generating": "Создаём ваши материалы",
+    "step1": {
+      "title": "Начнём с основного",
+      "subtitle": "Расскажите о предмете и целевой аудитории.",
+      "subjectLabel": "Название предмета",
+      "subjectPlaceholder": "например, Введение в информатику",
+      "institutionLabel": "Учебное заведение",
+      "courseLevelLabel": "Курс / уровень"
+    },
+    "step2": {
+      "title": "Опишите содержание",
+      "subtitle": "Чем подробнее описание, тем лучше результат.",
+      "topicLabel": "Описание темы / модуля",
+      "topicPlaceholder": "Опишите основные концепции, цели обучения и ключевые моменты для освещения...",
+      "uploadTemplateLabel": "Загрузить шаблон (необязательно)",
+      "removeFile": "Удалить файл",
+      "clickToUpload": "Нажмите, чтобы загрузить",
+      "orDragAndDrop": "или перетащите файл",
+      "docxPdfMax": "DOCX или PDF (макс. 5 МБ)"
+    },
+    "step3": {
+      "title": "Выберите форматы вывода",
+      "subtitle": "Выберите один или несколько типов материалов для генерации.",
+      "teachingWeeksLabel": "Недель обучения",
+      "lecturesPerWeekLabel": "Лекций в неделю",
+      "presentationsPerWeekLabel": "Презентаций в неделю",
+      "numberOfQuestionsLabel": "Количество вопросов",
+      "downloadZip": "Скачать ZIP"
+    },
+    "nav": {
+      "previous": "Назад",
+      "next": "Далее",
+      "generate": "Сгенерировать материал"
+    },
+    "draft": {
+      "save": "Сохранить черновик",
+      "load": "Загрузить черновик",
+      "clear": "Очистить черновик",
+      "clearedMessage": "Черновик очищен!"
+    },
+    "errors": {
+      "invalidFileType": "Недопустимый тип файла. Загрузите файл в формате DOCX или PDF.",
+      "fileTooLarge": "Файл слишком большой. Максимальный размер — 5 МБ.",
+      "selectFormat": "Выберите хотя бы один формат вывода."
+    },
+    "audience": {
+      "school": "Школа",
+      "college": "Колледж",
+      "university": "Университет",
+      "professional": "Профессиональное образование"
+    }
+  },
+  "admin": {
+    "advertising": {
+      "title": "Управление рекламой",
+      "createNew": "Создать новое объявление",
+      "adTitleLabel": "Заголовок объявления",
+      "adTypeLabel": "Тип объявления",
+      "adContentLabel": "Содержание объявления",
+      "mediaUrlLabel": "URL медиафайла",
+      "setActive": "Сделать активным",
+      "addAdvertisement": "Добавить объявление",
+      "colTitle": "Заголовок",
+      "colContent": "Содержание / URL",
+      "colType": "Тип",
+      "colStatus": "Статус",
+      "colActions": "Действия",
+      "toggleActiveStatus": "Переключить статус активности для {{title}}",
+      "delete": "Удалить",
+      "confirmDelete": "Вы уверены, что хотите удалить это объявление?",
+      "noAdsConfigured": "Объявления пока не настроены."
+    },
+    "systemSettings": {
+      "title": "Системные настройки",
+      "generalControls": "Общее управление",
+      "maintenanceModeLabel": "Технический режим",
+      "maintenanceModeDesc": "Временно ограничить доступ к сайту для пользователей, не являющихся администраторами.",
+      "userRegistrationLabel": "Разрешить регистрацию пользователей",
+      "userRegistrationDesc": "Разрешить новым пользователям регистрировать аккаунт.",
+      "communityMaterialsLabel": "Включить материалы сообщества",
+      "communityMaterialsDesc": "Показывать страницу «Материалы» всем пользователям.",
+      "generationSettingsTitle": "Настройки генерации",
+      "maxGenerationsLabel": "Максимум генераций в день (на пользователя)",
+      "defaultLanguageLabel": "Язык генерации по умолчанию"
+    }
+  },
+  "languageSwitcher": {
+    "selectLanguage": "Выбрать язык"
+  }
+}

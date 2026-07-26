@@ -6,7 +6,6 @@ import { getIllustrationData } from './lib/illustration.data';
 
 @Component({
   selector: 'app-illustration',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './illustration.component.html',
   styleUrls: ['./illustration.component.scss'],

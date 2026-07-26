@@ -1,16 +1,13 @@
-import { UsersModule } from '@/modules/users/infrastructure/users.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import Configs from './configs/configs';
-import { AuthModule } from './modules/auth/infrastructure/auth.module';
-import { SeedModule } from './modules/seed/seed.module';
-import { ActivityModule } from './modules/activity/activity.module';
-import { MaterialsModule } from './modules/materials/materials.module';
-import { CommentsModule } from './modules/comments/comments.module';
-import { AdminModule } from './modules/admin/admin.module';
+import Configs from '@configs/configs';
+import { UsersModule } from '@modules/users/users.module';
+import { AuthModule } from '@modules/auth/auth.module';
+import { SeedModule } from '@modules/seed/seed.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,7 +17,7 @@ import { AdminModule } from './modules/admin/admin.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URL'),
+        uri: configService.get<string>('database.host'),
       }),
       inject: [ConfigService],
     }),

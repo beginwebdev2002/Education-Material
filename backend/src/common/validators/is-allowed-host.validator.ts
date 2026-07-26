@@ -6,6 +6,7 @@ import {
     ValidationArguments,
 } from 'class-validator';
 
+
 @ValidatorConstraint({ async: false })
 export class IsAllowedHostConstraint implements ValidatorConstraintInterface {
     validate(url: string, args: ValidationArguments) {

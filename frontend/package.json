@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "ng serve",
+    "start": "ng serve --port=4500",
     "start:dev": "ng s --watch",
     "build": "ng build",
-    "preview": "ng serve --configuration=production",
-    "internalization": "ng extract-i18n"
+    "preview": "ng serve --configuration=production"
   },
   "dependencies": {
     "@angular/build": "^21.0.3",

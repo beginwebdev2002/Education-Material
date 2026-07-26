@@ -7,7 +7,6 @@ import { SettingsService, Theme, FontSize, FontFamily } from '@shared/services';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule],
 })
 export class SettingsComponent {

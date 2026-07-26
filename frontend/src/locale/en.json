@@ -1,0 +1,211 @@
+{
+  "header": {
+    "nav": {
+      "home": "Home",
+      "materials": "Materials",
+      "dashboard": "Dashboard",
+      "docs": "Docs"
+    },
+    "adminPanel": "Admin Panel",
+    "profileMenu": {
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "logout": "Logout",
+    "signin": "Signin",
+    "signup": "Sign Up",
+    "themeToggle": {
+      "toLight": "Switch to light mode",
+      "toDark": "Switch to dark mode",
+      "title": "Toggle theme"
+    },
+    "openUserMenu": "Open user menu",
+    "openMainMenu": "Open main menu"
+  },
+  "footer": {
+    "about": "AI-powered educational material generator to revolutionize your teaching.",
+    "quickLinks": "Quick Links",
+    "links": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "materials": "Materials",
+      "docs": "Docs",
+      "settings": "Settings"
+    },
+    "connect": "Connect With Us",
+    "social": {
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "whatsapp": "WhatsApp",
+      "github": "Github"
+    },
+    "copyright": "© 2024 EduGen. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "titleLine1": "Revolutionize Your Teaching",
+      "titleLine2": "with AI-Powered Materials",
+      "subtitle": "Stop spending hours creating lectures, presentations, and tests. Our platform leverages cutting-edge AI to generate high-quality, customized educational content in minutes. Focus on what matters most: teaching.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More"
+    },
+    "features": {
+      "eyebrow": "Features",
+      "title": "A better way to create content",
+      "subtitle": "Our platform is packed with features designed to make your life easier and your teaching more effective.",
+      "instant": {
+        "title": "Instant Generation",
+        "desc": "Go from a simple topic description to a full set of materials—lectures, presentations, and tests—in seconds.",
+        "alt": "Rocket icon"
+      },
+      "templates": {
+        "title": "Template Integration",
+        "desc": "Upload your own DOCX or PDF templates to ensure all generated content matches your institution's branding and format.",
+        "alt": "Puzzle icon"
+      },
+      "community": {
+        "title": "Community Driven",
+        "desc": "Share your best materials with the community, or browse and use content created by other top educators.",
+        "alt": "Users icon"
+      },
+      "customizable": {
+        "title": "Highly Customizable",
+        "desc": "Tailor the output to your specific needs, from academic level to tone of voice and content depth.",
+        "alt": "Cogs icon"
+      }
+    }
+  },
+  "auth": {
+    "modal": {
+      "welcomeBack": "Welcome Back!",
+      "createAccountTitle": "Create a New Account",
+      "noAccountPrompt": "Don't have an account?",
+      "haveAccountPrompt": "Already have an account?",
+      "illustrationTitle": "Unlock Your Potential",
+      "illustrationSubtitle": "Generate high-quality educational content in minutes.",
+      "close": "Close modal"
+    },
+    "signin": {
+      "emailLabel": "Your email",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Your password",
+      "buttonLoggingIn": "Logging in...",
+      "buttonSignin": "Log in to your account",
+      "errorFailed": "Signin failed. Please try again.",
+      "notRegistered": "Not registered?",
+      "createAccount": "Create account",
+      "orContinueWith": "OR CONTINUE WITH",
+      "google": "Google",
+      "github": "GitHub"
+    },
+    "signup": {
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "name@company.com",
+      "passwordLabel": "Your password",
+      "buttonCreating": "Creating account...",
+      "buttonCreate": "Create account",
+      "alreadyHaveAccount": "Already have an account?",
+      "login": "Log in"
+    }
+  },
+  "generationForm": {
+    "steps": {
+      "details": "Details",
+      "content": "Content",
+      "formats": "Formats"
+    },
+    "generating": "Generating Your Materials",
+    "step1": {
+      "title": "Let's start with the basics",
+      "subtitle": "Tell us about the subject and target audience.",
+      "subjectLabel": "Subject Name",
+      "subjectPlaceholder": "e.g., Introduction to Computer Science",
+      "institutionLabel": "Educational Institution",
+      "courseLevelLabel": "Course Level/Area"
+    },
+    "step2": {
+      "title": "Describe Your Content",
+      "subtitle": "The more detail you provide, the better the result.",
+      "topicLabel": "Topic/Module Description",
+      "topicPlaceholder": "Describe the main concepts, learning objectives, and key points to cover...",
+      "uploadTemplateLabel": "Upload Template (Optional)",
+      "removeFile": "Remove file",
+      "clickToUpload": "Click to upload",
+      "orDragAndDrop": "or drag and drop",
+      "docxPdfMax": "DOCX or PDF (MAX. 5MB)"
+    },
+    "step3": {
+      "title": "Choose Your Outputs",
+      "subtitle": "Select one or more material types to generate.",
+      "teachingWeeksLabel": "Teaching Weeks",
+      "lecturesPerWeekLabel": "Lectures / week",
+      "presentationsPerWeekLabel": "Presentations / week",
+      "numberOfQuestionsLabel": "Number of Questions",
+      "downloadZip": "Download ZIP"
+    },
+    "nav": {
+      "previous": "Previous",
+      "next": "Next",
+      "generate": "Generate Material"
+    },
+    "draft": {
+      "save": "Save Draft",
+      "load": "Load Draft",
+      "clear": "Clear Draft",
+      "clearedMessage": "Draft cleared!"
+    },
+    "errors": {
+      "invalidFileType": "Invalid file type. Please upload a DOCX or PDF file.",
+      "fileTooLarge": "File is too large. Maximum size is 5MB.",
+      "selectFormat": "Please select at least one output format."
+    },
+    "audience": {
+      "school": "School",
+      "college": "College",
+      "university": "University",
+      "professional": "Professional"
+    }
+  },
+  "admin": {
+    "advertising": {
+      "title": "Advertising Management",
+      "createNew": "Create New Advertisement",
+      "adTitleLabel": "Ad Title",
+      "adTypeLabel": "Ad Type",
+      "adContentLabel": "Ad Content",
+      "mediaUrlLabel": "Media URL",
+      "setActive": "Set as active",
+      "addAdvertisement": "Add Advertisement",
+      "colTitle": "Title",
+      "colContent": "Content / URL",
+      "colType": "Type",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "toggleActiveStatus": "Toggle active status for {{title}}",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this ad?",
+      "noAdsConfigured": "No advertisements configured yet."
+    },
+    "systemSettings": {
+      "title": "System Settings",
+      "generalControls": "General Controls",
+      "maintenanceModeLabel": "Maintenance Mode",
+      "maintenanceModeDesc": "Temporarily disable access to the site for non-admins.",
+      "userRegistrationLabel": "Enable User Registration",
+      "userRegistrationDesc": "Allow new users to sign up for an account.",
+      "communityMaterialsLabel": "Enable Community Materials",
+      "communityMaterialsDesc": "Show the \"Materials\" page to all users.",
+      "generationSettingsTitle": "Generation Settings",
+      "maxGenerationsLabel": "Max Generations per Day (per user)",
+      "defaultLanguageLabel": "Default Generation Language"
+    }
+  },
+  "languageSwitcher": {
+    "selectLanguage": "Select language"
+  }
+}

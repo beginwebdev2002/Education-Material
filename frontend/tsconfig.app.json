@@ -31,6 +31,9 @@
       "@environments/*": [
         "environments/*"
       ],
+      "@locale/*": [
+        "locale/*"
+      ],
       "@/*": [
         "*"
       ]
