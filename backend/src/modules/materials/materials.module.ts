@@ -9,6 +9,7 @@ import { MaterialsController } from './infrastructure/materials.controller';
 import { MaterialsService } from './application/materials.service';
 import { createMaterialsMulterOptions } from './infrastructure/materials-multer.config';
 import { ActivityModule } from '@modules/activity/activity.module';
+import { UsersModule } from '@modules/users/users.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { ActivityModule } from '@modules/activity/activity.module';
             inject: [ConfigService],
         }),
         ActivityModule,
+        UsersModule,
     ],
     controllers: [MaterialsController],
     providers: [MaterialsService, MaterialsRepository],

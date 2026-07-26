@@ -15,9 +15,6 @@ async function bootstrap() {
     methods: configService.get('cors.methods'),
     credentials: configService.get('cors.credentials'),
   })
-<<<<<<< HEAD
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-=======
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
@@ -33,7 +30,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);
 
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31
   await app.listen(PORT ?? 3000);
 }
 bootstrap();

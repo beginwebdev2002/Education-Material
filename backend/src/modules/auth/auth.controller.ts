@@ -38,6 +38,18 @@ export class AuthController {
         return result;
     }
 
+    @Post('logout')
+    @HttpCode(HttpStatus.OK)
+    @ApiOperation({ summary: 'Clear the session cookie' })
+    logout(@Res({ passthrough: true }) res: Response) {
+        res.clearCookie('jwt_token', {
+            httpOnly: this.config.get('cookies.httpOnly'),
+            secure: this.config.get('cookies.secure'),
+            sameSite: this.config.get('cookies.sameSite'),
+        });
+        return { success: true };
+    }
+
     private setCookieToken(res: Response, token: string) {
         res.cookie('jwt_token', token, {
             httpOnly: this.config.get('cookies.httpOnly'),

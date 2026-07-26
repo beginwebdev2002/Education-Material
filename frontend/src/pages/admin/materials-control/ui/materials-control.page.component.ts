@@ -1,13 +1,6 @@
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD:frontend/src/pages/admin/materials-control/materials-control.page.component.ts
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Material, MaterialService, MaterialStatus } from '@entities/material';
-=======
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { MockMaterialService } from '@shared/services';
-
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:frontend/src/pages/admin/materials-control/ui/materials-control.page.component.ts
 
 @Component({
   selector: 'app-materials-control-page',

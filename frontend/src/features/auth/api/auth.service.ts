@@ -1,16 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-<<<<<<< HEAD:frontend/src/features/auth/auth.service.ts
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api/api.endpoint';
-import { SessionStore, TokenStorageService } from '@shared/auth';
+import { AuthSessionUser, SessionStore, TokenStorageService } from '@shared/auth';
 import { AuthResponse, SignInRequest, SignUpRequest } from '@features/auth/api/auth-api.model';
-=======
-import { SignInRequest, SignInResponse, SignUpRequest } from './auth-api.model';
-import { Observable, tap } from 'rxjs';
-import { AUTH_ENDPOINTS } from '@shared/api';
-import { UserStorageService } from '@core/storage';
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:frontend/src/features/auth/api/auth.service.ts
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -39,8 +32,8 @@ export class AuthService {
 
     /** Attempts to hydrate the session on app start, silently failing when the user isn't signed in. */
     bootstrap(): Observable<boolean> {
-        return this.http.get(USER_ENDPOINTS.GET_PROFILE.url).pipe(
-            tap((user) => this.sessionStore.setSession(user as AuthResponse['user'])),
+        return this.http.get<AuthSessionUser>(USER_ENDPOINTS.GET_PROFILE.url).pipe(
+            tap((user) => this.sessionStore.setSession(user)),
             map(() => true),
             catchError(() => {
                 this.clearSession();
@@ -50,8 +43,9 @@ export class AuthService {
     }
 
     private applySession(response: AuthResponse): void {
-        this.tokenStorage.setAccessToken(response.accessToken);
-        this.sessionStore.setSession(response.user);
+        const { accessToken, ...user } = response;
+        this.tokenStorage.setAccessToken(accessToken);
+        this.sessionStore.setSession(user);
     }
 
     private clearSession(): void {

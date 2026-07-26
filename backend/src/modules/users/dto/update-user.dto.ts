@@ -1,11 +1,8 @@
-import { IsOptional, IsPhoneNumber, IsString, IsUrl, Length } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional, IsPhoneNumber, IsString, IsUrl, Length } from 'class-validator';
 import { IsAllowedHost } from '@common/validators/is-allowed-host.validator';
-<<<<<<<< HEAD:backend/src/modules/users/dto/update-profile.dto.ts
-========
 import { UserRole } from '@modules/users/user-role.enum';
->>>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:backend/src/modules/users/dto/update-user.dto.ts
 
-export class UpdateProfileDto {
+export class UpdateUserDto {
     @IsString()
     @Length(3, 50)
     @IsOptional()
@@ -27,16 +24,18 @@ export class UpdateProfileDto {
     @IsOptional()
     country?: string;
 
-<<<<<<<< HEAD:backend/src/modules/users/dto/update-profile.dto.ts
     @IsUrl()
     @IsOptional()
     avatar?: string;
-========
+
     @IsString()
     @IsEnum(UserRole)
     @IsOptional()
     role?: UserRole;
->>>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:backend/src/modules/users/dto/update-user.dto.ts
+
+    @IsBoolean()
+    @IsOptional()
+    isBanned?: boolean;
 
     @IsString()
     @Length(5, 15)

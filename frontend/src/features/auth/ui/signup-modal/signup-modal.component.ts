@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
-import { form, FormField, submit } from '@angular/forms/signals';
+import { form, Field, submit } from '@angular/forms/signals';
 import { AuthService } from '../../api/auth.service';
 import { AuthUiService } from '../../model/auth-ui.service';
 import { SignUpRequest } from '../../api/auth-api.model';
@@ -10,7 +10,7 @@ import { initialSignupForm, signupFormSchema } from './model/form.model';
 
 @Component({
   selector: 'app-signup-modal',
-  imports: [CommonModule, FormField, TranslatePipe],
+  imports: [CommonModule, Field, TranslatePipe],
   templateUrl: './signup-modal.component.html',
   styleUrls: ['./signup-modal.component.scss'],
   providers: [AuthService],

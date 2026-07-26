@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Comment, CommentDocument } from '@modules/comments/domain/comment.schema';
-import { PaginatedResult } from '@modules/users/domain/users.repository.interface';
+import { PaginatedResult } from '@common/interfaces/paginated-result.interface';
 
 const AUTHOR_POPULATE = 'firstName lastName avatar';
 

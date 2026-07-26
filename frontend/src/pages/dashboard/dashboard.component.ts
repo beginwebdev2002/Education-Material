@@ -9,12 +9,7 @@ import { MyMaterialsListComponent } from './ui/my-materials-list.component';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-<<<<<<< HEAD
-  standalone: true,
   imports: [IllustrationComponent, MaterialUploadFormComponent, MyMaterialsListComponent],
-=======
-  imports: [GenerationFormComponent, GenerationHistoryComponent, IllustrationComponent, AdBannerComponent],
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31
 })
 export class DashboardComponent {
   private readonly materialService = inject(MaterialService);

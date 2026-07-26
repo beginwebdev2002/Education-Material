@@ -4,7 +4,7 @@
             <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 {{ 'auth.signup.firstNameLabel' | translate }}
             </label>
-            <input type="text" id="firstName" [formField]="form.firstName"
+            <input type="text" id="firstName" [field]="form.firstName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 [attr.placeholder]="'auth.signup.firstNamePlaceholder' | translate">
             @if (form.firstName().touched() && form.firstName().invalid()) {
@@ -17,7 +17,7 @@
             <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 {{ 'auth.signup.lastNameLabel' | translate }}
             </label>
-            <input type="text" id="lastName" [formField]="form.lastName"
+            <input type="text" id="lastName" [field]="form.lastName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 [attr.placeholder]="'auth.signup.lastNamePlaceholder' | translate">
             @if (form.lastName().touched() && form.lastName().invalid()) {
@@ -31,7 +31,7 @@
         <label for="register-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{ 'auth.signup.emailLabel' | translate }}
         </label>
-        <input type="email" id="register-email" [formField]="form.email"
+        <input type="email" id="register-email" [field]="form.email"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             [attr.placeholder]="'auth.signup.emailPlaceholder' | translate">
         @if (form.email().touched() && form.email().invalid()) {
@@ -45,7 +45,7 @@
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{ 'auth.signup.passwordLabel' | translate }}
         </label>
-        <input type="password" id="register-password" [formField]="form.password" placeholder="••••••••"
+        <input type="password" id="register-password" [field]="form.password" placeholder="••••••••"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
         @if (form.password().touched() && form.password().invalid()) {
         <ul class="mt-2 text-sm text-red-600 dark:text-red-500">

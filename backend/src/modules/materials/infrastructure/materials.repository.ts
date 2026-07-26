@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Material, MaterialDocument } from '@modules/materials/domain/material.schema';
 import { MaterialStatus } from '@modules/materials/domain/material.interface';
-import { PaginatedResult } from '@modules/users/domain/users.repository.interface';
+import { PaginatedResult } from '@common/interfaces/paginated-result.interface';
 
 export interface CreateMaterialInput {
     title: string;

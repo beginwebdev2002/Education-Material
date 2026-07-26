@@ -3,9 +3,10 @@ import { CommentsRepository } from '@modules/comments/infrastructure/comments.re
 import { MaterialsRepository } from '@modules/materials/infrastructure/materials.repository';
 import { ActivityService } from '@modules/activity/application/activity.service';
 import { ActivityType } from '@modules/activity/domain/activity.interface';
-import { JwtPayload } from '@modules/auth/domain/jwt.payload';
-import { UserRole } from '@modules/users/domain/user.interface';
-import { RequestMeta } from '@modules/auth/application/auth.service';
+import { JwtPayload } from '@modules/auth/jwt-payload.interface';
+import { UserRole } from '@modules/users/user-role.enum';
+import { UsersService } from '@modules/users/users.service';
+import { RequestMeta } from '@common/interfaces/request-meta.interface';
 
 @Injectable()
 export class CommentsService {
@@ -13,6 +14,7 @@ export class CommentsService {
         private readonly commentsRepository: CommentsRepository,
         private readonly materialsRepository: MaterialsRepository,
         private readonly activityService: ActivityService,
+        private readonly usersService: UsersService,
     ) { }
 
     async create(materialId: string, author: JwtPayload, text: string, meta: RequestMeta) {
@@ -21,10 +23,10 @@ export class CommentsService {
             throw new NotFoundException('Material not found');
         }
 
-        const comment = await this.commentsRepository.create(materialId, author.sub, text);
+        const comment = await this.commentsRepository.create(materialId, author._id, text);
         await this.materialsRepository.incrementComments(materialId, 1);
         await this.activityService.log({
-            userId: author.sub,
+            userId: author._id,
             type: ActivityType.MATERIAL_COMMENT,
             materialId,
             ip: meta.ip,
@@ -48,9 +50,12 @@ export class CommentsService {
             throw new NotFoundException('Comment not found');
         }
 
-        const isOwner = comment.author.toString() === requester.sub;
-        if (!isOwner && requester.role !== UserRole.ADMIN) {
-            throw new ForbiddenException('You cannot delete this comment');
+        const isOwner = comment.author.toString() === requester._id;
+        if (!isOwner) {
+            const requesterUser = await this.usersService.findById(requester._id);
+            if (requesterUser?.role !== UserRole.ADMIN) {
+                throw new ForbiddenException('You cannot delete this comment');
+            }
         }
 
         await this.commentsRepository.deleteById(id);

@@ -1,1 +1,0 @@
-export { AdBannerComponent } from './ui/ad-banner.component';

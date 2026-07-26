@@ -1,13 +1,13 @@
 import { Controller, Get, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AdminService } from '@modules/admin/application/admin.service';
-import { JwtAccessGuard } from '@modules/auth/infrastructure/guards/jwt-access.guard';
-import { RolesGuard } from '@modules/auth/infrastructure/guards/roles.guard';
-import { Roles } from '@modules/auth/infrastructure/decorators/roles.decorator';
-import { UserRole } from '@modules/users/domain/user.interface';
+import { RolesGuard } from '@common/guards/roles.guard';
+import { Roles } from '@common/decorators/roles.decorator';
+import { UserRole } from '@modules/users/user-role.enum';
 import { ActivityType } from '@modules/activity/domain/activity.interface';
 
 @Controller('admin')
-@UseGuards(JwtAccessGuard, RolesGuard)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Roles(UserRole.ADMIN)
 export class AdminController {
     constructor(private readonly adminService: AdminService) { }

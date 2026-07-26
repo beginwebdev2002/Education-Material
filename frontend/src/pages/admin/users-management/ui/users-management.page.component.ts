@@ -1,19 +1,12 @@
 import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { UserModel, UserService } from '@entities/user';
 import { SessionStore } from '@shared/auth';
 import { SkeletonLoaderComponent } from '@shared/ui';
-import { getMockMaterialsCount as computeMockMaterialsCount, getMockLastSignin as computeMockLastSignin } from '../lib/mock-user-stats';
 
 @Component({
   selector: 'app-users-management-page',
-<<<<<<< HEAD:frontend/src/pages/admin/users-management/users-management.page.component.ts
-  standalone: true,
-  imports: [CommonModule, TitleCasePipe, DatePipe, FormsModule, SkeletonLoaderComponent],
-=======
   imports: [CommonModule, TitleCasePipe, DatePipe, SkeletonLoaderComponent],
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:frontend/src/pages/admin/users-management/ui/users-management.page.component.ts
   templateUrl: './users-management.page.component.html',
   styleUrls: ['./users-management.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,7 +28,6 @@ export class UsersManagementPageComponent {
     this.load();
   }
 
-<<<<<<< HEAD:frontend/src/pages/admin/users-management/users-management.page.component.ts
   onSearch(term: string): void {
     this.searchTerm.set(term);
     this.page.set(1);
@@ -52,15 +44,6 @@ export class UsersManagementPageComponent {
       },
       error: () => this.isLoading.set(false),
     });
-=======
-  // Mock data generation for presentation
-  getMockMaterialsCount(userId: string): number {
-    return computeMockMaterialsCount(userId);
-  }
-
-  getMockLastSignin(userId: string): Date {
-    return computeMockLastSignin(userId);
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:frontend/src/pages/admin/users-management/ui/users-management.page.component.ts
   }
 
   toggleRole(user: UserModel): void {

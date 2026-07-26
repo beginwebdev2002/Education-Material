@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
-import { form, FormField, submit } from '@angular/forms/signals';
+import { form, Field, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthUiService } from '../../model/auth-ui.service';
 import { AuthService } from '../../api/auth.service';
@@ -10,7 +10,7 @@ import { initialSigninForm, signinFormSchema } from './model/form.model';
 
 @Component({
   selector: 'app-signin-modal',
-  imports: [CommonModule, FormField, TranslatePipe],
+  imports: [CommonModule, Field, TranslatePipe],
   templateUrl: './signin-modal.component.html',
   styleUrls: ['./signin-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

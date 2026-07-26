@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UsersRepository } from '@modules/users/infrastructure/users.repository';
+import { UsersService } from '@modules/users/users.service';
 import { MaterialsRepository } from '@modules/materials/infrastructure/materials.repository';
 import { CommentsRepository } from '@modules/comments/infrastructure/comments.repository';
 import { ActivityService } from '@modules/activity/application/activity.service';
@@ -10,7 +10,7 @@ import { MaterialStatus } from '@modules/materials/domain/material.interface';
 @Injectable()
 export class AdminService {
     constructor(
-        private readonly usersRepository: UsersRepository,
+        private readonly usersService: UsersService,
         private readonly materialsRepository: MaterialsRepository,
         private readonly commentsRepository: CommentsRepository,
         private readonly activityService: ActivityService,
@@ -39,9 +39,9 @@ export class AdminService {
             totalComments,
             recentActivity,
         ] = await Promise.all([
-            this.usersRepository.countAll(),
-            this.usersRepository.countOnlineSince(this.onlineSince()),
-            this.usersRepository.countActiveSince(this.activeSince()),
+            this.usersService.countAll(),
+            this.usersService.countOnlineSince(this.onlineSince()),
+            this.usersService.countActiveSince(this.activeSince()),
             this.materialsRepository.countAll(),
             this.materialsRepository.countByStatus(MaterialStatus.PUBLISHED),
             this.materialsRepository.countByStatus(MaterialStatus.PENDING),
@@ -64,14 +64,14 @@ export class AdminService {
     }
 
     async onlineUsers() {
-        return this.usersRepository.findOnlineSince(this.onlineSince(), 50);
+        return this.usersService.findOnlineSince(this.onlineSince(), 50);
     }
 
     async analytics(days: number) {
         const sinceDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
         const [registrationsSeries, downloadsSeries, activityBreakdown, topMaterials] = await Promise.all([
-            this.usersRepository.registrationsSeriesSince(sinceDate),
+            this.usersService.registrationsSeriesSince(sinceDate),
             this.activityService.dailySeriesSince(ActivityType.MATERIAL_DOWNLOAD, sinceDate),
             this.activityService.activityBreakdownSince(sinceDate),
             this.materialsRepository.topByDownloads(5),

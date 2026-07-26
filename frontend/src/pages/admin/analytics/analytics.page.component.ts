@@ -30,11 +30,7 @@ const ACTIVITY_TYPE_COLORS: Record<ActivityType, string> = {
 
 @Component({
   selector: 'app-analytics-page',
-<<<<<<< HEAD
-  standalone: true,
   imports: [CommonModule, RouterLink],
-=======
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31
   templateUrl: './analytics.page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

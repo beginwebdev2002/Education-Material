@@ -8,15 +8,17 @@ import { UploadedMulterFile } from '@modules/materials/infrastructure/uploaded-f
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { ActivityService } from '@modules/activity/application/activity.service';
 import { ActivityType } from '@modules/activity/domain/activity.interface';
-import { UserRole } from '@modules/users/domain/user.interface';
-import { JwtPayload } from '@modules/auth/domain/jwt.payload';
-import { RequestMeta } from '@modules/auth/application/auth.service';
+import { UserRole } from '@modules/users/user-role.enum';
+import { UsersService } from '@modules/users/users.service';
+import { JwtPayload } from '@modules/auth/jwt-payload.interface';
+import { RequestMeta } from '@common/interfaces/request-meta.interface';
 
 @Injectable()
 export class MaterialsService {
     constructor(
         private readonly materialsRepository: MaterialsRepository,
         private readonly activityService: ActivityService,
+        private readonly usersService: UsersService,
         private readonly config: ConfigService,
     ) { }
 
@@ -59,21 +61,25 @@ export class MaterialsService {
         return this.materialsRepository.findAllPaginated(params);
     }
 
+    private async isAdmin(requester: JwtPayload): Promise<boolean> {
+        const user = await this.usersService.findById(requester._id);
+        return user?.role === UserRole.ADMIN;
+    }
+
     async prepareDownload(id: string, requester: JwtPayload, meta: RequestMeta) {
         const material = await this.materialsRepository.findById(id);
         if (!material) {
             throw new NotFoundException('Material not found');
         }
 
-        const isOwner = material.owner.toString() === requester.sub;
-        const isAdmin = requester.role === UserRole.ADMIN;
-        if (material.status !== MaterialStatus.PUBLISHED && !isOwner && !isAdmin) {
+        const isOwner = material.owner.toString() === requester._id;
+        if (material.status !== MaterialStatus.PUBLISHED && !isOwner && !(await this.isAdmin(requester))) {
             throw new ForbiddenException('This material is not available for download');
         }
 
         await this.materialsRepository.incrementDownloads(id);
         await this.activityService.log({
-            userId: requester.sub,
+            userId: requester._id,
             type: ActivityType.MATERIAL_DOWNLOAD,
             materialId: id,
             ip: meta.ip,
@@ -93,8 +99,8 @@ export class MaterialsService {
             throw new NotFoundException('Material not found');
         }
 
-        const isOwner = material.owner.toString() === requester.sub;
-        if (!isOwner && requester.role !== UserRole.ADMIN) {
+        const isOwner = material.owner.toString() === requester._id;
+        if (!isOwner && !(await this.isAdmin(requester))) {
             throw new ForbiddenException('You cannot delete this material');
         }
 
@@ -109,7 +115,7 @@ export class MaterialsService {
         }
 
         await this.activityService.log({
-            userId: admin.sub,
+            userId: admin._id,
             type: ActivityType.MATERIAL_STATUS_CHANGE,
             materialId: id,
             metadata: { status },

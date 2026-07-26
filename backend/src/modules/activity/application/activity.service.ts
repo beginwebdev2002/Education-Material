@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { Activity, ActivityDocument } from '@modules/activity/domain/activity.schema';
 import { ActivityType } from '@modules/activity/domain/activity.interface';
 import { LogActivityInput } from './dto/log-activity.input';
-import { PaginatedResult } from '@modules/users/domain/users.repository.interface';
+import { PaginatedResult } from '@common/interfaces/paginated-result.interface';
 
 export interface ActivityTypeCount {
     type: ActivityType;

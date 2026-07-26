@@ -7,6 +7,10 @@ import Configs from '@configs/configs';
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { SeedModule } from '@modules/seed/seed.module';
+import { ActivityModule } from '@modules/activity/activity.module';
+import { MaterialsModule } from '@modules/materials/materials.module';
+import { CommentsModule } from '@modules/comments/comments.module';
+import { AdminModule } from '@modules/admin/admin.module';
 
 @Module({
   imports: [

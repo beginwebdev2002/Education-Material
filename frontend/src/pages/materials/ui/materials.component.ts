@@ -5,19 +5,14 @@ import { Material, MaterialService } from '@entities/material';
 import { SessionStore } from '@shared/auth';
 import { SkeletonLoaderComponent } from '@shared/ui';
 import { IllustrationComponent } from '@shared/ui';
-import { MaterialCommentsComponent } from './ui/material-comments.component';
+import { MaterialCommentsComponent } from './material-comments.component';
 
 @Component({
   selector: 'app-materials',
   templateUrl: './materials.component.html',
   styleUrls: ['./materials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-<<<<<<< HEAD:frontend/src/pages/materials/materials.component.ts
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, SkeletonLoaderComponent, IllustrationComponent, MaterialCommentsComponent],
-=======
-  imports: [CommonModule, RouterLink, SkeletonLoaderComponent, IllustrationComponent],
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31:frontend/src/pages/materials/ui/materials.component.ts
+  imports: [CommonModule, RouterLink, SkeletonLoaderComponent, IllustrationComponent, MaterialCommentsComponent],
 })
 export class MaterialsComponent {
   private readonly materialService = inject(MaterialService);

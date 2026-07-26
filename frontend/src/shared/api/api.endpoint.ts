@@ -8,7 +8,7 @@ const MATERIALS_PREFIX = `${API_BASE_URL}/materials`;
 const COMMENTS_PREFIX = `${API_BASE_URL}/comments`;
 const ADMIN_PREFIX = `${API_BASE_URL}/admin`;
 
-type AuthEndpointKeys = 'SIGN_IN' | 'SIGN_UP' | 'LOGOUT' | 'REFRESH';
+type AuthEndpointKeys = 'SIGN_IN' | 'SIGN_UP' | 'LOGOUT';
 type UserEndpointKeys = 'GET_PROFILE' | 'UPDATE_PROFILE' | 'GET_ALL_USERS' | 'UPDATE_ROLE' | 'UPDATE_BAN' | 'GET_BY_ID';
 type MaterialsEndpointKeys = 'LIST' | 'MINE' | 'ADMIN_LIST' | 'UPLOAD' | 'DOWNLOAD' | 'DELETE' | 'UPDATE_STATUS';
 type CommentsEndpointKeys = 'LIST_FOR_MATERIAL' | 'CREATE' | 'DELETE' | 'ADMIN_LIST';
@@ -28,12 +28,7 @@ export const AUTH_ENDPOINTS: ModuleEndpoints<AuthEndpointKeys> = {
     LOGOUT: {
         url: `${AUTH_PREFIX}/logout`,
         methods: ['POST'],
-        description: 'Завершение сессии: отзыв refreshToken и удаление Cookie.',
-    },
-    REFRESH: {
-        url: `${AUTH_PREFIX}/refresh`,
-        methods: ['POST'],
-        description: 'Обновление accessToken по refreshToken-cookie.',
+        description: 'Завершение сессии: удаление сессионной cookie.',
     },
 };
 

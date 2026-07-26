@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { AuthSessionUser } from '@shared/auth';
-=======
-import { UserModel } from '@entities/user';
->>>>>>> 8799246afdbac4070d608d8196a352baa8a78d31
 
 export interface SignUpRequest {
     email: string;
@@ -16,7 +12,6 @@ export interface SignInRequest {
     password: string;
 }
 
-export interface AuthResponse {
+export interface AuthResponse extends AuthSessionUser {
     accessToken: string;
-    user: AuthSessionUser;
 }

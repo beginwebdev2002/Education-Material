@@ -14,6 +14,7 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request, Response } from 'express';
 
@@ -22,12 +23,10 @@ import { CreateMaterialDto } from '@modules/materials/application/dto/create-mat
 import { UpdateMaterialStatusDto } from '@modules/materials/application/dto/update-material-status.dto';
 import type { UploadedMulterFile } from './uploaded-file.type';
 import { MaterialStatus } from '@modules/materials/domain/material.interface';
-import { JwtAccessGuard } from '@modules/auth/infrastructure/guards/jwt-access.guard';
-import { RolesGuard } from '@modules/auth/infrastructure/guards/roles.guard';
-import { Roles } from '@modules/auth/infrastructure/decorators/roles.decorator';
-import { CurrentUser } from '@modules/auth/infrastructure/decorators/current-user.decorator';
-import type { JwtPayload } from '@modules/auth/domain/jwt.payload';
-import { UserRole } from '@modules/users/domain/user.interface';
+import { RolesGuard } from '@common/guards/roles.guard';
+import { Roles } from '@common/decorators/roles.decorator';
+import type { JwtPayload } from '@modules/auth/jwt-payload.interface';
+import { UserRole } from '@modules/users/user-role.enum';
 
 function requestMeta(req: Request) {
     return { ip: req.ip, userAgent: req.headers['user-agent'] as string | undefined };
@@ -38,15 +37,15 @@ export class MaterialsController {
     constructor(private readonly materialsService: MaterialsService) { }
 
     @Post()
-    @UseGuards(JwtAccessGuard)
+    @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(FileInterceptor('file'))
     async upload(
-        @CurrentUser() user: JwtPayload,
+        @Req() req: Request,
         @Body() dto: CreateMaterialDto,
         @UploadedFile() file: UploadedMulterFile,
-        @Req() req: Request,
     ) {
-        return this.materialsService.upload(user.sub, dto, file, requestMeta(req));
+        const user = req.user as JwtPayload;
+        return this.materialsService.upload(user._id, dto, file, requestMeta(req));
     }
 
     @Get()
@@ -60,17 +59,18 @@ export class MaterialsController {
     }
 
     @Get('mine')
-    @UseGuards(JwtAccessGuard)
+    @UseGuards(AuthGuard('jwt'))
     async mine(
-        @CurrentUser() user: JwtPayload,
+        @Req() req: Request,
         @Query('page', new ParseIntPipe({ optional: true })) page = 1,
         @Query('limit', new ParseIntPipe({ optional: true })) limit = 20,
     ) {
-        return this.materialsService.listMine(user.sub, page, limit);
+        const user = req.user as JwtPayload;
+        return this.materialsService.listMine(user._id, page, limit);
     }
 
     @Get('admin')
-    @UseGuards(JwtAccessGuard, RolesGuard)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRole.ADMIN)
     async adminList(
         @Query('search') search?: string,
@@ -82,32 +82,34 @@ export class MaterialsController {
     }
 
     @Get(':id/download')
-    @UseGuards(JwtAccessGuard)
+    @UseGuards(AuthGuard('jwt'))
     async download(
         @Param('id') id: string,
-        @CurrentUser() user: JwtPayload,
         @Req() req: Request,
         @Res() res: Response,
     ) {
+        const user = req.user as JwtPayload;
         const material = await this.materialsService.prepareDownload(id, user, requestMeta(req));
         return res.download(this.materialsService.resolveFilePath(material.storedFileName), material.originalName);
     }
 
     @Delete(':id')
-    @UseGuards(JwtAccessGuard)
-    async remove(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
+    @UseGuards(AuthGuard('jwt'))
+    async remove(@Req() req: Request, @Param('id') id: string) {
+        const user = req.user as JwtPayload;
         await this.materialsService.remove(id, user);
         return { success: true };
     }
 
     @Patch(':id/status')
-    @UseGuards(JwtAccessGuard, RolesGuard)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRole.ADMIN)
     async updateStatus(
-        @CurrentUser() admin: JwtPayload,
+        @Req() req: Request,
         @Param('id') id: string,
         @Body() dto: UpdateMaterialStatusDto,
     ) {
+        const admin = req.user as JwtPayload;
         return this.materialsService.updateStatus(id, dto.status, admin);
     }
 }

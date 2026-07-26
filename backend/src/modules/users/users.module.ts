@@ -11,6 +11,6 @@ import { RolesGuard } from '@common/guards/roles.guard';
     MongooseModule.forFeature([{ name: Users.name, schema: UserSchema }]),
   ],
   providers: [UsersService, RolesGuard],
-  exports: [UsersService],
+  exports: [UsersService, RolesGuard],
 })
 export class UsersModule { }

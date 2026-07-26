@@ -2,33 +2,24 @@ export default () => ({
     port: parseInt(process.env.PORT ?? "", 10) || 3000,
     database: {
         host: process.env.DATABASE_HOST,
-        port: parseInt(process.env.DATABASE_PORT ?? "", 10) || 5432
     },
     bcrypt: {
         saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS ?? "", 10) || 10
     },
     jwt: {
-        access: {
-            secret: process.env.JWT_ACCESS_SECRET ?? "access-secret-key",
-            expiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? "15m",
-        },
-        refresh: {
-            secret: process.env.JWT_REFRESH_SECRET ?? "refresh-secret-key",
-            expiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? "7d",
-            expiresInMs: parseInt(process.env.JWT_REFRESH_EXPIRES_IN_MS ?? "", 10) || 7 * 24 * 60 * 60 * 1000,
-        },
+        secret: process.env.JWT_SECRET ?? "dev-secret-change-me",
+        expiresIn: process.env.JWT_EXPIRES_IN ?? "7d",
     },
     cors: {
         origin: process.env.API_URL,
         credentials: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     },
-    refreshCookie: {
-        name: 'refresh_token',
+    cookies: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
-        path: '/auth',
+        maxAge: parseInt(process.env.JWT_COOKIE_MAX_AGE_MS ?? "", 10) || 7 * 24 * 60 * 60 * 1000,
     },
     uploads: {
         materialsDir: process.env.UPLOADS_MATERIALS_DIR ?? './uploads/materials',

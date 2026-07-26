@@ -1,14 +1,13 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 
 import { CommentsService } from '@modules/comments/application/comments.service';
 import { CreateCommentDto } from '@modules/comments/application/dto/create-comment.dto';
-import { JwtAccessGuard } from '@modules/auth/infrastructure/guards/jwt-access.guard';
-import { RolesGuard } from '@modules/auth/infrastructure/guards/roles.guard';
-import { Roles } from '@modules/auth/infrastructure/decorators/roles.decorator';
-import { CurrentUser } from '@modules/auth/infrastructure/decorators/current-user.decorator';
-import type { JwtPayload } from '@modules/auth/domain/jwt.payload';
-import { UserRole } from '@modules/users/domain/user.interface';
+import { RolesGuard } from '@common/guards/roles.guard';
+import { Roles } from '@common/decorators/roles.decorator';
+import type { JwtPayload } from '@modules/auth/jwt-payload.interface';
+import { UserRole } from '@modules/users/user-role.enum';
 
 function requestMeta(req: Request) {
     return { ip: req.ip, userAgent: req.headers['user-agent'] as string | undefined };
@@ -28,18 +27,18 @@ export class CommentsController {
     }
 
     @Post('materials/:materialId/comments')
-    @UseGuards(JwtAccessGuard)
+    @UseGuards(AuthGuard('jwt'))
     async create(
-        @CurrentUser() user: JwtPayload,
         @Param('materialId') materialId: string,
         @Body() dto: CreateCommentDto,
         @Req() req: Request,
     ) {
+        const user = req.user as JwtPayload;
         return this.commentsService.create(materialId, user, dto.text, requestMeta(req));
     }
 
     @Get('comments/admin/all')
-    @UseGuards(JwtAccessGuard, RolesGuard)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRole.ADMIN)
     async adminList(
         @Query('page', new ParseIntPipe({ optional: true })) page = 1,
@@ -49,8 +48,9 @@ export class CommentsController {
     }
 
     @Delete('comments/:id')
-    @UseGuards(JwtAccessGuard)
-    async remove(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
+    @UseGuards(AuthGuard('jwt'))
+    async remove(@Req() req: Request, @Param('id') id: string) {
+        const user = req.user as JwtPayload;
         await this.commentsService.remove(id, user);
         return { success: true };
     }
