@@ -1,0 +1,36 @@
+<div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+  @if (isAuthenticated()) {
+  <div class="flex gap-2 mb-4">
+    <input type="text" [value]="newText()" (input)="newText.set($event.target.value)"
+      (keydown.enter)="submit()" placeholder="Write a comment..." i18n-placeholder
+      class="flex-1 rounded-md border-gray-300 shadow-sm text-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <button type="button" (click)="submit()" [disabled]="isSubmitting() || !newText().trim()"
+      class="px-3 py-1.5 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+  }
+
+  @if (isLoading()) {
+  <p class="text-sm text-gray-500 dark:text-gray-400" i18n>Loading comments...</p>
+  } @else if (comments().length === 0) {
+  <p class="text-sm text-gray-500 dark:text-gray-400" i18n>No comments yet.</p>
+  } @else {
+  <ul class="space-y-3 max-h-64 overflow-y-auto">
+    @for (comment of comments(); track comment._id) {
+    <li class="flex items-start justify-between gap-2 text-sm">
+      <div>
+        <span class="font-semibold text-gray-900 dark:text-white">{{ comment.author.firstName }} {{ comment.author.lastName }}</span>
+        <span class="text-gray-400 text-xs ml-2">{{ comment.createdAt | date:'short' }}</span>
+        <p class="text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
+      </div>
+      @if (canDelete(comment)) {
+      <button type="button" (click)="remove(comment)" class="text-gray-400 hover:text-red-500 flex-shrink-0" title="Delete" i18n-title>
+        <i class="fa-solid fa-trash"></i>
+      </button>
+      }
+    </li>
+    }
+  </ul>
+  }
+</div>

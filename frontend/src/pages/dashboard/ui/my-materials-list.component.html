@@ -1,0 +1,35 @@
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
+  <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6" i18n>My Materials</h2>
+
+  @if (isLoading()) {
+  <p class="text-gray-500 dark:text-gray-400" i18n>Loading...</p>
+  } @else if (materials().length === 0) {
+  <p class="text-gray-500 dark:text-gray-400" i18n>You haven't uploaded any materials yet.</p>
+  } @else {
+  <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+    @for (material of materials(); track material._id) {
+    <li class="py-4 flex items-start justify-between gap-4">
+      <div class="min-w-0">
+        <p class="font-medium text-gray-900 dark:text-white truncate">{{ material.title }}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">{{ material.subject }} &middot; {{ material.createdAt | date }}</p>
+        <div class="mt-1 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+          <span class="px-2 py-0.5 rounded-full font-semibold" [class]="statusBadgeClass(material.status)">{{ material.status }}</span>
+          <span><i class="fa-solid fa-download mr-1"></i>{{ material.downloadsCount }}</span>
+          <span><i class="fa-solid fa-comment mr-1"></i>{{ material.commentsCount }}</span>
+        </div>
+      </div>
+      <div class="flex-shrink-0 flex items-center gap-2">
+        <button type="button" (click)="download.emit(material)"
+          class="p-2 text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400" title="Download" i18n-title>
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button type="button" (click)="remove.emit(material)"
+          class="p-2 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400" title="Delete" i18n-title>
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+  }
+</div>

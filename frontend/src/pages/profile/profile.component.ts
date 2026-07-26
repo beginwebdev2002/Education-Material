@@ -1,14 +1,11 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserStorageService } from '@core/storage';
+import { finalize } from 'rxjs';
 import { UserService } from '@entities/user';
 import { UserModel } from '@entities/user';
-import { AuthStateService } from '@features/auth';
-import { AuthService } from '@features/auth';
-import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
-
+import { SessionStore } from '@shared/auth';
+import { createValidationSignal, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 @Component({
   selector: 'app-profile',
@@ -18,93 +15,111 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
   styleUrls: ['./profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent implements OnInit {
-  private userStorage: UserStorageService = inject(UserStorageService);
-  private router: Router = inject(Router);
+export class ProfileComponent {
+  private readonly userService = inject(UserService);
+  private readonly sessionStore = inject(SessionStore);
+
+  id = input.required<string>();
+
+  profile = signal<UserModel | null>(null);
+  isLoading = signal(true);
+  loadError = signal(false);
+  isEditing = signal(false);
+  isSaving = signal(false);
+
+  isOwnProfile = computed(() => this.sessionStore.currentUser()?._id === this.id());
 
   firstName = signal('');
   lastName = signal('');
-  email = signal('');
-  github = signal('');
-  linkedIn = signal('');
-  telegram = signal('');
-  instagram = signal('');
-  whatsapp = signal('');
+  phoneNumber = signal('');
+  country = signal('');
+  telegramLink = signal('');
+  instagramLink = signal('');
+  linkedinLink = signal('');
+  whatsappLink = signal('');
 
+  formErrors = computed(() => ({
+    firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+    lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+  }));
 
-  formErrors = computed(() => {
-    return {
-      firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      email: createValidationSignal(this.email, [requiredValidator, emailValidator]),
-      github: createValidationSignal(this.github, [maxLengthValidator(100)]),
-      linkedIn: createValidationSignal(this.linkedIn, [maxLengthValidator(100)]),
-      telegram: createValidationSignal(this.telegram, [maxLengthValidator(100)]),
-      instagram: createValidationSignal(this.instagram, [maxLengthValidator(100)]),
-      whatsapp: createValidationSignal(this.whatsapp, [maxLengthValidator(100)]),
-    }
-  })
-  isEditing = signal(false);
-  currentUser = this.userStorage.loadUser();
-
-  constructor() {
-    effect(() => {
-      this.hasErrors();
-      console.log(this.hasErrors());
-    })
-  }
+  hasErrors = computed(() => Object.values(this.formErrors()).some(fieldErrors => fieldErrors().length > 0));
 
   socialMediaLinks = computed(() => [
-    { key: 'github', name: 'GitHub', icon: 'fab fa-github', value: this.currentUser()?.github },
-    { key: 'linkedIn', name: 'LinkedIn', icon: 'fab fa-linkedin', value: this.currentUser()?.linkedIn },
-    { key: 'telegram', name: 'Telegram', icon: 'fab fa-telegram', value: this.currentUser()?.telegram },
-    { key: 'instagram', name: 'Instagram', icon: 'fab fa-instagram', value: this.currentUser()?.instagram },
-    { key: 'whatsapp', name: 'WhatsApp', icon: 'fab fa-whatsapp', value: this.currentUser()?.whatsapp },
+    { key: 'telegramLink', name: 'Telegram', icon: 'fab fa-telegram', value: this.telegramLink, display: this.profile()?.telegramLink },
+    { key: 'instagramLink', name: 'Instagram', icon: 'fab fa-instagram', value: this.instagramLink, display: this.profile()?.instagramLink },
+    { key: 'linkedinLink', name: 'LinkedIn', icon: 'fab fa-linkedin', value: this.linkedinLink, display: this.profile()?.linkedinLink },
+    { key: 'whatsappLink', name: 'WhatsApp', icon: 'fab fa-whatsapp', value: this.whatsappLink, display: this.profile()?.whatsappLink },
   ]);
 
-  hasErrors = computed(() => {
-    const errors = this.formErrors();
-    return Object.values(errors).some(fieldErrors => {
-      return fieldErrors().length > 0
+  constructor() {
+    this.loadProfile();
+  }
+
+  private loadProfile(): void {
+    this.isLoading.set(true);
+    this.loadError.set(false);
+    this.userService.getById(this.id()).subscribe({
+      next: (user) => {
+        this.profile.set(user);
+        this.resetFormFromProfile(user);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.loadError.set(true);
+        this.isLoading.set(false);
+      },
     });
-  });
+  }
 
+  private resetFormFromProfile(user: UserModel): void {
+    this.firstName.set(user.firstName);
+    this.lastName.set(user.lastName);
+    this.phoneNumber.set(user.phoneNumber ?? '');
+    this.country.set(user.country ?? '');
+    this.telegramLink.set(user.telegramLink ?? '');
+    this.instagramLink.set(user.instagramLink ?? '');
+    this.linkedinLink.set(user.linkedinLink ?? '');
+    this.whatsappLink.set(user.whatsappLink ?? '');
+  }
 
-  private loadUser() {
-    const idUser = localStorage.getItem('userId');
-    if (!idUser) {
-      this.router.navigate(['/']);
-      return;
+  startEditing(): void {
+    const current = this.profile();
+    if (current) {
+      this.resetFormFromProfile(current);
     }
-    // this.userService.fetchProfile()
-    //   .subscribe((user: AuthResponse) => {
-    //     this.currentUser.set(user);
-    //     this.userValueInitializer();
-    //     console.log("user: ", user);
-
-    //   });
-  }
-
-  private userValueInitializer() {
-    this.firstName.set(this.currentUser()?.firstName || '');
-    this.lastName.set(this.currentUser()?.lastName || '');
-    this.email.set(this.currentUser()?.email || '');
-    this.github.set(this.currentUser()?.github || '');
-    this.linkedIn.set(this.currentUser()?.linkedIn || '');
-    this.telegram.set(this.currentUser()?.telegram || '');
-    this.instagram.set(this.currentUser()?.instagram || '');
-    this.whatsapp.set(this.currentUser()?.whatsapp || '');
-  }
-  ngOnInit(): void {
-    this.loadUser();
-    this.userValueInitializer();
-  }
-
-  saveProfile(): void {
-    this.isEditing.set(false);
+    this.isEditing.set(true);
   }
 
   cancelEdit(): void {
+    const current = this.profile();
+    if (current) {
+      this.resetFormFromProfile(current);
+    }
     this.isEditing.set(false);
+  }
+
+  saveProfile(): void {
+    if (this.hasErrors() || this.isSaving()) {
+      return;
+    }
+
+    this.isSaving.set(true);
+    this.userService.updateProfile({
+      firstName: this.firstName(),
+      lastName: this.lastName(),
+      phoneNumber: this.phoneNumber() || undefined,
+      country: this.country() || undefined,
+      telegramLink: this.telegramLink() || undefined,
+      instagramLink: this.instagramLink() || undefined,
+      linkedinLink: this.linkedinLink() || undefined,
+      whatsappLink: this.whatsappLink() || undefined,
+    }).pipe(finalize(() => this.isSaving.set(false)))
+      .subscribe({
+        next: (updated) => {
+          this.profile.set(updated);
+          this.isEditing.set(false);
+        },
+      });
   }
 }

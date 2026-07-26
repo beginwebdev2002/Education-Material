@@ -50,6 +50,22 @@ export class Users {
 
     @Prop()
     linkedinLink: string;
+
+    @Prop({ type: Date, default: null })
+    lastSeenAt: Date | null;
+
+    @Prop({ type: Boolean, default: false })
+    isBanned: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Users);
+
+UserSchema.set('toJSON', {
+    virtuals: true,
+    transform: (_doc, ret) => {
+        const sanitized = ret as unknown as Record<string, unknown>;
+        delete sanitized['password'];
+        delete sanitized['__v'];
+        return sanitized;
+    },
+});

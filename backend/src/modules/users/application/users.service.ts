@@ -1,39 +1,54 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
-import type { Request, Response } from 'express';
-import { Model } from 'mongoose';
-import { UpdateUserDto } from '@modules/users/application/dto/update-user.dto';
-import { Users } from '@modules/users/domain/users.schema';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateProfileDto } from '@modules/users/application/dto/update-profile.dto';
 import { UsersRepository } from '@modules/users/infrastructure/users.repository';
-import { JwtPayload } from '@modules/auth/domain/jwt.payload';
+import { UserRole } from '@modules/users/domain/user.interface';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(Users.name) private readonly usersModel: Model<Users>,
-    private usersRepository: UsersRepository,
-  ) { }
+  constructor(private readonly usersRepository: UsersRepository) { }
 
-
-
-  async findAll() {
-    return this.usersRepository.findAll();
+  async findAllPaginated(page: number, limit: number, search?: string) {
+    return this.usersRepository.findAllPaginated({ page, limit, search });
   }
 
   async findOne(id: string) {
-    return await this.usersModel.findById(id).exec();
+    return this.usersRepository.findById(id);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    return await this.usersModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
+  async getProfile(userId: string) {
+    return this.usersRepository.findById(userId);
   }
 
-  async remove(id: string) {
-    return await this.usersModel.findByIdAndDelete(id).exec();
+  async updateProfile(userId: string, dto: UpdateProfileDto) {
+    return this.usersRepository.update(userId, dto);
   }
-  async getProfile(payload: JwtPayload) {
-    return await this.usersRepository.findById(payload._id);
+
+  async updateRole(actingAdminId: string, targetUserId: string, role: UserRole) {
+    if (actingAdminId === targetUserId) {
+      throw new ForbiddenException('You cannot change your own role');
+    }
+    const updated = await this.usersRepository.setRole(targetUserId, role);
+    if (!updated) {
+      throw new NotFoundException('User not found');
+    }
+    return updated;
+  }
+
+  async setBanned(actingAdminId: string, targetUserId: string, isBanned: boolean) {
+    if (actingAdminId === targetUserId) {
+      throw new ForbiddenException('You cannot ban yourself');
+    }
+    const updated = await this.usersRepository.setBanned(targetUserId, isBanned);
+    if (!updated) {
+      throw new NotFoundException('User not found');
+    }
+    return updated;
+  }
+
+  async remove(actingAdminId: string, targetUserId: string) {
+    if (actingAdminId === targetUserId) {
+      throw new ForbiddenException('You cannot delete your own account');
+    }
+    return this.usersRepository.delete(targetUserId);
   }
 }

@@ -1,7 +1,7 @@
 <div class="mt-24">
   <div class=" text-center mb-12 animate-fadeInUp">
     <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">Community Materials</h1>
-    <p class="mt-4 text-lg text-gray-500 dark:text-gray-400">Discover and use materials created by top educators.</p>
+    <p class="mt-4 text-lg text-gray-500 dark:text-gray-400">Discover and download materials shared by educators.</p>
   </div>
 
   <!-- Filters -->
@@ -11,16 +11,16 @@
       <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         <i class="fa-solid fa-magnifying-glass w-4 h-4 text-gray-500 dark:text-gray-400"></i>
       </div>
-      <input type="search" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)"
+      <input type="search" [ngModel]="searchTerm()" (ngModelChange)="onSearchChange($event)"
         class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         placeholder="Filter by title...">
     </div>
 
     <div>
       <label for="sort" class="sr-only">Sort by</label>
-      <select id="sort" [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)"
+      <select id="sort" [ngModel]="sortBy()" (ngModelChange)="onSortChange($event)"
         class="block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-        <option value="rating">Sort by Rating</option>
+        <option value="date">Sort by Newest</option>
         <option value="downloads">Sort by Downloads</option>
       </select>
     </div>
@@ -41,45 +41,59 @@
         <div class="text-sm w-1/2">
           <app-skeleton-loader height="1rem" width="70%"></app-skeleton-loader>
           <app-skeleton-loader height="0.875rem" width="50%" className="mt-2"></app-skeleton-loader>
-          <app-skeleton-loader height="0.75rem" width="90%" className="mt-2"></app-skeleton-loader>
         </div>
         <app-skeleton-loader height="2.25rem" width="6rem" className="rounded-lg"></app-skeleton-loader>
       </div>
     </div>
     }
   </div>
-  } @else if (filteredMaterials().length > 0) {
+  } @else if (materials().length > 0) {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeInUp" style="animation-delay: 0.4s;">
-    @for (material of filteredMaterials(); track material.id) {
+    @for (material of materials(); track material._id) {
     <div
-      class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl dark:hover:shadow-primary-900/40">
+      class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col transition-all duration-300 ease-in-out">
       <div class="p-6 flex-grow">
+        <span class="inline-block mb-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200">{{ material.format }}</span>
         <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ material.title }}</h2>
         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ material.description }}</p>
-        <div class="flex items-center text-yellow-400 mb-4">
-          @for(i of getStarArray(material.rating); track i) {
-          <i class="fa-solid fa-star"></i>
-          }
-          @for(i of getEmptyStarArray(material.rating); track i) {
-          <i class="fa-regular fa-star"></i>
-          }
-          <span class="text-gray-600 dark:text-gray-400 text-sm ml-2">{{ material.rating }}.0</span>
+        <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <span><i class="fa-solid fa-download mr-1"></i>{{ material.downloadsCount }}</span>
+          <button type="button" (click)="toggleComments(material)" class="hover:text-primary-600 dark:hover:text-primary-400">
+            <i class="fa-solid fa-comment mr-1"></i>{{ material.commentsCount }}
+          </button>
         </div>
       </div>
       <div class="p-6 bg-gray-50 dark:bg-gray-700/50 flex justify-between items-center">
         <div class="text-sm overflow-hidden pr-2">
           <p class="text-gray-900 dark:text-white font-semibold truncate">
-            By <a [routerLink]="['/profile', material.authorId]" class="hover:underline">{{ material.authorName }}</a>
+            By <a [routerLink]="['/profile', material.owner._id]" class="hover:underline">{{ material.owner.firstName }} {{ material.owner.lastName }}</a>
           </p>
-          <p class="text-gray-500 dark:text-gray-400">{{ material.downloads }} downloads</p>
-          <p class="text-xs text-gray-400 dark:text-gray-500">{{ material.reviews }} reviews</p>
+          <p class="text-gray-500 dark:text-gray-400">{{ material.subject }} &middot; {{ material.level }}</p>
         </div>
-        <a href="#"
-          class="inline-block text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors">Download</a>
+        @if (isAuthenticated()) {
+        <button (click)="download(material)" type="button"
+          class="inline-block text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors">Download</button>
+        } @else {
+        <span class="text-xs text-gray-400" i18n>Sign in to download</span>
+        }
       </div>
+      @if (expandedMaterialId() === material._id) {
+      <div class="px-6 pb-6">
+        <app-material-comments [materialId]="material._id"
+          (countChanged)="onCommentsCountChanged(material, $event)"></app-material-comments>
+      </div>
+      }
     </div>
     }
   </div>
+  @if (hasMore()) {
+  <div class="text-center mt-8">
+    <button type="button" (click)="loadMore()" [disabled]="isLoadingMore()"
+      class="px-6 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700 disabled:opacity-50">
+      {{ isLoadingMore() ? 'Loading...' : 'Load more' }}
+    </button>
+  </div>
+  }
   } @else {
   <div class="text-center py-16 animate-fadeInUp">
     <app-illustration type="emptyState"></app-illustration>

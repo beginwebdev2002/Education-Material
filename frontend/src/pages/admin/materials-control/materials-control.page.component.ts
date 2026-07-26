@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MockMaterialService } from '@shared/services';
-
+import { Material, MaterialService, MaterialStatus } from '@entities/material';
 
 @Component({
   selector: 'app-materials-control-page',
@@ -13,18 +12,58 @@ import { MockMaterialService } from '@shared/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaterialsControlPageComponent {
-  // FIX: Added explicit type to materialService to resolve 'unknown' type error.
-  private materialService: MockMaterialService = inject(MockMaterialService);
-  private allMaterials = this.materialService.materials;
+  private readonly materialService = inject(MaterialService);
 
+  isLoading = signal(true);
+  materials = signal<Material[]>([]);
+  total = signal(0);
   searchTerm = signal('');
+  statusFilter = signal<MaterialStatus | ''>('');
 
-  filteredMaterials = computed(() => {
-    const term = this.searchTerm().toLowerCase();
-    if (!term) return this.allMaterials();
-    return this.allMaterials().filter(material =>
-      material.title.toLowerCase().includes(term) ||
-      material.authorName.toLowerCase().includes(term)
-    );
-  });
+  constructor() {
+    this.load();
+  }
+
+  onSearch(term: string): void {
+    this.searchTerm.set(term);
+    this.load();
+  }
+
+  onStatusFilterChange(status: MaterialStatus | ''): void {
+    this.statusFilter.set(status);
+    this.load();
+  }
+
+  private load(): void {
+    this.isLoading.set(true);
+    this.materialService
+      .adminList({ search: this.searchTerm(), status: this.statusFilter() || undefined, page: 1, limit: 50 })
+      .subscribe({
+        next: (response) => {
+          this.materials.set(response.items);
+          this.total.set(response.total);
+          this.isLoading.set(false);
+        },
+        error: () => this.isLoading.set(false),
+      });
+  }
+
+  setStatus(material: Material, status: MaterialStatus): void {
+    this.materialService.updateStatus(material._id, status).subscribe((updated) => {
+      this.materials.update((list) => list.map((m) => (m._id === updated._id ? updated : m)));
+    });
+  }
+
+  remove(material: Material): void {
+    if (!confirm($localize`Delete "${material.title}"? This cannot be undone.`)) {
+      return;
+    }
+    this.materialService.remove(material._id).subscribe(() => {
+      this.materials.update((list) => list.filter((m) => m._id !== material._id));
+    });
+  }
+
+  download(material: Material): void {
+    this.materialService.download(material);
+  }
 }

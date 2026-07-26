@@ -14,7 +14,7 @@ async function bootstrap() {
     methods: configService.get('cors.methods'),
     credentials: configService.get('cors.credentials'),
   })
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   await app.listen(PORT ?? 3000);
 }
 bootstrap();

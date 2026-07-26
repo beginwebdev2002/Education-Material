@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -16,13 +17,12 @@ import { AuthService } from '@features/auth';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninModalComponent {
-  // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
-  private authService: AuthService = inject(AuthService);
-  private authState: AuthUiService = inject(AuthUiService);
+  private readonly authService = inject(AuthService);
+  private readonly authState = inject(AuthUiService);
   close = output<void>();
 
-  email = signal('admin@edugen.tj');
-  password = signal('3255443345');
+  email = signal('');
+  password = signal('');
   isLoading = signal(false);
   error = signal<string | null>(null);
 
@@ -75,9 +75,8 @@ export class SigninModalComponent {
         next: () => {
           this.close.emit();
         },
-        error: (err) => {
-          this.error.set($localize`Signin failed. Please try again.`);
-          console.error(err);
+        error: (err: HttpErrorResponse) => {
+          this.error.set(err.error?.message ?? $localize`Signin failed. Please try again.`);
         }
       });
   }

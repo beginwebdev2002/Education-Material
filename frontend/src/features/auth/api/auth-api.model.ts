@@ -1,7 +1,5 @@
-import { UserModel } from '@entities/user/model/user.model'; // Core domain entity
+import { AuthSessionUser } from '@shared/auth';
 
-
-// 1. Request DTO
 export interface SignUpRequest {
     email: string;
     password: string;
@@ -9,13 +7,12 @@ export interface SignUpRequest {
     lastName: string;
 }
 
-// 2. Request DTO
 export interface SignInRequest {
     email: string;
     password: string;
 }
 
-// 3. Response DTO
-export interface SignInResponse extends UserModel {
+export interface AuthResponse {
     accessToken: string;
+    user: AuthSessionUser;
 }

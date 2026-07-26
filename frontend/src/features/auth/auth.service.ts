@@ -1,38 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { UserModel } from '@entities/user/model/user.model';
-import { SignInResponse, SignUpRequest } from '@features/auth';
-import { Observable, tap } from 'rxjs';
-import { SignInRequest } from '@features/auth';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api/api.endpoint';
-import { UserService } from '@entities/user';
-import { UserStorageService } from '@core/storage';
+import { SessionStore, TokenStorageService } from '@shared/auth';
+import { AuthResponse, SignInRequest, SignUpRequest } from '@features/auth/api/auth-api.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private http: HttpClient = inject(HttpClient);
-    private userStorageService: UserStorageService = inject(UserStorageService);
-    signup(payload: SignUpRequest): Observable<SignInResponse> {
+    private readonly http = inject(HttpClient);
+    private readonly tokenStorage = inject(TokenStorageService);
+    private readonly sessionStore = inject(SessionStore);
+
+    signup(payload: SignUpRequest): Observable<AuthResponse> {
         return this.http
-            .post<SignInResponse>(AUTH_ENDPOINTS.SIGN_UP.url, payload, { withCredentials: true })
-            .pipe(
-                tap((user) => {
-                    this.userStorageService.saveUser(user);
-                })
-            )
+            .post<AuthResponse>(AUTH_ENDPOINTS.SIGN_UP.url, payload, { withCredentials: true })
+            .pipe(tap((response) => this.applySession(response)));
     }
 
-    signin(payload: SignInRequest): Observable<SignInResponse> {
-        return this.http.post<SignInResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true })
-            .pipe(
-                tap((user) => {
-                    this.userStorageService.saveUser(user);
-                })
-            );
+    signin(payload: SignInRequest): Observable<AuthResponse> {
+        return this.http
+            .post<AuthResponse>(AUTH_ENDPOINTS.SIGN_IN.url, payload, { withCredentials: true })
+            .pipe(tap((response) => this.applySession(response)));
     }
-
 
     logout(): void {
-        this.userStorageService.clearUser();
+        this.http.post(AUTH_ENDPOINTS.LOGOUT.url, {}, { withCredentials: true }).subscribe({
+            complete: () => this.clearSession(),
+            error: () => this.clearSession(),
+        });
+    }
+
+    /** Attempts to hydrate the session on app start, silently failing when the user isn't signed in. */
+    bootstrap(): Observable<boolean> {
+        return this.http.get(USER_ENDPOINTS.GET_PROFILE.url).pipe(
+            tap((user) => this.sessionStore.setSession(user as AuthResponse['user'])),
+            map(() => true),
+            catchError(() => {
+                this.clearSession();
+                return of(false);
+            }),
+        );
+    }
+
+    private applySession(response: AuthResponse): void {
+        this.tokenStorage.setAccessToken(response.accessToken);
+        this.sessionStore.setSession(response.user);
+    }
+
+    private clearSession(): void {
+        this.tokenStorage.clearAccessToken();
+        this.sessionStore.clearSession();
     }
 }

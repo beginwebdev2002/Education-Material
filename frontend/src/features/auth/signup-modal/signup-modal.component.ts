@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UserStorageService } from '@core/storage';
-import { AuthService, AuthUiService, SignUpRequest, createSignupForm, signupModel } from '@features/auth';
+import { finalize } from 'rxjs';
+import { AuthService, AuthUiService, SignUpRequest } from '@features/auth';
 import { createValidationSignal, emailValidator, maxLengthValidator, minLengthValidator, requiredValidator } from '@shared/validation';
 
 @Component({
@@ -11,57 +12,43 @@ import { createValidationSignal, emailValidator, maxLengthValidator, minLengthVa
   imports: [CommonModule, FormsModule],
   templateUrl: './signup-modal.component.html',
   styleUrls: ['./signup-modal.component.scss'],
-  providers: [AuthService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignupModalComponent implements OnInit {
-  // outputs
+export class SignupModalComponent {
   close = output<void>();
 
-  // dependencies
-  private authService: AuthService = inject(AuthService);
-  private userStorageService: UserStorageService = inject(UserStorageService);
-  private authUi: AuthUiService = inject(AuthUiService);
+  private readonly authService = inject(AuthService);
+  private readonly authUi = inject(AuthUiService);
 
-  // state
-  private signupModel = signupModel;
-  signupForm = createSignupForm();
-
-  // signals
-  firstName = signal("");
-  lastName = signal("");
-  email = signal("");
-  password = signal("");
+  firstName = signal('');
+  lastName = signal('');
+  email = signal('');
+  password = signal('');
   isLoading = signal(false);
   error = signal<string | null>(null);
   touchedFields = signal<Set<string>>(new Set());
 
-  // computed
-  formErrors = computed(() => {
-    const errors = {
-      firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-      email: createValidationSignal(this.email, [requiredValidator, minLengthValidator(3), maxLengthValidator(50), emailValidator]),
-      password: createValidationSignal(this.password, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
-    }
-
-    return errors;
-  })
+  formErrors = computed(() => ({
+    firstName: createValidationSignal(this.firstName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+    lastName: createValidationSignal(this.lastName, [requiredValidator, minLengthValidator(3), maxLengthValidator(50)]),
+    email: createValidationSignal(this.email, [requiredValidator, minLengthValidator(3), maxLengthValidator(50), emailValidator]),
+    password: createValidationSignal(this.password, [requiredValidator, minLengthValidator(8), maxLengthValidator(50)]),
+  }));
 
   hasErrors = computed(() => {
     const errors = this.formErrors();
-    return Object.values(errors).some(fieldErrors => fieldErrors().length > 0);
+    return Object.values(errors).some((fieldErrors) => fieldErrors().length > 0);
   });
 
-  ngOnInit(): void {
-  }
+  buttonText = computed(() => {
+    if (this.isLoading()) {
+      return $localize`:@@buttonCreatingAccount|Текст кнопки, когда идет процесс регистрации:Creating account...`;
+    }
+    return $localize`:@@buttonCreateAccount|Текст кнопки для начала регистрации:Create account`;
+  });
 
   markTouched(field: string) {
-    this.touchedFields.update(s => {
-      const newSet = new Set(s);
-      newSet.add(field);
-      return newSet;
-    });
+    this.touchedFields.update((s) => new Set(s).add(field));
   }
 
   isTouched(field: string) {
@@ -69,36 +56,35 @@ export class SignupModalComponent implements OnInit {
   }
 
   signupSubmit(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    if (this.hasErrors()) {
+      this.touchedFields.set(new Set(['firstName', 'lastName', 'email', 'password']));
+      return;
+    }
+
     this.isLoading.set(true);
+    this.error.set(null);
+
     const payload: SignUpRequest = {
       firstName: this.firstName(),
       lastName: this.lastName(),
       email: this.email(),
       password: this.password(),
-    }
-    this.authService.signup(payload)
+    };
+
+    this.authService
+      .signup(payload)
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
-        next: (response) => {
-          console.log("responce:", response);
-
-          this.userStorageService.saveUser(response);
-          this.isLoading.set(false);
-          this.close.emit();
+        next: () => this.close.emit(),
+        error: (err: HttpErrorResponse) => {
+          this.error.set(err.error?.message ?? $localize`Registration failed. Please try again.`);
         },
-        error: (error) => {
-          this.isLoading.set(false);
-          this.error.set(error);
-        }
-      })
+      });
   }
-
-  buttonText = computed(() => {
-    if (this.isLoading()) {
-      return $localize`:@@buttonCreatingAccount|Текст кнопки, когда идет процесс регистрации:Creating account...`;
-    } else {
-      return $localize`:@@buttonCreateAccount|Текст кнопки для начала регистрации:Create account`;
-    }
-  });
 
   switchToSignin(): void {
     this.authUi.setMode('signin');

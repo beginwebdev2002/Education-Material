@@ -1,8 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserStorageService } from '@core/storage';
-import { UserModel } from '@entities/user';
-import { UserService } from '@entities/user/data-access/user.service';
+import { SessionStore } from '@shared/auth';
 
 @Component({
   selector: 'app-footer',
@@ -13,7 +11,6 @@ import { UserService } from '@entities/user/data-access/user.service';
   imports: [RouterLink],
 })
 export class FooterComponent {
-  // FIX: Added explicit type to authService to resolve 'unknown' type error.
-  userService: UserStorageService = inject(UserStorageService);
-  currentUser = this.userService.loadUser;
+  private readonly sessionStore = inject(SessionStore);
+  currentUser = this.sessionStore.currentUser;
 }

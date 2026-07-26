@@ -1,0 +1,61 @@
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6" i18n>Overview</h1>
+
+@if (isLoading()) {
+<p class="text-gray-500 dark:text-gray-400" i18n>Loading dashboard...</p>
+} @else {
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+  @for (tile of tiles(); track tile.label) {
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center gap-3">
+    <i class="fa-solid {{ tile.icon }} text-2xl {{ tile.accent }}"></i>
+    <div>
+      <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ tile.value }}</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">{{ tile.label }}</p>
+    </div>
+  </div>
+  }
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4" i18n>Recent Activity</h2>
+    @if (overview()?.recentActivity?.length) {
+    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+      @for (entry of overview()!.recentActivity; track entry._id) {
+      <li class="py-3 flex items-center gap-3 text-sm">
+        <img [src]="entry.user?.avatar" class="w-8 h-8 rounded-full flex-shrink-0" [alt]="entry.user?.firstName" />
+        <div class="min-w-0">
+          <span class="font-medium text-gray-900 dark:text-white">{{ entry.user?.firstName }} {{ entry.user?.lastName }}</span>
+          <span class="text-gray-500 dark:text-gray-400"> &mdash; {{ activityLabel(entry.type) }}</span>
+          @if (entry.material) {
+          <span class="text-gray-500 dark:text-gray-400">: {{ entry.material.title }}</span>
+          }
+        </div>
+        <span class="ml-auto text-xs text-gray-400 flex-shrink-0">{{ entry.createdAt | date:'short' }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="text-sm text-gray-500 dark:text-gray-400" i18n>No activity recorded yet.</p>
+    }
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4" i18n>Online Now</h2>
+    @if (onlineUsers().length) {
+    <ul class="space-y-3">
+      @for (user of onlineUsers(); track user._id) {
+      <li class="flex items-center gap-3 text-sm">
+        <span class="relative flex-shrink-0">
+          <img [src]="user.avatar" class="w-8 h-8 rounded-full" [alt]="user.firstName" />
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></span>
+        </span>
+        <a [routerLink]="['/profile', user._id]" class="text-gray-900 dark:text-white hover:underline truncate">{{ user.firstName }} {{ user.lastName }}</a>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="text-sm text-gray-500 dark:text-gray-400" i18n>No one is online right now.</p>
+    }
+  </div>
+</div>
+}

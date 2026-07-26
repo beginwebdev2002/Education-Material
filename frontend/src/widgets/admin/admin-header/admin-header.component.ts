@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserStorageService } from '@core/storage';
-import { UserService } from '@entities/user';
 import { AuthService } from '@features/auth';
 import { AdminLayoutService, SettingsService } from '@shared/services';
+import { SessionStore } from '@shared/auth';
 
 @Component({
   selector: 'app-admin-header',
@@ -15,17 +14,15 @@ import { AdminLayoutService, SettingsService } from '@shared/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminHeaderComponent {
-  // FIX: Added explicit types to resolve 'unknown' type errors on injected services.
   layoutService: AdminLayoutService = inject(AdminLayoutService);
-  userStorageService: UserStorageService = inject(UserStorageService);
+  sessionStore = inject(SessionStore);
   authService: AuthService = inject(AuthService);
   settingsService: SettingsService = inject(SettingsService);
 
-  currentUser = this.userStorageService.loadUser();
+  currentUser = this.sessionStore.currentUser;
   searchQuery = signal('');
 
   logout() {
     this.authService.logout();
-    this.currentUser()?._id
   }
 }

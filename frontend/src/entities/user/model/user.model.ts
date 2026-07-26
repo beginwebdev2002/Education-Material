@@ -1,20 +1,21 @@
+import { UserRole } from '@shared/auth';
+
 export interface UserModel {
-    _id: string; // UUID
+    _id: string;
     avatar?: string;
     firstName: string;
     lastName: string;
     email: string;
-    avatarUrl: string;
-    password?: string;
     role: UserRole;
     phoneNumber?: string;
-    telegram?: string;
-    instagram?: string;
-    linkedIn?: string;
-    whatsapp?: string;
-    github?: string;
-    citizenship?: string;
-    bio?: string;
+    country?: string;
+    telegramLink?: string;
+    instagramLink?: string;
+    linkedinLink?: string;
+    whatsappLink?: string;
+    isBanned?: boolean;
+    lastSeenAt?: string | null;
+    createdAt?: string;
 }
 
-export type UserRole = 'USER' | 'ADMIN'
+export type { UserRole };
