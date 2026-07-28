@@ -1,0 +1,108 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.autocomplete-items-page {
+  &__header {
+    @apply mb-6 flex items-start justify-between;
+  }
+
+  &__back {
+    @apply mb-2 inline-block text-sm text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400;
+  }
+
+  &__title {
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__title-list {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__new-button {
+    @apply inline-flex items-center self-start rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700;
+  }
+
+  &__new-icon {
+    @apply mr-2;
+  }
+
+  &__card {
+    @apply relative overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
+  }
+
+  &__toolbar {
+    @apply flex flex-col items-start gap-4 p-4 md:flex-row md:items-center;
+  }
+
+  &__search-input {
+    @apply block w-full max-w-xs rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  }
+
+  &__filter {
+    @apply flex flex-col gap-2 sm:flex-row sm:items-center;
+  }
+
+  &__filter-label {
+    @apply text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__filter-select {
+    @apply rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  }
+
+  &__filter-item-select {
+    @apply block w-48;
+  }
+
+  &__count {
+    @apply text-sm text-gray-500 dark:text-gray-400 md:ml-auto;
+  }
+
+  &__table {
+    @apply w-full text-left rtl:text-right text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__thead {
+    @apply bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400;
+  }
+
+  &__th {
+    @apply px-6 py-3;
+  }
+
+  &__row {
+    @apply border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600;
+  }
+
+  &__row-message {
+    @apply px-6 py-12 text-center text-gray-400;
+  }
+
+  &__cell {
+    @apply px-6 py-4;
+  }
+
+  &__translations {
+    @apply flex flex-col gap-0.5;
+  }
+
+  &__parent-badge {
+    @apply mr-1 inline-block rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-200;
+  }
+
+  &__universal-badge {
+    @apply inline-block rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300;
+  }
+
+  &__actions {
+    @apply flex flex-wrap gap-x-3 gap-y-1;
+  }
+
+  &__edit {
+    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
+  }
+
+  &__delete {
+    @apply font-medium text-red-600 hover:underline dark:text-red-500;
+  }
+}

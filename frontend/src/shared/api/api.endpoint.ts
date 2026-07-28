@@ -7,12 +7,16 @@ const USER_PREFIX = `${API_BASE_URL}/users`;
 const MATERIALS_PREFIX = `${API_BASE_URL}/materials`;
 const COMMENTS_PREFIX = `${API_BASE_URL}/comments`;
 const ADMIN_PREFIX = `${API_BASE_URL}/admin`;
+const AUTOCOMPLETE_PREFIX = `${API_BASE_URL}/autocomplete`;
 
 type AuthEndpointKeys = 'SIGN_IN' | 'SIGN_UP' | 'LOGOUT';
 type UserEndpointKeys = 'GET_PROFILE' | 'UPDATE_PROFILE' | 'GET_ALL_USERS' | 'UPDATE_ROLE' | 'UPDATE_BAN' | 'GET_BY_ID';
-type MaterialsEndpointKeys = 'LIST' | 'MINE' | 'ADMIN_LIST' | 'UPLOAD' | 'DOWNLOAD' | 'DELETE' | 'UPDATE_STATUS';
+type MaterialsEndpointKeys = 'LIST' | 'MINE' | 'ADMIN_LIST' | 'GET_BY_ID' | 'UPLOAD' | 'DOWNLOAD' | 'DELETE' | 'UPDATE_STATUS';
 type CommentsEndpointKeys = 'LIST_FOR_MATERIAL' | 'CREATE' | 'DELETE' | 'ADMIN_LIST';
 type AdminEndpointKeys = 'OVERVIEW' | 'ONLINE_USERS' | 'ANALYTICS' | 'ACTIVITY';
+type AutocompleteEndpointKeys =
+    'LIST_LISTS' | 'GET_LIST' | 'CREATE_LIST' | 'UPDATE_LIST' | 'DELETE_LIST'
+    | 'LIST_ITEMS' | 'GET_ITEM' | 'CREATE_ITEM' | 'UPDATE_ITEM' | 'DELETE_ITEM' | 'PUBLIC_ITEMS';
 
 export const AUTH_ENDPOINTS: ModuleEndpoints<AuthEndpointKeys> = {
     SIGN_IN: {
@@ -81,6 +85,11 @@ export const MATERIALS_ENDPOINTS: ModuleEndpoints<MaterialsEndpointKeys> = {
         methods: ['GET'],
         description: 'Все материалы для модерации (только для админа)',
     },
+    GET_BY_ID: {
+        url: `${MATERIALS_PREFIX}`,
+        methods: ['GET'],
+        description: 'Материал по id (для админ-модалки)',
+    },
     UPLOAD: {
         url: `${MATERIALS_PREFIX}`,
         methods: ['POST'],
@@ -146,5 +155,63 @@ export const ADMIN_ENDPOINTS: ModuleEndpoints<AdminEndpointKeys> = {
         url: `${ADMIN_PREFIX}/activity`,
         methods: ['GET'],
         description: 'Журнал действий пользователей',
+    },
+};
+
+export const AUTOCOMPLETE_ENDPOINTS: ModuleEndpoints<AutocompleteEndpointKeys> = {
+    LIST_LISTS: {
+        url: `${AUTOCOMPLETE_PREFIX}/lists`,
+        methods: ['GET'],
+        description: 'Список всех справочников (dropdown-списков), только для админа',
+    },
+    GET_LIST: {
+        url: `${AUTOCOMPLETE_PREFIX}/lists`,
+        methods: ['GET'],
+        description: 'Один справочник по id',
+    },
+    CREATE_LIST: {
+        url: `${AUTOCOMPLETE_PREFIX}/lists`,
+        methods: ['POST'],
+        description: 'Создание нового справочника',
+    },
+    UPDATE_LIST: {
+        url: `${AUTOCOMPLETE_PREFIX}/lists`,
+        methods: ['PATCH'],
+        description: 'Обновление справочника',
+    },
+    DELETE_LIST: {
+        url: `${AUTOCOMPLETE_PREFIX}/lists`,
+        methods: ['DELETE'],
+        description: 'Удаление справочника (каскадно удаляет его элементы)',
+    },
+    LIST_ITEMS: {
+        url: `${AUTOCOMPLETE_PREFIX}/items`,
+        methods: ['GET'],
+        description: 'Список элементов справочника, только для админа',
+    },
+    GET_ITEM: {
+        url: `${AUTOCOMPLETE_PREFIX}/items`,
+        methods: ['GET'],
+        description: 'Один элемент справочника по id',
+    },
+    CREATE_ITEM: {
+        url: `${AUTOCOMPLETE_PREFIX}/items`,
+        methods: ['POST'],
+        description: 'Создание нового элемента справочника',
+    },
+    UPDATE_ITEM: {
+        url: `${AUTOCOMPLETE_PREFIX}/items`,
+        methods: ['PATCH'],
+        description: 'Обновление элемента справочника',
+    },
+    DELETE_ITEM: {
+        url: `${AUTOCOMPLETE_PREFIX}/items`,
+        methods: ['DELETE'],
+        description: 'Удаление элемента справочника',
+    },
+    PUBLIC_ITEMS: {
+        url: `${AUTOCOMPLETE_PREFIX}/public/items`,
+        methods: ['GET'],
+        description: 'Публичный список элементов справочника (для каскадных выпадающих списков)',
     },
 };

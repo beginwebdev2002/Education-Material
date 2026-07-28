@@ -1,0 +1,48 @@
+<div class="autocomplete-lists-page__header">
+  <h1 class="autocomplete-lists-page__title">{{ 'admin.autocomplete.listsIndex.title' | translate }}</h1>
+  <a [routerLink]="[{ outlets: { modal: ['new'] } }]" class="autocomplete-lists-page__new-button">
+    <i class="fa-solid fa-plus autocomplete-lists-page__new-icon"></i>
+    {{ 'admin.autocomplete.listsIndex.newList' | translate }}
+  </a>
+</div>
+
+<div class="autocomplete-lists-page__card">
+  <table class="autocomplete-lists-page__table">
+    <thead class="autocomplete-lists-page__thead">
+      <tr>
+        <th scope="col" class="autocomplete-lists-page__th">{{ 'admin.autocomplete.listsIndex.colKey' | translate }}</th>
+        <th scope="col" class="autocomplete-lists-page__th">{{ 'admin.autocomplete.listsIndex.colLabel' | translate }}</th>
+        <th scope="col" class="autocomplete-lists-page__th">{{ 'admin.autocomplete.listsIndex.colDescription' | translate }}</th>
+        <th scope="col" class="autocomplete-lists-page__th">{{ 'admin.autocomplete.listsIndex.colActions' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (isLoading()) {
+      <tr><td colspan="4" class="autocomplete-lists-page__row-message">{{ 'admin.autocomplete.listsIndex.loading' | translate }}</td></tr>
+      } @else {
+      @for (list of lists(); track list._id) {
+      <tr class="autocomplete-lists-page__row">
+        <td class="autocomplete-lists-page__cell-key">{{ list.key }}</td>
+        <td class="autocomplete-lists-page__cell">{{ list | translationLabel }}</td>
+        <td class="autocomplete-lists-page__cell">{{ list.description }}</td>
+        <td class="autocomplete-lists-page__cell">
+          <div class="autocomplete-lists-page__actions">
+            <a [routerLink]="['/admin/autocomplete', list._id, 'items']" class="autocomplete-lists-page__view-items">
+              {{ 'admin.autocomplete.listsIndex.viewItems' | translate }}
+            </a>
+            <a [routerLink]="[{ outlets: { modal: [list._id] } }]" class="autocomplete-lists-page__edit">
+              {{ 'admin.autocomplete.listsIndex.edit' | translate }}
+            </a>
+            <button type="button" (click)="remove(list)" class="autocomplete-lists-page__delete">
+              {{ 'admin.autocomplete.listsIndex.delete' | translate }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr><td colspan="4" class="autocomplete-lists-page__row-message">{{ 'admin.autocomplete.listsIndex.noLists' | translate }}</td></tr>
+      }
+      }
+    </tbody>
+  </table>
+</div>

@@ -171,7 +171,201 @@
       "professional": "Профессиональное образование"
     }
   },
+  "dashboard": {
+    "upload": {
+      "title": "Загрузить учебный материал",
+      "titleLabel": "Название",
+      "titlePlaceholder": "Введение в линейную алгебру",
+      "descriptionLabel": "Описание",
+      "descriptionPlaceholder": "Что охватывает этот материал?",
+      "institutionLabel": "Учебное заведение",
+      "institutionPlaceholder": "Выберите учебное заведение...",
+      "subjectLabel": "Предмет / Специальность",
+      "subjectPlaceholder": "Выберите предмет...",
+      "categoryLabel": "Категория",
+      "filesLabel": "Файлы (PDF или DOCX, макс. 15МБ каждый)",
+      "multiFileHint": "При выборе более одного файла они будут упакованы в один ZIP-архив.",
+      "removeFile": "Удалить",
+      "uploading": "Загрузка...",
+      "submit": "Загрузить материал",
+      "successMessage": "Материал отправлен. Он появится в общем доступе после одобрения администратором.",
+      "errorFailed": "Не удалось загрузить. Попробуйте снова.",
+      "errorInvalidType": "{{name}}: разрешены только файлы PDF или DOCX.",
+      "errorTooLarge": "{{name}}: файл слишком большой. Максимальный размер — 15МБ."
+    }
+  },
+  "materials": {
+    "category": {
+      "SYLLABUS": "Учебный план",
+      "LECTURES": "Лекции",
+      "TEST_QUESTIONS": "Тестовые вопросы"
+    },
+    "filters": {
+      "category": "Категория",
+      "allCategories": "Все категории",
+      "dateFrom": "С даты",
+      "dateTo": "По дату"
+    }
+  },
+  "shared": {
+    "modal": {
+      "close": "Закрыть"
+    }
+  },
   "admin": {
+    "nav": {
+      "overview": "Обзор панели",
+      "users": "Управление пользователями",
+      "materials": "Управление материалами",
+      "autocomplete": "Справочные списки",
+      "comments": "Модерация комментариев",
+      "analytics": "Аналитика и отчёты",
+      "activity": "Журнал активности",
+      "monitoring": "Мониторинг",
+      "profile": "Мой профиль",
+      "systemSettings": "Системные настройки"
+    },
+    "autocomplete": {
+      "listsIndex": {
+        "title": "Справочные списки",
+        "newList": "Новый список",
+        "colKey": "Ключ",
+        "colLabel": "Название",
+        "colDescription": "Описание",
+        "colActions": "Действия",
+        "viewItems": "Просмотреть элементы",
+        "edit": "Изменить",
+        "delete": "Удалить",
+        "confirmDeleteList": "Удалить список «{{key}}»? Это также удалит все его элементы. Действие необратимо.",
+        "noLists": "Списков пока нет.",
+        "loading": "Загрузка..."
+      },
+      "listForm": {
+        "createTitle": "Новый список",
+        "editTitle": "Изменить список",
+        "loading": "Загрузка...",
+        "keyLabel": "Ключ",
+        "keyPlaceholder": "например, educational-institutions",
+        "keyHint": "Только строчные латинские буквы, цифры и дефисы. Нельзя изменить после создания.",
+        "labelEnLabel": "Название (английский)",
+        "labelRuLabel": "Название (русский)",
+        "labelTjLabel": "Название (таджикский)",
+        "descriptionLabel": "Описание",
+        "save": "Сохранить",
+        "saving": "Сохранение...",
+        "errorFailed": "Не удалось сохранить. Попробуйте снова."
+      },
+      "itemsTable": {
+        "backToLists": "Назад к спискам",
+        "title": "Элементы",
+        "newItem": "Новый элемент",
+        "searchPlaceholder": "Поиск...",
+        "filterByParentListLabel": "Связать элементы из",
+        "filterByParentLabel": "Фильтр по связанному элементу",
+        "filterByParentNone": "Нет",
+        "colTranslations": "Переводы",
+        "colParents": "Связан с",
+        "colMetadata": "Детали",
+        "colActions": "Действия",
+        "universal": "Универсальный (для всех)",
+        "edit": "Изменить",
+        "delete": "Удалить",
+        "confirmDeleteItem": "Удалить этот элемент? Действие необратимо.",
+        "noItems": "Элементов пока нет.",
+        "loading": "Загрузка..."
+      },
+      "itemForm": {
+        "createTitle": "Новый элемент",
+        "editTitle": "Изменить элемент",
+        "loading": "Загрузка...",
+        "translationEnLabel": "Перевод (английский)",
+        "translationRuLabel": "Перевод (русский)",
+        "translationTjLabel": "Перевод (таджикский)",
+        "institutionTypeLabel": "Тип учреждения",
+        "institutionTypeUniversity": "Университет",
+        "institutionTypeSchool": "Школа",
+        "cityLabel": "Город",
+        "subjectKindLabel": "Вид",
+        "subjectKindSchoolSubject": "Школьный предмет",
+        "subjectKindSpecialization": "Специальность",
+        "linkFromListLabel": "Связать с элементами из",
+        "linkFromListNone": "Нет (универсальный элемент)",
+        "parentItemsLabel": "Выберите элементы, с которыми связан этот:",
+        "metadataJsonLabel": "Метаданные (JSON)",
+        "save": "Сохранить",
+        "saving": "Сохранение...",
+        "errorFailed": "Не удалось сохранить. Попробуйте снова."
+      }
+    },
+    "materialsControl": {
+      "colInstitutionSubject": "Учреждение / Предмет"
+    },
+    "materialDetail": {
+      "title": "Информация о материале",
+      "loading": "Загрузка материала...",
+      "description": "Описание",
+      "subject": "Предмет",
+      "institution": "Учебное заведение",
+      "category": "Категория",
+      "format": "Формат",
+      "owner": "Загрузил(а)",
+      "status": "Статус",
+      "stats": "Скачивания / Комментарии",
+      "createdAt": "Дата загрузки",
+      "download": "Скачать",
+      "approve": "Одобрить",
+      "reject": "Отклонить",
+      "delete": "Удалить"
+    },
+    "userDetail": {
+      "title": "Информация о пользователе",
+      "loading": "Загрузка пользователя...",
+      "role": "Роль",
+      "status": "Статус",
+      "banned": "Заблокирован",
+      "active": "Активен",
+      "phone": "Телефон",
+      "country": "Страна",
+      "lastSeen": "Был(а) в сети",
+      "never": "Никогда",
+      "registered": "Зарегистрирован(а)",
+      "demote": "Понизить",
+      "promote": "Повысить",
+      "unban": "Разблокировать",
+      "ban": "Заблокировать"
+    },
+    "monitoring": {
+      "title": "Мониторинг",
+      "loading": "Загрузка данных мониторинга...",
+      "totalUsers": "Всего пользователей",
+      "totalMaterials": "Всего материалов",
+      "totalDownloads": "Всего скачиваний",
+      "totalComments": "Всего комментариев",
+      "registrationsTrend": "Регистрации (последние 30 дней)",
+      "downloadsTrend": "Скачивания (последние 30 дней)",
+      "activityBreakdown": "Разбивка активности",
+      "onlineUsers": "Пользователи онлайн",
+      "recentActivity": "Недавняя активность",
+      "noData": "Данных пока нет.",
+      "noOnlineUsers": "Сейчас никого нет в сети."
+    },
+    "userProfile": {
+      "title": "Мой профиль",
+      "loading": "Загрузка профиля...",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "Эл. почта",
+      "phone": "Телефон",
+      "country": "Страна",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "save": "Сохранить изменения",
+      "saving": "Сохранение...",
+      "successMessage": "Профиль успешно обновлён.",
+      "errorFailed": "Не удалось обновить профиль. Попробуйте снова."
+    },
     "advertising": {
       "title": "Управление рекламой",
       "createNew": "Создать новое объявление",

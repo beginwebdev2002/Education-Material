@@ -171,7 +171,201 @@
       "professional": "Таҳсилоти касбӣ"
     }
   },
+  "dashboard": {
+    "upload": {
+      "title": "Боргузории маводи таълимӣ",
+      "titleLabel": "Сарлавҳа",
+      "titlePlaceholder": "Муқаддима ба алгебраи хаттӣ",
+      "descriptionLabel": "Тавсиф",
+      "descriptionPlaceholder": "Ин мавод чиро дар бар мегирад?",
+      "institutionLabel": "Муассисаи таълимӣ",
+      "institutionPlaceholder": "Муассисаро интихоб кунед...",
+      "subjectLabel": "Фан / Ихтисос",
+      "subjectPlaceholder": "Фанро интихоб кунед...",
+      "categoryLabel": "Категория",
+      "filesLabel": "Файлҳо (PDF ё DOCX, ҳадди аксар 15МБ ҳар кадом)",
+      "multiFileHint": "Агар зиёда аз як файл интихоб кунед, онҳо ба як бойгонии ZIP ҷамъ карда мешаванд.",
+      "removeFile": "Хориҷ кардан",
+      "uploading": "Боргузорӣ шуда истодааст...",
+      "submit": "Боргузории мавод",
+      "successMessage": "Мавод фиристода шуд. Пас аз тасдиқи админ он ба таври оммавӣ намоён мешавад.",
+      "errorFailed": "Боргузорӣ анҷом наёфт. Лутфан аз нав кӯшиш кунед.",
+      "errorInvalidType": "{{name}}: танҳо файлҳои PDF ё DOCX иҷозат дода мешаванд.",
+      "errorTooLarge": "{{name}}: файл хеле калон аст. Андозаи ҳадди аксар 15МБ аст."
+    }
+  },
+  "materials": {
+    "category": {
+      "SYLLABUS": "Барномаи таълимӣ",
+      "LECTURES": "Лексияҳо",
+      "TEST_QUESTIONS": "Саволҳои тест"
+    },
+    "filters": {
+      "category": "Категория",
+      "allCategories": "Ҳамаи категорияҳо",
+      "dateFrom": "Аз сана",
+      "dateTo": "То сана"
+    }
+  },
+  "shared": {
+    "modal": {
+      "close": "Пӯшидан"
+    }
+  },
   "admin": {
+    "nav": {
+      "overview": "Дурнамои панел",
+      "users": "Идоракунии корбарон",
+      "materials": "Идоракунии маводҳо",
+      "autocomplete": "Рӯйхатҳои маълумотнома",
+      "comments": "Модератсияи шарҳҳо",
+      "analytics": "Таҳлил ва ҳисоботҳо",
+      "activity": "Журнали фаъолият",
+      "monitoring": "Мониторинг",
+      "profile": "Профили ман",
+      "systemSettings": "Танзимоти система"
+    },
+    "autocomplete": {
+      "listsIndex": {
+        "title": "Рӯйхатҳои маълумотнома",
+        "newList": "Рӯйхати нав",
+        "colKey": "Калид",
+        "colLabel": "Ном",
+        "colDescription": "Тавсиф",
+        "colActions": "Амалҳо",
+        "viewItems": "Дидани элементҳо",
+        "edit": "Тағйир додан",
+        "delete": "Нест кардан",
+        "confirmDeleteList": "Рӯйхати «{{key}}»-ро нест мекунед? Ин ҳамчунин ҳамаи элементҳои онро нест мекунад. Ин амал бебозгашт аст.",
+        "noLists": "Ҳанӯз ягон рӯйхат нест.",
+        "loading": "Боргузорӣ..."
+      },
+      "listForm": {
+        "createTitle": "Рӯйхати нав",
+        "editTitle": "Тағйир додани рӯйхат",
+        "loading": "Боргузорӣ...",
+        "keyLabel": "Калид",
+        "keyPlaceholder": "масалан, educational-institutions",
+        "keyHint": "Танҳо ҳарфҳои лотинии хурд, рақамҳо ва хат-хат. Пас аз сохтан тағйир дода намешавад.",
+        "labelEnLabel": "Ном (англисӣ)",
+        "labelRuLabel": "Ном (русӣ)",
+        "labelTjLabel": "Ном (тоҷикӣ)",
+        "descriptionLabel": "Тавсиф",
+        "save": "Нигоҳ доштан",
+        "saving": "Нигоҳ дошта истодааст...",
+        "errorFailed": "Нигоҳ доштан ноком шуд. Лутфан аз нав кӯшиш кунед."
+      },
+      "itemsTable": {
+        "backToLists": "Бозгашт ба рӯйхатҳо",
+        "title": "Элементҳо",
+        "newItem": "Элементи нав",
+        "searchPlaceholder": "Ҷустуҷӯ...",
+        "filterByParentListLabel": "Пайваст кардани элементҳо аз",
+        "filterByParentLabel": "Филтр аз рӯи элементи пайвастшуда",
+        "filterByParentNone": "Нест",
+        "colTranslations": "Тарҷумаҳо",
+        "colParents": "Пайваст ба",
+        "colMetadata": "Тафсилот",
+        "colActions": "Амалҳо",
+        "universal": "Универсалӣ (барои ҳама)",
+        "edit": "Тағйир додан",
+        "delete": "Нест кардан",
+        "confirmDeleteItem": "Ин элементро нест мекунед? Ин амал бебозгашт аст.",
+        "noItems": "Ҳанӯз ягон элемент нест.",
+        "loading": "Боргузорӣ..."
+      },
+      "itemForm": {
+        "createTitle": "Элементи нав",
+        "editTitle": "Тағйир додани элемент",
+        "loading": "Боргузорӣ...",
+        "translationEnLabel": "Тарҷума (англисӣ)",
+        "translationRuLabel": "Тарҷума (русӣ)",
+        "translationTjLabel": "Тарҷума (тоҷикӣ)",
+        "institutionTypeLabel": "Навъи муассиса",
+        "institutionTypeUniversity": "Донишгоҳ",
+        "institutionTypeSchool": "Мактаб",
+        "cityLabel": "Шаҳр",
+        "subjectKindLabel": "Намуд",
+        "subjectKindSchoolSubject": "Фанни мактабӣ",
+        "subjectKindSpecialization": "Ихтисос",
+        "linkFromListLabel": "Пайваст кардан ба элементҳои аз",
+        "linkFromListNone": "Нест (элементи универсалӣ)",
+        "parentItemsLabel": "Элементҳоеро, ки ин элемент бо онҳо пайваст аст, интихоб кунед:",
+        "metadataJsonLabel": "Метамаълумот (JSON)",
+        "save": "Нигоҳ доштан",
+        "saving": "Нигоҳ дошта истодааст...",
+        "errorFailed": "Нигоҳ доштан ноком шуд. Лутфан аз нав кӯшиш кунед."
+      }
+    },
+    "materialsControl": {
+      "colInstitutionSubject": "Муассиса / Фан"
+    },
+    "materialDetail": {
+      "title": "Маълумоти мавод",
+      "loading": "Боргузории мавод...",
+      "description": "Тавсиф",
+      "subject": "Фан",
+      "institution": "Муассисаи таълимӣ",
+      "category": "Категория",
+      "format": "Формат",
+      "owner": "Боргузор кардааст",
+      "status": "Ҳолат",
+      "stats": "Боргириҳо / Шарҳҳо",
+      "createdAt": "Санаи боргузорӣ",
+      "download": "Боргирӣ",
+      "approve": "Тасдиқ",
+      "reject": "Рад",
+      "delete": "Нест кардан"
+    },
+    "userDetail": {
+      "title": "Маълумоти корбар",
+      "loading": "Боргузории корбар...",
+      "role": "Нақш",
+      "status": "Ҳолат",
+      "banned": "Басташуда",
+      "active": "Фаъол",
+      "phone": "Телефон",
+      "country": "Кишвар",
+      "lastSeen": "Дидашуда",
+      "never": "Ҳеҷ гоҳ",
+      "registered": "Сабтшуда",
+      "demote": "Паст кардан",
+      "promote": "Баланд бардоштан",
+      "unban": "Рафъи бастан",
+      "ban": "Бастан"
+    },
+    "monitoring": {
+      "title": "Мониторинг",
+      "loading": "Боргузории маълумоти мониторинг...",
+      "totalUsers": "Ҳамаи корбарон",
+      "totalMaterials": "Ҳамаи маводҳо",
+      "totalDownloads": "Ҳамаи боргириҳо",
+      "totalComments": "Ҳамаи шарҳҳо",
+      "registrationsTrend": "Сабтҳо (30 рӯзи охир)",
+      "downloadsTrend": "Боргириҳо (30 рӯзи охир)",
+      "activityBreakdown": "Тақсимоти фаъолият",
+      "onlineUsers": "Корбарони онлайн",
+      "recentActivity": "Фаъолияти охирин",
+      "noData": "Ҳанӯз маълумот нест.",
+      "noOnlineUsers": "Ҳоло ҳеҷ кас онлайн нест."
+    },
+    "userProfile": {
+      "title": "Профили ман",
+      "loading": "Боргузории профил...",
+      "firstName": "Ном",
+      "lastName": "Насаб",
+      "email": "Почтаи электронӣ",
+      "phone": "Телефон",
+      "country": "Кишвар",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "save": "Нигоҳ доштани тағйирот",
+      "saving": "Нигоҳ дошта истодааст...",
+      "successMessage": "Профил бомуваффақият навсозӣ шуд.",
+      "errorFailed": "Навсозии профил ноком шуд. Лутфан аз нав кӯшиш кунед."
+    },
     "advertising": {
       "title": "Идоракунии реклама",
       "createNew": "Эҷоди эълони нав",

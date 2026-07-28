@@ -1,0 +1,10 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.progress-bar {
+  @apply fixed top-0 left-0 z-[100] h-1 w-full overflow-hidden bg-transparent;
+
+  &__bar {
+    @apply h-full w-full origin-left bg-primary-600;
+  }
+}

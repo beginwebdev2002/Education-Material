@@ -1,0 +1,156 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.users-management-page {
+  &__title {
+    @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__card {
+    @apply relative overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-800;
+  }
+
+  &__toolbar {
+    @apply flex flex-col items-center justify-between space-y-4 p-4 md:flex-row md:space-y-0;
+  }
+
+  &__search-wrap {
+    @apply w-full md:w-1/2;
+  }
+
+  &__search-inner {
+    @apply relative;
+  }
+
+  &__search-icon {
+    @apply pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-gray-500 dark:text-gray-400;
+  }
+
+  &__search-input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 md:w-80;
+  }
+
+  &__count {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__table-wrap {
+    @apply overflow-x-auto;
+  }
+
+  &__table {
+    @apply w-full text-left rtl:text-right text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__thead {
+    @apply bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400;
+  }
+
+  &__th {
+    @apply px-6 py-3;
+
+    &--hide-mobile {
+      @apply hidden lg:table-cell;
+    }
+  }
+
+  &__skeleton-row {
+    @apply border-b dark:border-gray-700;
+  }
+
+  &__skeleton-user {
+    @apply flex items-center space-x-3;
+  }
+
+  &__skeleton-name-wrap {
+    @apply mb-1;
+  }
+
+  &__row {
+    @apply border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600;
+  }
+
+  &__cell {
+    @apply px-6 py-4;
+
+    &--hide-mobile {
+      @apply hidden lg:table-cell;
+    }
+  }
+
+  &__user-cell {
+    @apply flex items-center space-x-3;
+  }
+
+  &__avatar {
+    @apply h-10 w-10 rounded-full object-cover;
+  }
+
+  &__user-name {
+    @apply font-semibold text-gray-900 hover:text-primary-600 hover:underline dark:text-white dark:hover:text-primary-400;
+  }
+
+  &__user-email {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__role-badge {
+    @apply rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold leading-tight text-blue-800 dark:bg-blue-900 dark:text-blue-300;
+
+    &--admin {
+      @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300;
+    }
+  }
+
+  &__status-badge {
+    @apply rounded-full px-2 py-1 text-xs font-semibold;
+
+    &--banned {
+      @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300;
+    }
+
+    &--active {
+      @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300;
+    }
+  }
+
+  &__last-seen {
+    @apply text-sm text-gray-900 dark:text-white;
+  }
+
+  &__actions {
+    @apply flex gap-2;
+  }
+
+  &__role-toggle {
+    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
+  }
+
+  &__ban-toggle {
+    @apply font-medium text-red-600 hover:underline dark:text-red-500;
+
+    &--banned {
+      @apply text-green-600 dark:text-green-500;
+    }
+  }
+
+  &__self-label {
+    @apply text-xs text-gray-400;
+  }
+
+  &__empty-cell {
+    @apply px-6 py-12 text-center;
+  }
+
+  &__empty {
+    @apply flex flex-col items-center;
+  }
+
+  &__empty-icon {
+    @apply text-4xl text-gray-300 dark:text-gray-600;
+  }
+
+  &__empty-text {
+    @apply mt-4 text-sm text-gray-500 dark:text-gray-400;
+  }
+}

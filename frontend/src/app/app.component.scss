@@ -1,0 +1,10 @@
+@reference "tailwindcss";
+@reference "../styles.scss";
+
+.app-shell {
+  @apply flex min-h-screen flex-col;
+
+  &__main {
+    @apply container mx-auto grow p-4 pt-20 text-gray-800 dark:text-gray-200 sm:p-6 lg:p-8;
+  }
+}

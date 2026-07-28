@@ -1,0 +1,82 @@
+<section class="home-page">
+  <div class="home-page__hero">
+    <div class="home-page__hero-content">
+      <h1 class="home-page__title animate-fadeInUp" style="animation-delay: 0.1s;">
+        {{ 'home.hero.titleLine1' | translate }}
+        <br class="home-page__title-break">{{ 'home.hero.titleLine2' | translate }}
+      </h1>
+      <p class="home-page__subtitle animate-fadeInUp" style="animation-delay: 0.3s;">
+        {{ 'home.hero.subtitle' | translate }}
+      </p>
+      <div class="home-page__cta-row animate-fadeInUp" style="animation-delay: 0.5s;">
+        <a routerLink="/dashboard" class="home-page__cta-primary">{{ 'home.hero.getStarted' | translate }}</a>
+        <a routerLink="/materials" class="home-page__cta-secondary">{{ 'home.hero.learnMore' | translate }}</a>
+      </div>
+    </div>
+    <div class="home-page__hero-illustration animate-fadeInUp" style="animation-delay: 0.4s;">
+      <app-illustration type="welcome"></app-illustration>
+    </div>
+  </div>
+
+  <div class="home-page__features">
+    <div class="home-page__features-container">
+      <div class="home-page__features-header animate-fadeInUp">
+        <h2 class="home-page__features-eyebrow">{{ 'home.features.eyebrow' | translate }}</h2>
+        <p class="home-page__features-title">
+          {{ 'home.features.title' | translate }}
+        </p>
+        <p class="home-page__features-subtitle">
+          {{ 'home.features.subtitle' | translate }}
+        </p>
+      </div>
+      <div class="home-page__features-grid-wrap">
+        <dl class="home-page__features-grid">
+          <div class="home-page__feature animate-fadeInUp" style="animation-delay: 0.2s;">
+            <dt>
+              <div class="home-page__feature-icon-wrap">
+                <img src="https://img.icons8.com/3d-fluency/94/rocket.png" [attr.alt]="'home.features.instant.alt' | translate" class="home-page__feature-icon">
+              </div>
+              <p class="home-page__feature-title">{{ 'home.features.instant.title' | translate }}</p>
+            </dt>
+            <dd class="home-page__feature-desc">
+              {{ 'home.features.instant.desc' | translate }}
+            </dd>
+          </div>
+          <div class="home-page__feature animate-fadeInUp" style="animation-delay: 0.4s;">
+            <dt>
+              <div class="home-page__feature-icon-wrap">
+                <img src="https://img.icons8.com/3d-fluency/94/puzzle.png" [attr.alt]="'home.features.templates.alt' | translate" class="home-page__feature-icon">
+              </div>
+              <p class="home-page__feature-title">{{ 'home.features.templates.title' | translate }}</p>
+            </dt>
+            <dd class="home-page__feature-desc">
+              {{ 'home.features.templates.desc' | translate }}
+            </dd>
+          </div>
+          <div class="home-page__feature animate-fadeInUp" style="animation-delay: 0.6s;">
+            <dt>
+              <div class="home-page__feature-icon-wrap">
+                <img src="https://img.icons8.com/3d-fluency/94/conference-call.png" [attr.alt]="'home.features.community.alt' | translate" class="home-page__feature-icon">
+              </div>
+              <p class="home-page__feature-title">{{ 'home.features.community.title' | translate }}</p>
+            </dt>
+            <dd class="home-page__feature-desc">
+              {{ 'home.features.community.desc' | translate }}
+            </dd>
+          </div>
+          <div class="home-page__feature animate-fadeInUp" style="animation-delay: 0.8s;">
+            <dt>
+              <div class="home-page__feature-icon-wrap">
+                <img src="https://img.icons8.com/3d-fluency/94/services.png" [attr.alt]="'home.features.customizable.alt' | translate" class="home-page__feature-icon">
+              </div>
+              <p class="home-page__feature-title">{{ 'home.features.customizable.title' | translate }}</p>
+            </dt>
+            <dd class="home-page__feature-desc">
+              {{ 'home.features.customizable.desc' | translate }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<div class="material-list">
+  <h2 class="material-list__title" i18n>My Materials</h2>
+
+  @if (isLoading()) {
+  <p class="material-list__empty" i18n>Loading...</p>
+  } @else if (materials().length === 0) {
+  <p class="material-list__empty" i18n>You haven't uploaded any materials yet.</p>
+  } @else {
+  <ul class="material-list__list">
+    @for (material of materials(); track material._id) {
+    <li class="material-list__item">
+      <div class="material-list__info">
+        <p class="material-list__name">{{ material.title }}</p>
+        <p class="material-list__meta">{{ material.institution | translationLabel }} &middot; {{ material.subject | translationLabel }} &middot; {{ material.createdAt | date }}</p>
+        <div class="material-list__tags">
+          <span class="material-list__badge material-list__badge--{{ material.status.toLowerCase() }}">{{ material.status }}</span>
+          @if (material.format === 'ZIP') {
+          <span class="material-list__format-badge"><i class="fa-solid fa-file-zipper material-list__stat-icon"></i>ZIP</span>
+          }
+          <span><i class="fa-solid fa-download material-list__stat-icon"></i>{{ material.downloadsCount }}</span>
+          <span><i class="fa-solid fa-comment material-list__stat-icon"></i>{{ material.commentsCount }}</span>
+        </div>
+        @if (material.category.length) {
+        <div class="material-list__categories">
+          @for (c of material.category; track c) {
+          <span class="material-list__category">{{ 'materials.category.' + c | translate }}</span>
+          }
+        </div>
+        }
+      </div>
+      <div class="material-list__actions">
+        <button type="button" (click)="download.emit(material)" class="material-list__download" title="Download" i18n-title>
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <button type="button" (click)="remove.emit(material)" class="material-list__delete" title="Delete" i18n-title>
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+  }
+</div>

@@ -1,0 +1,10 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.skeleton-loader {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded-md;
+
+  &--circle {
+    @apply rounded-full;
+  }
+}

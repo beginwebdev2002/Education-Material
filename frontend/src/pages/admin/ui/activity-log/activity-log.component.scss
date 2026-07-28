@@ -1,0 +1,72 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.activity-log-page {
+  &__title {
+    @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__card {
+    @apply relative overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
+  }
+
+  &__toolbar {
+    @apply flex items-center justify-between p-4;
+  }
+
+  &__filter {
+    @apply rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  }
+
+  &__count {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__table {
+    @apply w-full text-left rtl:text-right text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__thead {
+    @apply bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400;
+  }
+
+  &__th {
+    @apply px-6 py-3;
+  }
+
+  &__row {
+    @apply border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600;
+  }
+
+  &__row-message {
+    @apply px-6 py-8 text-center text-gray-400;
+
+    &--empty {
+      @apply py-12;
+    }
+  }
+
+  &__cell-user {
+    @apply whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white;
+  }
+
+  &__cell-action {
+    @apply px-6 py-4 capitalize;
+  }
+
+  &__cell-material {
+    @apply px-6 py-4;
+  }
+
+  &__cell-time {
+    @apply whitespace-nowrap px-6 py-4;
+  }
+
+  &__footer {
+    @apply p-4 text-center;
+  }
+
+  &__load-more {
+    @apply rounded-lg border border-gray-200 bg-white px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700;
+  }
+}

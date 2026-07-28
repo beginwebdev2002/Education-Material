@@ -1,0 +1,62 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.footer {
+  @apply bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto;
+
+  &__container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 py-12;
+  }
+
+  &__grid {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-8;
+  }
+
+  &__brand {
+    @apply md:col-span-2 space-y-4;
+  }
+
+  &__brand-row {
+    @apply flex items-center space-x-2;
+  }
+
+  &__brand-icon {
+    @apply text-2xl text-primary-600 dark:text-primary-400;
+  }
+
+  &__brand-name {
+    @apply font-bold text-xl text-gray-800 dark:text-white;
+  }
+
+  &__about {
+    @apply text-gray-500 dark:text-gray-400 text-sm max-w-sm;
+  }
+
+  &__heading {
+    @apply text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase;
+  }
+
+  &__link-list {
+    @apply mt-4 space-y-2;
+  }
+
+  &__link {
+    @apply text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors;
+  }
+
+  &__social-list {
+    @apply flex space-x-6 mt-4;
+  }
+
+  &__social-link {
+    @apply text-gray-400 hover:text-primary-500 transition-colors;
+  }
+
+  &__bottom {
+    @apply mt-8 border-t border-gray-200 dark:border-gray-700 pt-8 text-center;
+  }
+
+  &__copyright {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+}

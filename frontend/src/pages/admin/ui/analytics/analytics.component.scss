@@ -1,0 +1,185 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.analytics-page {
+  &__header {
+    @apply mb-6 flex items-center justify-between;
+  }
+
+  &__title {
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__range {
+    @apply flex gap-2;
+  }
+
+  &__range-button {
+    @apply rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300;
+
+    &--active {
+      @apply border-transparent bg-primary-600 text-white;
+    }
+  }
+
+  &__loading,
+  &__empty {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__row {
+    @apply mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2;
+  }
+
+  &__panel {
+    @apply rounded-lg bg-white p-6 shadow dark:bg-gray-800;
+  }
+
+  &__panel-title {
+    @apply mb-1 text-lg font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__panel-subtitle {
+    @apply mb-4 text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__chart {
+    @apply flex h-40 items-end gap-1;
+  }
+
+  &__chart-column {
+    @apply flex h-full flex-1 flex-col items-center justify-end;
+  }
+
+  &__chart-bar {
+    @apply w-full rounded-t-sm;
+
+    &--registrations {
+      @apply bg-primary-500;
+    }
+
+    &--downloads {
+      @apply bg-emerald-500;
+    }
+  }
+
+  &__breakdown-list {
+    @apply space-y-3;
+  }
+
+  &__breakdown-row {
+    @apply mb-1 flex items-center justify-between text-sm;
+  }
+
+  &__breakdown-label {
+    @apply flex items-center gap-2 text-gray-700 dark:text-gray-300;
+  }
+
+  &__breakdown-count {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__breakdown-dot {
+    @apply h-2.5 w-2.5 rounded-full;
+
+    &--register {
+      @apply bg-blue-500;
+    }
+
+    &--login {
+      @apply bg-cyan-500;
+    }
+
+    &--logout {
+      @apply bg-slate-400;
+    }
+
+    &--profile-update {
+      @apply bg-violet-500;
+    }
+
+    &--material-upload {
+      @apply bg-primary-600;
+    }
+
+    &--material-download {
+      @apply bg-emerald-500;
+    }
+
+    &--material-comment {
+      @apply bg-amber-500;
+    }
+
+    &--material-status-change {
+      @apply bg-rose-500;
+    }
+  }
+
+  &__breakdown-track {
+    @apply h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700;
+  }
+
+  &__breakdown-fill {
+    @apply h-full rounded-full;
+
+    &--register {
+      @apply bg-blue-500;
+    }
+
+    &--login {
+      @apply bg-cyan-500;
+    }
+
+    &--logout {
+      @apply bg-slate-400;
+    }
+
+    &--profile-update {
+      @apply bg-violet-500;
+    }
+
+    &--material-upload {
+      @apply bg-primary-600;
+    }
+
+    &--material-download {
+      @apply bg-emerald-500;
+    }
+
+    &--material-comment {
+      @apply bg-amber-500;
+    }
+
+    &--material-status-change {
+      @apply bg-rose-500;
+    }
+  }
+
+  &__top-list {
+    @apply space-y-3;
+  }
+
+  &__top-item {
+    @apply flex items-center justify-between text-sm;
+  }
+
+  &__top-name {
+    @apply truncate text-gray-700 dark:text-gray-300;
+  }
+
+  &__top-rank {
+    @apply mr-2 text-gray-400;
+  }
+
+  &__top-owner {
+    @apply ml-1 text-gray-400 hover:underline;
+  }
+
+  &__top-downloads {
+    @apply ml-2 shrink-0 font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__top-downloads-icon {
+    @apply mr-1;
+  }
+}

@@ -8,6 +8,7 @@ import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { SeedModule } from '@modules/seed/seed.module';
 import { ActivityModule } from '@modules/activity/activity.module';
+import { AutocompleteModule } from '@modules/autocomplete/autocomplete.module';
 import { MaterialsModule } from '@modules/materials/materials.module';
 import { CommentsModule } from '@modules/comments/comments.module';
 import { AdminModule } from '@modules/admin/admin.module';
@@ -28,6 +29,7 @@ import { AdminModule } from '@modules/admin/admin.module';
     UsersModule,
     AuthModule,
     ActivityModule,
+    AutocompleteModule,
     MaterialsModule,
     CommentsModule,
     AdminModule,

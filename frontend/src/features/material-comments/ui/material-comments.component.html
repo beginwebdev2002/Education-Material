@@ -1,0 +1,36 @@
+<div class="material-comments">
+  @if (isAuthenticated()) {
+  <div class="material-comments__composer">
+    <input type="text" [value]="newText()" (input)="newText.set($event.target.value)"
+      (keydown.enter)="submit()" placeholder="Write a comment..." i18n-placeholder
+      class="material-comments__input" />
+    <button type="button" (click)="submit()" [disabled]="isSubmitting() || !newText().trim()"
+      class="material-comments__submit">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+  }
+
+  @if (isLoading()) {
+  <p class="material-comments__status" i18n>Loading comments...</p>
+  } @else if (comments().length === 0) {
+  <p class="material-comments__status" i18n>No comments yet.</p>
+  } @else {
+  <ul class="material-comments__list">
+    @for (comment of comments(); track comment._id) {
+    <li class="material-comments__item">
+      <div>
+        <span class="material-comments__author">{{ comment.author.firstName }} {{ comment.author.lastName }}</span>
+        <span class="material-comments__timestamp">{{ comment.createdAt | date:'short' }}</span>
+        <p class="material-comments__text">{{ comment.text }}</p>
+      </div>
+      @if (canDelete(comment)) {
+      <button type="button" (click)="remove(comment)" class="material-comments__delete" title="Delete" i18n-title>
+        <i class="fa-solid fa-trash"></i>
+      </button>
+      }
+    </li>
+    }
+  </ul>
+  }
+</div>

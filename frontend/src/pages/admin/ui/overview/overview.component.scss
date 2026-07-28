@@ -1,0 +1,132 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.overview-page {
+  &__title {
+    @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__loading {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__tiles {
+    @apply mb-8 grid grid-cols-2 gap-4 md:grid-cols-4;
+  }
+
+  &__tile {
+    @apply flex items-center gap-3 rounded-lg bg-white p-4 shadow dark:bg-gray-800;
+  }
+
+  &__tile-icon {
+    @apply text-2xl;
+
+    &--users {
+      @apply text-blue-500;
+    }
+
+    &--online {
+      @apply text-green-500;
+    }
+
+    &--active {
+      @apply text-indigo-500;
+    }
+
+    &--published {
+      @apply text-primary-500;
+    }
+
+    &--pending {
+      @apply text-yellow-500;
+    }
+
+    &--downloads {
+      @apply text-purple-500;
+    }
+
+    &--comments {
+      @apply text-pink-500;
+    }
+  }
+
+  &__tile-value {
+    @apply text-2xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__tile-label {
+    @apply text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__panels {
+    @apply grid grid-cols-1 gap-6 lg:grid-cols-3;
+  }
+
+  &__panel {
+    @apply rounded-lg bg-white p-6 shadow dark:bg-gray-800;
+
+    &--wide {
+      @apply lg:col-span-2;
+    }
+  }
+
+  &__panel-title {
+    @apply mb-4 text-lg font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__activity-list {
+    @apply divide-y divide-gray-200 dark:divide-gray-700;
+  }
+
+  &__activity-item {
+    @apply flex items-center gap-3 py-3 text-sm;
+  }
+
+  &__activity-avatar {
+    @apply h-8 w-8 shrink-0 rounded-full;
+  }
+
+  &__activity-body {
+    @apply min-w-0;
+  }
+
+  &__activity-name {
+    @apply font-medium text-gray-900 dark:text-white;
+  }
+
+  &__activity-detail {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__activity-time {
+    @apply ml-auto shrink-0 text-xs text-gray-400;
+  }
+
+  &__empty {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__online-list {
+    @apply space-y-3;
+  }
+
+  &__online-item {
+    @apply flex items-center gap-3 text-sm;
+  }
+
+  &__online-avatar-wrap {
+    @apply relative shrink-0;
+  }
+
+  &__online-avatar {
+    @apply h-8 w-8 rounded-full;
+  }
+
+  &__online-status-dot {
+    @apply absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-500 dark:border-gray-800;
+  }
+
+  &__online-name {
+    @apply truncate text-gray-900 hover:underline dark:text-white;
+  }
+}

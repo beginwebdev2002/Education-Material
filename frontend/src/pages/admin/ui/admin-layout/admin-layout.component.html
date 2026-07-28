@@ -1,0 +1,10 @@
+<div class="admin-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+  <div class="admin-layout__content">
+    <app-admin-header></app-admin-header>
+    <main class="admin-layout__main">
+      <router-outlet></router-outlet>
+      <router-outlet name="modal"></router-outlet>
+    </main>
+  </div>
+</div>

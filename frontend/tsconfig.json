@@ -38,9 +38,6 @@
       "@shared/*": [
         "shared/*"
       ],
-      "@core/*": [
-        "core/*"
-      ],
       "@environments/*": [
         "environments/*"
       ],

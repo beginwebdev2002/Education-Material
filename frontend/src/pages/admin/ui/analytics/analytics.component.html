@@ -1,0 +1,94 @@
+<div class="analytics-page__header">
+  <h1 class="analytics-page__title" i18n>Analytics & Reports</h1>
+  <div class="analytics-page__range">
+    @for (option of [7, 30, 90]; track option) {
+    <button type="button" (click)="changeRange(option)" class="analytics-page__range-button"
+      [class.analytics-page__range-button--active]="days() === option">
+      {{ option }}d
+    </button>
+    }
+  </div>
+</div>
+
+@if (isLoading()) {
+<p class="analytics-page__loading" i18n>Loading analytics...</p>
+} @else {
+<div class="analytics-page__row">
+  <div class="analytics-page__panel">
+    <h2 class="analytics-page__panel-title" i18n>New Registrations</h2>
+    <p class="analytics-page__panel-subtitle" i18n>Signups per day</p>
+    @if (registrationBars().length) {
+    <div class="analytics-page__chart">
+      @for (bar of registrationBars(); track bar.date) {
+      <div class="analytics-page__chart-column">
+        <div class="analytics-page__chart-bar analytics-page__chart-bar--registrations" [style.height.%]="bar.heightPercent" [title]="bar.date + ': ' + bar.count"></div>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="analytics-page__empty" i18n>No registrations in this period.</p>
+    }
+  </div>
+
+  <div class="analytics-page__panel">
+    <h2 class="analytics-page__panel-title" i18n>Downloads</h2>
+    <p class="analytics-page__panel-subtitle" i18n>Material downloads per day</p>
+    @if (downloadBars().length) {
+    <div class="analytics-page__chart">
+      @for (bar of downloadBars(); track bar.date) {
+      <div class="analytics-page__chart-column">
+        <div class="analytics-page__chart-bar analytics-page__chart-bar--downloads" [style.height.%]="bar.heightPercent" [title]="bar.date + ': ' + bar.count"></div>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="analytics-page__empty" i18n>No downloads in this period.</p>
+    }
+  </div>
+</div>
+
+<div class="analytics-page__row">
+  <div class="analytics-page__panel">
+    <h2 class="analytics-page__panel-title" i18n>Activity Breakdown</h2>
+    @if (breakdownRows().length) {
+    <ul class="analytics-page__breakdown-list">
+      @for (row of breakdownRows(); track row.type) {
+      <li>
+        <div class="analytics-page__breakdown-row">
+          <span class="analytics-page__breakdown-label">
+            <span class="analytics-page__breakdown-dot analytics-page__breakdown-dot--{{ row.modifier }}"></span>
+            {{ activityLabel(row.type) }}
+          </span>
+          <span class="analytics-page__breakdown-count">{{ row.count }}</span>
+        </div>
+        <div class="analytics-page__breakdown-track">
+          <div class="analytics-page__breakdown-fill analytics-page__breakdown-fill--{{ row.modifier }}" [style.width.%]="row.percent"></div>
+        </div>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="analytics-page__empty" i18n>No activity in this period.</p>
+    }
+  </div>
+
+  <div class="analytics-page__panel">
+    <h2 class="analytics-page__panel-title" i18n>Top Materials</h2>
+    @if (analytics()?.topMaterials?.length) {
+    <ol class="analytics-page__top-list">
+      @for (material of analytics()!.topMaterials; track material._id; let i = $index) {
+      <li class="analytics-page__top-item">
+        <span class="analytics-page__top-name">
+          <span class="analytics-page__top-rank">{{ i + 1 }}.</span>{{ material.title }}
+          <a [routerLink]="['/profile', material.owner._id]" class="analytics-page__top-owner">({{ material.owner.firstName }})</a>
+        </span>
+        <span class="analytics-page__top-downloads"><i class="fa-solid fa-download analytics-page__top-downloads-icon"></i>{{ material.downloadsCount }}</span>
+      </li>
+      }
+    </ol>
+    } @else {
+    <p class="analytics-page__empty" i18n>No downloads recorded yet.</p>
+    }
+  </div>
+</div>
+}

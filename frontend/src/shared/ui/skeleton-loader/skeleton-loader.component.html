@@ -1,7 +1,3 @@
-<div 
-      class="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-md"
-      [class]="className()"
-      [style.width]="width()"
-      [style.height]="height()">
-    </div>
-  
+<div class="skeleton-loader" [class.skeleton-loader--circle]="shape() === 'circle'"
+  [style.width]="width()" [style.height]="height()">
+</div>

@@ -1,0 +1,96 @@
+<div class="material-upload-form">
+  <h2 class="material-upload-form__title">{{ 'dashboard.upload.title' | translate }}</h2>
+
+  <form class="material-upload-form__form" novalidate (submit)="onSubmit($event)">
+    <div class="material-upload-form__field">
+      <label for="material-title" class="material-upload-form__label">{{ 'dashboard.upload.titleLabel' | translate }}</label>
+      <input id="material-title" type="text" [field]="form.title" class="material-upload-form__input"
+        [attr.placeholder]="'dashboard.upload.titlePlaceholder' | translate" />
+      @if (form.title().touched() && form.title().invalid()) {
+      <ul class="material-upload-form__errors">
+        @for (e of form.title().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="material-upload-form__field">
+      <label for="material-description" class="material-upload-form__label">{{ 'dashboard.upload.descriptionLabel' | translate }}</label>
+      <textarea id="material-description" rows="3" [field]="form.description" class="material-upload-form__textarea"
+        [attr.placeholder]="'dashboard.upload.descriptionPlaceholder' | translate"></textarea>
+      @if (form.description().touched() && form.description().invalid()) {
+      <ul class="material-upload-form__errors">
+        @for (e of form.description().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="material-upload-form__row">
+      <div class="material-upload-form__field">
+        <label for="material-institution" class="material-upload-form__label">{{ 'dashboard.upload.institutionLabel' | translate }}</label>
+        <app-autocomplete-item-select [selectId]="'material-institution'" listKey="educational-institutions"
+          [placeholder]="'dashboard.upload.institutionPlaceholder' | translate"
+          (selected)="onInstitutionSelected($event)">
+        </app-autocomplete-item-select>
+      </div>
+      <div class="material-upload-form__field">
+        <label for="material-subject" class="material-upload-form__label">{{ 'dashboard.upload.subjectLabel' | translate }}</label>
+        <app-autocomplete-item-select [selectId]="'material-subject'" listKey="subjects-specializations"
+          [parentItemId]="institutionId()" [disabled]="!isInstitutionValid()"
+          [placeholder]="'dashboard.upload.subjectPlaceholder' | translate"
+          (selected)="onSubjectSelected($event)">
+        </app-autocomplete-item-select>
+      </div>
+    </div>
+
+    <div class="material-upload-form__field">
+      <label class="material-upload-form__label">{{ 'dashboard.upload.categoryLabel' | translate }}</label>
+      <div class="material-upload-form__category-list">
+        @for (c of categories; track c) {
+        <button type="button" (click)="toggleCategory(c)" class="material-upload-form__category-chip"
+          [class.material-upload-form__category-chip--active]="category().includes(c)">
+          {{ 'materials.category.' + c | translate }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="material-upload-form__field">
+      <label class="material-upload-form__label">{{ 'dashboard.upload.filesLabel' | translate }}</label>
+      <input #fileInput type="file" multiple accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        (change)="onFilesSelected($event)" class="material-upload-form__file-input" />
+      <p class="material-upload-form__file-hint">{{ 'dashboard.upload.multiFileHint' | translate }}</p>
+
+      @if (files().length > 0) {
+      <ul class="material-upload-form__file-list">
+        @for (file of files(); track file.name; let i = $index) {
+        <li class="material-upload-form__file-item">
+          <span><i class="fa-solid fa-paperclip material-upload-form__file-icon"></i>{{ file.name }}</span>
+          <button type="button" (click)="removeFile(i)" class="material-upload-form__file-remove">{{ 'dashboard.upload.removeFile' | translate }}</button>
+        </li>
+        }
+      </ul>
+      }
+
+      @if (fileErrors().length > 0) {
+      <ul class="material-upload-form__errors">
+        @for (e of fileErrors(); track e) { <li>{{ e }}</li> }
+      </ul>
+      }
+    </div>
+
+    <button type="submit" [disabled]="!isFormValid() || isSubmitting()" class="material-upload-form__submit">
+      @if (isSubmitting()) {
+      <i class="fa-solid fa-spinner fa-spin material-upload-form__submit-icon"></i><span>{{ 'dashboard.upload.uploading' | translate }}</span>
+      } @else {
+      <i class="fa-solid fa-upload material-upload-form__submit-icon"></i><span>{{ 'dashboard.upload.submit' | translate }}</span>
+      }
+    </button>
+
+    @if (successMessage()) {
+    <p class="material-upload-form__success">{{ successMessage() }}</p>
+    }
+    @if (errorMessage()) {
+    <p class="material-upload-form__error">{{ errorMessage() }}</p>
+    }
+  </form>
+</div>

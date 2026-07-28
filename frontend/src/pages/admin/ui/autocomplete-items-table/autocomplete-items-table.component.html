@@ -1,0 +1,89 @@
+<div class="autocomplete-items-page__header">
+  <div>
+    <a routerLink="/admin/autocomplete" class="autocomplete-items-page__back">
+      <i class="fa-solid fa-arrow-left"></i> {{ 'admin.autocomplete.itemsTable.backToLists' | translate }}
+    </a>
+    <h1 class="autocomplete-items-page__title">
+      {{ 'admin.autocomplete.itemsTable.title' | translate }}
+      @if (list()) { <span class="autocomplete-items-page__title-list">— {{ list()! | translationLabel }}</span> }
+    </h1>
+  </div>
+  <a [routerLink]="[{ outlets: { modal: ['new'] } }]" class="autocomplete-items-page__new-button">
+    <i class="fa-solid fa-plus autocomplete-items-page__new-icon"></i>
+    {{ 'admin.autocomplete.itemsTable.newItem' | translate }}
+  </a>
+</div>
+
+<div class="autocomplete-items-page__card">
+  <div class="autocomplete-items-page__toolbar">
+    <input type="text" [value]="searchTerm()" (input)="onSearch($any($event.target).value)"
+      [attr.placeholder]="'admin.autocomplete.itemsTable.searchPlaceholder' | translate"
+      class="autocomplete-items-page__search-input">
+
+    <div class="autocomplete-items-page__filter">
+      <label for="filter-list" class="autocomplete-items-page__filter-label">{{ 'admin.autocomplete.itemsTable.filterByParentListLabel' | translate }}</label>
+      <select id="filter-list" [value]="filterListKey()" (change)="onFilterListChange($any($event.target).value)" class="autocomplete-items-page__filter-select">
+        <option value="">{{ 'admin.autocomplete.itemsTable.filterByParentNone' | translate }}</option>
+        @for (l of allLists(); track l._id) {
+        <option [value]="l.key">{{ l | translationLabel }}</option>
+        }
+      </select>
+      @if (filterListKey()) {
+      <app-autocomplete-item-select [listKey]="filterListKey()" (selected)="onFilterParentSelected($event)"
+        [placeholder]="'admin.autocomplete.itemsTable.filterByParentLabel' | translate"
+        class="autocomplete-items-page__filter-item-select">
+      </app-autocomplete-item-select>
+      }
+    </div>
+
+    <p class="autocomplete-items-page__count">{{ total() }}</p>
+  </div>
+
+  <table class="autocomplete-items-page__table">
+    <thead class="autocomplete-items-page__thead">
+      <tr>
+        <th scope="col" class="autocomplete-items-page__th">{{ 'admin.autocomplete.itemsTable.colTranslations' | translate }}</th>
+        <th scope="col" class="autocomplete-items-page__th">{{ 'admin.autocomplete.itemsTable.colParents' | translate }}</th>
+        <th scope="col" class="autocomplete-items-page__th">{{ 'admin.autocomplete.itemsTable.colMetadata' | translate }}</th>
+        <th scope="col" class="autocomplete-items-page__th">{{ 'admin.autocomplete.itemsTable.colActions' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (isLoading()) {
+      <tr><td colspan="4" class="autocomplete-items-page__row-message">{{ 'admin.autocomplete.itemsTable.loading' | translate }}</td></tr>
+      } @else {
+      @for (item of items(); track item._id) {
+      <tr class="autocomplete-items-page__row">
+        <td class="autocomplete-items-page__cell">
+          <div class="autocomplete-items-page__translations">
+            <span>EN: {{ item.translations.en }}</span>
+            <span>RU: {{ item.translations.ru }}</span>
+            <span>TJ: {{ item.translations.tj }}</span>
+          </div>
+        </td>
+        <td class="autocomplete-items-page__cell">
+          @for (parent of item.parentItems; track $index) {
+          <span class="autocomplete-items-page__parent-badge">{{ parentItemLabel(parent) }}</span>
+          } @empty {
+          <span class="autocomplete-items-page__universal-badge">{{ 'admin.autocomplete.itemsTable.universal' | translate }}</span>
+          }
+        </td>
+        <td class="autocomplete-items-page__cell">{{ metadataSummary(item) }}</td>
+        <td class="autocomplete-items-page__cell">
+          <div class="autocomplete-items-page__actions">
+            <a [routerLink]="[{ outlets: { modal: [item._id] } }]" class="autocomplete-items-page__edit">
+              {{ 'admin.autocomplete.itemsTable.edit' | translate }}
+            </a>
+            <button type="button" (click)="remove(item)" class="autocomplete-items-page__delete">
+              {{ 'admin.autocomplete.itemsTable.delete' | translate }}
+            </button>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr><td colspan="4" class="autocomplete-items-page__row-message">{{ 'admin.autocomplete.itemsTable.noItems' | translate }}</td></tr>
+      }
+      }
+    </tbody>
+  </table>
+</div>

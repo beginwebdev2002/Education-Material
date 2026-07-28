@@ -1,0 +1,50 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.auth-modal {
+  @apply fixed inset-0 z-[60] w-full h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4;
+
+  &__dialog {
+    @apply relative w-full max-w-4xl;
+  }
+
+  &__content {
+    @apply relative overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800;
+  }
+
+  &__grid {
+    @apply grid md:grid-cols-2;
+  }
+
+  &__illustration {
+    @apply hidden flex-col items-center justify-center bg-primary-50 p-8 dark:bg-gray-700/50 md:flex;
+  }
+
+  &__illustration-title {
+    @apply mt-6 text-center text-2xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__illustration-subtitle {
+    @apply mt-2 text-center text-gray-600 dark:text-gray-300;
+  }
+
+  &__form-side {
+    @apply relative flex flex-col justify-center;
+  }
+
+  &__close {
+    @apply absolute top-3 end-2.5 z-10 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white;
+  }
+
+  &__close-icon {
+    @apply h-3 w-3;
+  }
+
+  &__form-inner {
+    @apply p-8;
+  }
+
+  &__title {
+    @apply mb-4 text-2xl font-bold text-gray-900 dark:text-white;
+  }
+}

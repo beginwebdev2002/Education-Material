@@ -1,0 +1,52 @@
+<app-modal [title]="(user() ? user()!.firstName + ' ' + user()!.lastName : ('admin.userDetail.title' | translate))" (closed)="close()">
+  @if (isLoading()) {
+  <p class="user-detail__state">{{ 'admin.userDetail.loading' | translate }}</p>
+  } @else if (errorMessage()) {
+  <p class="user-detail__state user-detail__state--error">{{ errorMessage() }}</p>
+  } @else if (user(); as user) {
+  <div class="user-detail__identity">
+    <img class="user-detail__avatar" [src]="user.avatar" [alt]="user.firstName + ' ' + user.lastName" />
+    <div class="user-detail__identity-info">
+      <p class="user-detail__name">{{ user.firstName }} {{ user.lastName }}</p>
+      <p class="user-detail__email">{{ user.email }}</p>
+    </div>
+  </div>
+  <dl class="user-detail__grid">
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.role' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.role | titlecase }}</dd>
+    </div>
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.status' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.isBanned ? ('admin.userDetail.banned' | translate) : ('admin.userDetail.active' | translate) }}</dd>
+    </div>
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.phone' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.phoneNumber || '—' }}</dd>
+    </div>
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.country' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.country || '—' }}</dd>
+    </div>
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.lastSeen' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.lastSeenAt ? (user.lastSeenAt | date:'medium') : ('admin.userDetail.never' | translate) }}</dd>
+    </div>
+    <div>
+      <dt class="user-detail__label">{{ 'admin.userDetail.registered' | translate }}</dt>
+      <dd class="user-detail__value">{{ user.createdAt ? (user.createdAt | date:'mediumDate') : '—' }}</dd>
+    </div>
+  </dl>
+  }
+  <div modal-footer class="user-detail__footer">
+    @if (user(); as user) {
+    <button type="button" (click)="toggleRole()" class="user-detail__role-toggle">
+      {{ user.role === 'ADMIN' ? ('admin.userDetail.demote' | translate) : ('admin.userDetail.promote' | translate) }}
+    </button>
+    <button type="button" (click)="toggleBan()" class="user-detail__ban-toggle"
+      [class.user-detail__ban-toggle--banned]="user.isBanned">
+      {{ user.isBanned ? ('admin.userDetail.unban' | translate) : ('admin.userDetail.ban' | translate) }}
+    </button>
+    }
+  </div>
+</app-modal>

@@ -1,2 +1,3 @@
 export * from './model/material.model';
-export * from './data-access/material.service';
+export * from './api/material.service';
+export * from './ui/material-list.component';

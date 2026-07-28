@@ -1,0 +1,14 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.admin-layout {
+  @apply min-h-screen bg-gray-100 dark:bg-gray-900;
+
+  &__content {
+    @apply sm:ml-64;
+  }
+
+  &__main {
+    @apply p-4 pt-20;
+  }
+}

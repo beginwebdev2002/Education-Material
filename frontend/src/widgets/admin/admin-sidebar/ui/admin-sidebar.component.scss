@@ -1,0 +1,54 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.admin-sidebar {
+  @apply fixed top-0 left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0;
+
+  &__inner {
+    @apply h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700;
+  }
+
+  &__header {
+    @apply flex items-center justify-between mb-5;
+  }
+
+  &__brand {
+    @apply flex items-center ps-2.5;
+  }
+
+  &__brand-icon {
+    @apply text-2xl text-primary-600 dark:text-primary-500;
+  }
+
+  &__brand-text {
+    @apply self-center text-xl font-semibold whitespace-nowrap ml-3 dark:text-white;
+  }
+
+  &__close {
+    @apply inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600;
+  }
+
+  &__nav {
+    @apply space-y-2 font-medium;
+  }
+
+  &__link {
+    @apply flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700;
+
+    &--active {
+      @apply bg-gray-100 dark:bg-gray-700;
+    }
+  }
+
+  &__link-icon {
+    @apply w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white;
+  }
+
+  &__link-text {
+    @apply ms-3;
+  }
+
+  &__footer {
+    @apply absolute bottom-4 left-3 right-3;
+  }
+}

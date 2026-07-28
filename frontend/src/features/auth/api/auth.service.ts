@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, map, of, tap } from 'rxjs';
-import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api/api.endpoint';
+import { AUTH_ENDPOINTS, USER_ENDPOINTS } from '@shared/api';
 import { AuthSessionUser, SessionStore, TokenStorageService } from '@shared/auth';
-import { AuthResponse, SignInRequest, SignUpRequest } from '@features/auth/api/auth-api.model';
+import { AuthResponse, SignInRequest, SignUpRequest } from './auth-api.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

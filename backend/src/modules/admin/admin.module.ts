@@ -3,8 +3,8 @@ import { UsersModule } from '@modules/users/users.module';
 import { MaterialsModule } from '@modules/materials/materials.module';
 import { CommentsModule } from '@modules/comments/comments.module';
 import { ActivityModule } from '@modules/activity/activity.module';
-import { AdminService } from './application/admin.service';
-import { AdminController } from './infrastructure/admin.controller';
+import { AdminService } from '@modules/admin/admin.service';
+import { AdminController } from '@modules/admin/admin.controller';
 
 @Module({
     imports: [UsersModule, MaterialsModule, CommentsModule, ActivityModule],

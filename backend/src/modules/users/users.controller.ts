@@ -23,6 +23,14 @@ export class UsersController {
     return await this.usersService.getProfile(payload);
   }
 
+  @Patch('me')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: "Update the authenticated user's own profile" })
+  updateProfile(@Body() updateUserDto: UpdateUserDto, @Req() req: Request) {
+    const payload = req.user as JwtPayload;
+    return this.usersService.updateAsUser(payload._id, updateUserDto, payload);
+  }
+
   @Get()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.ADMIN)

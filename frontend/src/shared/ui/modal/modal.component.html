@@ -1,0 +1,19 @@
+<div #modalRoot class="modal hidden" tabindex="-1" aria-hidden="true">
+  <div class="modal__dialog">
+    <div class="modal__content">
+      <div class="modal__header">
+        <h2 class="modal__title">{{ title() }}</h2>
+        <button type="button" (click)="close()" [attr.aria-label]="'shared.modal.close' | translate"
+          class="modal__close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal__body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal__footer">
+        <ng-content select="[modal-footer]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

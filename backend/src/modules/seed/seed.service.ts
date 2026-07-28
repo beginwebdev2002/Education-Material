@@ -2,12 +2,16 @@ import { Injectable, OnApplicationBootstrap, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '@modules/users/users.service';
 import { UserRole } from '@modules/users/user-role.enum';
+import { AutocompleteService } from '@modules/autocomplete/autocomplete.service';
 
 @Injectable()
 export class SeedService implements OnApplicationBootstrap {
   private readonly logger = new Logger(SeedService.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly autocompleteService: AutocompleteService,
+  ) {}
 
   async onApplicationBootstrap() {
     this.logger.log('Checking for admin user...');
@@ -36,6 +40,14 @@ export class SeedService implements OnApplicationBootstrap {
       }
     } catch (error) {
       this.logger.error('Failed to seed admin user', error);
+    }
+
+    this.logger.log('Checking autocomplete lists (institutions/subjects)...');
+    try {
+      await this.autocompleteService.seedIfEmpty();
+      this.logger.log('Autocomplete lists seeding complete.');
+    } catch (error) {
+      this.logger.error('Failed to seed autocomplete lists', error);
     }
   }
 }

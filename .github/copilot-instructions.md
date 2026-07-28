@@ -1,0 +1,108 @@
+<!-- Kept in sync with CLAUDE.md by hand — Copilot instructions can't resolve @imports the way Gemini CLI's GEMINI.md does. If this file and CLAUDE.md ever visibly disagree, CLAUDE.md is authoritative. -->
+
+# Education-Material
+
+AI-powered educational material generator ("EduGen"). Monorepo: NestJS + MongoDB backend, Angular 21 (zoneless, signals) frontend.
+
+## Project shape
+
+- `backend/` — NestJS API, MongoDB via Mongoose, port **4400**. `backend/.env` holds `PORT`, `DATABASE_HOST`, JWT secret, CORS origin.
+- `frontend/` — Angular 21 SPA, standalone components, zoneless change detection, hash-based routing (`withHashLocation()`), port **4500**.
+- `.agents/skills/` — imported third-party skill packs (Angular, Feature-Sliced Design, NestJS, Mongoose, REST API design, TypeScript) that this file distills. When in doubt on something not covered here, check the relevant `.agents/skills/<name>/SKILL.md` before improvising.
+- `.claude/skills/run-education-material/` — how to actually build/run/drive the app (setup, seeded admin login, Playwright driver). Use that skill instead of re-deriving run steps here.
+
+Seeded admin account: `admin@edugen.tj` / `3255443345`.
+
+## Dev commands
+
+```
+cd backend && npm run start:dev   # nest start --watch --env-file .env, port 4400
+cd frontend && npm run start      # ng serve --port=4500
+```
+
+MongoDB must be running locally (`mongodb://localhost:27017`) before the backend boots.
+
+## Frontend rules (Angular 21 / Feature-Sliced Design)
+
+**Layering (FSD):** `app > pages > widgets > features > entities > shared`. A layer may only import from layers strictly below it — no same-layer cross-imports (`features/a` must not import `features/b`), no upward imports. Import across a slice boundary only through its `index.ts` barrel, never a deep path into another slice's internals. `shared/` has no slices, one barrel per segment (`shared/ui`, `shared/services`, etc.), no business logic. Follow "pages-first" discipline: build new UI directly under `pages/` (or `widgets/` for a cross-page composed block) first; only promote something into `entities/`/`features/` once a *second* real consumer needs it — don't create a slice speculatively.
+
+**Components:**
+- Standalone by default — do not set `standalone: true` explicitly (Angular 21 default).
+- `changeDetection: ChangeDetectionStrategy.OnPush` on every component.
+- `inject()`, not constructor injection.
+- Signal `input()`/`input.required()`/`output()`, not `@Input()`/`@Output()` decorators.
+- Native control flow (`@if`/`@for`/`@switch`), never `*ngIf`/`*ngFor`/`*ngSwitch`.
+- `[class.x]`/`[style.x]` bindings, never `ngClass`/`ngStyle`.
+- `host` object in the decorator instead of `@HostBinding`/`@HostListener`.
+- File naming: every component is `*.component.ts` (no `.page.` marker, routed or not — file name and class name always correspond 1:1), services `*.service.ts`, `providedIn: 'root'` for singletons.
+
+**Forms:** Signal Forms (`@angular/forms/signals`: `schema()`, `form()`, `Field`, `submit()`), never `FormGroup`/`FormControl`/`ReactiveFormsModule` and never template-driven (`ngModel`/`FormsModule`) — see `frontend/src/features/auth/ui/signin-modal/` for the reference pattern. Each form gets a co-located `model/form.model.ts` exporting the form's TS interface, an `initial<Name>Form` constant, and a `<name>FormSchema = schema<T>(...)`. For a single instant-apply control with no validation (a settings toggle, a search box, a filter control), a plain signal + `[value]`/`[checked]` + `(input)`/`(change)` binding is fine — it doesn't need a schema, but it also must not use `ngModel`.
+
+**State:** `signal()` for local writable state, `computed()` for derived state, `effect()` only for side effects (inside an injection context). Prefer signals over `BehaviorSubject`/`Subject` for component/service state; RxJS is for interop (`toSignal()`/`toObservable()`) or when you actually need operators.
+
+**Routing:** every feature route is lazy-loaded (`loadComponent`/`loadChildren`). Guards are functional (`CanActivateFn` + `inject()`), not class-based. A stable-URL overlay/detail view over a list (e.g. an admin "click a row to see detail" panel) uses a named secondary outlet (`outlet: 'modal'`) declared as a **child** of the primary route it overlays, not client-only signal state — see the Named-outlet routing gotcha below for why sibling placement silently fails.
+
+**Testing:** new frontend code gets Vitest specs (`*.spec.ts`, colocated with the file under test) using `TestBed`, `fixture.componentRef.setInput()` for signal `input()`s, and `HttpTestingController` for HTTP-dependent services — see `.agents/skills/angular-testing/SKILL.md`. Not retroactive: pre-existing untested components/services aren't backfilled by this rule alone.
+
+**DI:** prefer `providedIn: 'root'` singletons (already the convention); reach for a custom `InjectionToken` only for a genuine multi-provider or a non-class value — don't introduce one for something a plain service already covers.
+
+**Directives:** a custom attribute directive is a standalone class in the owning slice's `ui/` (or `shared/ui/` if truly cross-cutting) named `*.directive.ts`, using `input()`/`output()` and the `host` object like components — see `shared/auth/permission/permission-only.directive.ts` for the existing pattern.
+
+**i18n:** this project has a custom runtime i18n system (not `@angular/localize`) — `TranslationService`, `TranslatePipe` (`| translate`), `[translate]` directive, dictionaries at `frontend/src/locale/{en,ru,tj}.json`. Use that for any new user-facing text. Do not reintroduce `i18n` attributes or `$localize`.
+
+**Styling:**
+- **Templates stay clean**: `*.component.html` contains only semantic BEM (Block Element Modifier) class names (`block`, `block__element`, `block--modifier`) plus Angular bindings/control flow — no raw Tailwind/Flowbite utility classes in `class="..."` or `[class]="..."`.
+- **BEM block = the component's root concept**, named from the component (`material-list`, `signin-form`, `admin-materials-table`, ...); elements are `&__part`; modifiers are `&--state` (`&--pending`, `&--open`).
+- **Utilities live in `*.component.scss`** under the BEM selector via Tailwind's `@apply`, e.g. `.material-list__badge--pending { @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200; }`. Every component gets a real `styleUrl`/`styleUrls` — none without one. **Every such file needs both reference lines at the very top, in this order**, or `@apply` fails with "Cannot apply unknown utility class": `@reference "tailwindcss";` (core utilities — `@reference` alone against the project's own `styles.scss` does not transitively expose these) then `@reference "../relative/path/to/styles.scss";` (the project's custom `@theme` tokens, e.g. `text-primary-700`) — depth of the `../` chain depends on the component's location under `frontend/src/`.
+- **No Tailwind/Flowbite strings in TypeScript.** A component that computes a class string in `.ts` (status-badge maps, conditional `[class]` object literals) returns/toggles a BEM modifier class name instead; the `@apply` mapping lives in the `.scss`.
+- **Real Flowbite components wherever a matching pattern exists** (dropdown, modal, drawer/off-canvas, collapse, tooltip, alert, badge, ...) — documented Flowbite markup/`data-*` attributes, not a custom-rebuilt equivalent.
+- **Flowbite JS instantiated per-component**: import the specific class (`Dropdown`, `Modal`, `Drawer`, `Tooltip`, ...) from `'flowbite'`, construct it in `ngAfterViewInit()`, destroy it in `ngOnDestroy()`. Do not rely on the global `initFlowbite()` scan (it only runs once at bootstrap and never sees anything mounted later — which is nearly everything, since routes are lazy-loaded).
+- **Flowbite JS owns open/closed state** for the elements it covers — read/drive Flowbite's own instance methods (`.show()`/`.hide()`/`.toggle()`) rather than mirroring state into an Angular signal. Scoped, deliberate exception to the **State** rule above, limited to Flowbite-owned interactive widgets.
+- **Exception to "no raw Tailwind in templates"**: a Flowbite-managed target element (dropdown panel, modal) keeps its required literal starting state class (e.g. `hidden`) in the template — Flowbite's JS hardcodes exactly that token when toggling (`classList.add('hidden')`/`classList.add('block')`), so it's a functional marker the library depends on, not decorative styling, and stays out of the `.scss` `@apply` treatment.
+- **Second exception, same reasoning**: Tailwind's relational marker classes — `group` (enables a descendant's `group-hover:`/`group-focus:` variants) and `peer` (enables a sibling's `peer-checked:`/`peer-focus:` variants, the toggle-switch pattern) — compile to no CSS ruleset of their own; they only exist as a selector target for a *different* element's variant classes. `@apply group;`/`@apply peer;` fails ("unknown utility class") because there's nothing to apply. Keep them as literal classes on the template element, alongside its BEM class, and put the `group-hover:`/`peer-checked:` styling on the *other* element's own `@apply` block as normal.
+- **Per-component style budget raised accordingly** (`frontend/angular.json`'s `anyComponentStyle` budget, now 8kB warn / 32kB error) — components that used to have empty `.scss` files now legitimately hold everything that was previously inline in the template, so the old 4kB/8kB thresholds (tuned for a mostly-empty-scss architecture) fail real, correctly-converted components. Raise further if a genuinely large component still hits the error budget; don't strip styles to fit.
+- **A Flowbite trigger/target behind `@if` needs `effect()`, not `ngAfterViewInit()`.** `ngAfterViewInit()` fires exactly once; if the element a Dropdown/Modal/etc. attaches to only renders later (e.g. a user-menu button gated by `@if (sessionStore.isAuthenticated())`, and the user signs in after the component already mounted), a one-shot lifecycle hook silently never creates the instance. Use a signal `viewChild()` (optional, not `.required`) plus a constructor `effect()` that creates the instance once the ref resolves — the effect re-runs whenever the signal's value changes, so a later mount is still caught.
+- **Flowbite's other runtime-toggled classes need an explicit safelist.** Beyond the one state class kept in the template, Flowbite's JS also adds classes that never appear as literal text anywhere (e.g. Modal's `flex`/`justify-center`/`items-center`, Drawer's `transform-none`/`-translate-x-full`, Tooltip's `opacity-0`/`invisible`/`opacity-100`/`visible`, `overflow-hidden` on `<body>`). Tailwind v4 only generates utilities it finds in scanned content, so these must be force-generated via `@source inline("...")` in `frontend/src/styles.scss` — extend that line when a new Flowbite component/placement introduces a class not already listed, rather than assuming it'll "just work" because it compiled.
+- **Never bake a `display` utility (`flex`/`block`/`grid`) into the BEM block's own `@apply` rule for a Flowbite-managed target.** Angular scopes component styles with an `[_ngcontent-*]` attribute selector, which out-specifies a plain global utility class like `.hidden` — so `.my-modal { @apply flex ...; }` beats `.hidden { display: none; }` even while `hidden` is literally on the element, making it visible (and clickable/blocking) when it should be closed. Flowbite's own `show()`/`hide()` already toggles the display class it needs (`hidden`↔`flex`, per the safelist above) — leave `display` out of the component's static rule entirely and let Flowbite own it, the same way `shared/ui/modal` does.
+
+## Backend rules (NestJS)
+
+**Module layering** (flat feature-based — already the convention here, keep following it): each business domain gets one directory under `backend/src/modules/<name>/` with, strictly: `<name>.controller.ts`, `<name>.service.ts`, `<name>.module.ts`, `entities/` (Mongoose schemas), `dto/` (validation classes). No `domain/`/`application/`/`infrastructure/` sub-layers, no `adapters/`/`ports/`/`use-cases/` — a small type shared across a module's own files (an enum, a payload interface) is a standalone file at the module root, not a subfolder. No `index.ts` barrels inside `modules/*`, `common/`, or `configs/` — always import the concrete file via its `@modules/*`/`@common/*`/`@configs/*` deep path. Controllers only delegate to services — no business logic in controllers.
+
+**Validation:** every request body is a DTO with `class-validator` decorators. The global `ValidationPipe` runs with `{ whitelist: true, forbidNonWhitelisted: true, transform: true }`.
+
+**Auth:** every route that isn't intentionally public is guarded (`@UseGuards(AuthGuard('jwt'))`), plus a `RolesGuard`/`@Roles()` check for admin-only actions. Never let a DTO field (like `role`) be settable by a non-admin caller.
+
+**Data access:** the module's service injects its Mongoose `Model` directly with `@InjectModel()` — no repository/port abstraction layer. Other modules that need a domain's data (e.g. `AuthService`, `SeedService`, `RolesGuard` needing user lookups) inject that module's service class via normal Nest DI, not a Model or a DI token. Never return a raw user document with `password` still on it — the service excludes it with `.select('-password')`.
+
+**Errors:** throw NestJS HTTP exceptions (`NotFoundException`, `ConflictException`, etc.) from services, not raw `Error`s, and not from controllers.
+
+**TypeScript:** no `any` — use `unknown` + narrowing, or a proper type.
+
+## Known, accepted deviations
+
+- `POST /auth/signup` / `POST /auth/signin` use verb-like path segments — a normal, accepted exception to the "no verbs in resource names" REST guideline for auth endpoints; not something to "fix" by breaking the existing frontend contract.
+
+## Known gotchas
+
+- **Multipart/form-data array-DTO gotcha**: a DTO field typed as an array populated from `multipart/form-data` needs `@Transform(({value}) => Array.isArray(value) ? value : [value])` — multer/busboy only produces a real array when a field name repeats 2+ times; a single selected value arrives as a bare string and fails `@IsArray()`.
+- **"Believed-existing endpoint" gotcha**: never trust that a frontend API call has a matching backend route just because the frontend code calls it — grep the controller for the literal route. (`UserService.updateProfile()` called `PATCH /users/me` for a long time with no such route ever existing; it fell through to `PATCH /users/:id` with `id="me"` and crashed.)
+- **Windows dev-server hygiene**: before starting `npm run start:dev`/`npm run start`, check `netstat -ano | grep :4400`/`:4500` for a stale process still holding the port from an earlier session and kill it first — a recurring false-failure source.
+- **Named-outlet routing gotcha**: an auxiliary/modal outlet route must be declared as a **child** of the primary route it overlays (matching how the URL segment tree nests, e.g. `admin/materials/(modal:id)`), not as a sibling under a shared parent — declaring it as a sibling silently fails to match and falls through to the wildcard route with no error.
+- **Flowbite integration rule**: every interactive Flowbite element gets its own explicit JS instance, created in the owning component's `ngAfterViewInit()` and destroyed in `ngOnDestroy()` — never rely on the global `initFlowbite()` scan for anything Angular mounts or unmounts. See **Styling** above for the full convention.
+- **`ng serve`'s incremental compiler can miss a component's *first* `styleUrls` entry.** Adding a brand-new `.component.scss` file plus its `styleUrls: [...]` line to a component that previously had neither (e.g. during the Flowbite/BEM conversion) can leave an already-running dev server serving that component with zero injected styles — `getComputedStyle()` on its elements returns defaults (transparent background, `0px` padding/radius) even though `npm run build` compiles the file correctly and the browser shows no errors. It's a false negative caused by the dev server's dependency graph not picking up the new file/property pair, not a real bug in the component. If a just-converted component's `@apply` styles don't seem to render against a long-running `ng serve` process, restart it (kill the port, `npm run start` again) before concluding the styles are broken.
+
+## Skill packs vs. this file
+
+`.agents/skills/nestjs-best-practices` and `.agents/skills/nestjs-expert` both illustrate a repository/ORM-abstraction style (`@InjectRepository`, TypeORM/Prisma). This file's **Data access** rule above overrides that guidance — inject the Mongoose `Model` directly in the module's own service, no repository layer. `.agents/skills/angular-forms` illustrates Signal Forms as "recommended for new projects," which this project has already adopted (see **Forms** above) — no conflict there. When another skill pack's guidance and this file disagree on something not listed here, this file wins.
+
+## Collaboration preferences
+
+- **Apply renames/conventions project-wide, not selectively.** When told to change a naming or structure convention, apply it to every existing matching file in one pass, not just newly-touched ones.
+- **Corrections replace the rule, including its documentation.** When the user corrects an in-flight decision, treat it as the new standing rule and update `CLAUDE.md` (or whatever doc stated the old rule) to match — don't just patch the one file that triggered the correction.
+- **Expect iterative structural refinement.** Restructuring requests often arrive in follow-up rounds that push further in the same direction (e.g. flatten a folder → then group its contents by component name). Execute each round fully and verify with a real `npm run build` (plus a Playwright click-through via `.claude/skills/run-education-material/` for anything that could affect runtime behavior) before considering it done — a successful compile alone isn't sufficient confirmation for behavior-affecting changes.
+- **Prefer moving real files over reconstructing them from memory.** For mechanical multi-file moves/renames, move the real file and edit only the changed lines rather than rewriting file contents from recollection — avoids silent transcription drift.
+- **Plan Mode gets real scrutiny.** The user reads plans closely and gives specific, line-level corrections rather than blanket approval — write plans that are concrete about exact file lists/patterns, not just intent.
+- **When genuinely ambiguous, ask with a strong recommended default.** The user consistently accepts well-reasoned recommended options — bias toward giving an opinion via a recommended choice rather than presenting neutral open-ended options.
+- **Environment**: Windows, both Git Bash and PowerShell available; backend on port 4400, frontend on port 4500; verify end-to-end using `.claude/skills/run-education-material/` rather than static analysis alone.
+- **Language**: the user writes in a mix of English and Russian — reply in whichever language their message is written in.

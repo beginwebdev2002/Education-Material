@@ -1,0 +1,30 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.settings-page {
+  @apply mx-auto max-w-2xl;
+
+  &__title {
+    @apply mb-8 text-3xl font-extrabold text-gray-900 dark:text-white;
+  }
+
+  &__card {
+    @apply space-y-8 rounded-lg bg-white p-8 shadow-lg dark:bg-gray-800;
+  }
+
+  &__section-title {
+    @apply mb-4 text-xl font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__options {
+    @apply flex items-center space-x-4;
+  }
+
+  &__option {
+    @apply rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium dark:bg-gray-700 dark:text-gray-300;
+
+    &--active {
+      @apply bg-primary-600 text-white dark:bg-primary-600;
+    }
+  }
+}

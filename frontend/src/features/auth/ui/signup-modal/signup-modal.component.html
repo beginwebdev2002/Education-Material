@@ -1,68 +1,62 @@
-<form class="space-y-4" novalidate (submit)="onSubmit($event)">
-    <div class="grid grid-cols-2 gap-4">
-        <div>
-            <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+<form class="signup-form" novalidate (submit)="onSubmit($event)">
+    <div class="signup-form__row">
+        <div class="signup-form__field">
+            <label for="firstName" class="signup-form__label">
                 {{ 'auth.signup.firstNameLabel' | translate }}
             </label>
-            <input type="text" id="firstName" [field]="form.firstName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            <input type="text" id="firstName" [field]="form.firstName" class="signup-form__input"
                 [attr.placeholder]="'auth.signup.firstNamePlaceholder' | translate">
             @if (form.firstName().touched() && form.firstName().invalid()) {
-            <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <ul class="signup-form__errors">
                 @for (e of form.firstName().errors(); track e) { <li>{{ e.message }}</li> }
             </ul>
             }
         </div>
-        <div>
-            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <div class="signup-form__field">
+            <label for="lastName" class="signup-form__label">
                 {{ 'auth.signup.lastNameLabel' | translate }}
             </label>
-            <input type="text" id="lastName" [field]="form.lastName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            <input type="text" id="lastName" [field]="form.lastName" class="signup-form__input"
                 [attr.placeholder]="'auth.signup.lastNamePlaceholder' | translate">
             @if (form.lastName().touched() && form.lastName().invalid()) {
-            <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <ul class="signup-form__errors">
                 @for (e of form.lastName().errors(); track e) { <li>{{ e.message }}</li> }
             </ul>
             }
         </div>
     </div>
-    <div>
-        <label for="register-email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    <div class="signup-form__field">
+        <label for="register-email" class="signup-form__label">
             {{ 'auth.signup.emailLabel' | translate }}
         </label>
-        <input type="email" id="register-email" [field]="form.email"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+        <input type="email" id="register-email" [field]="form.email" class="signup-form__input"
             [attr.placeholder]="'auth.signup.emailPlaceholder' | translate">
         @if (form.email().touched() && form.email().invalid()) {
-        <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <ul class="signup-form__errors">
             @for (e of form.email().errors(); track e) { <li>{{ e.message }}</li> }
         </ul>
         }
     </div>
-    <div>
-        <label for="register-password"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    <div class="signup-form__field">
+        <label for="register-password" class="signup-form__label">
             {{ 'auth.signup.passwordLabel' | translate }}
         </label>
         <input type="password" id="register-password" [field]="form.password" placeholder="••••••••"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+            class="signup-form__input">
         @if (form.password().touched() && form.password().invalid()) {
-        <ul class="mt-2 text-sm text-red-600 dark:text-red-500">
+        <ul class="signup-form__errors">
             @for (e of form.password().errors(); track e) { <li>{{ e.message }}</li> }
         </ul>
         }
     </div>
-    <button type="submit" [disabled]="form().submitting() || form().invalid()"
-        class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50 disabled:cursor-not-allowed">
+    <button type="submit" [disabled]="form().submitting() || form().invalid()" class="signup-form__submit">
         {{ buttonText()}}
     </button>
     @if (error()) {
-    <p class="text-sm font-medium text-red-500 dark:text-red-400">{{ error() }}</p>
+    <p class="signup-form__error-message">{{ error() }}</p>
     }
-    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+    <div class="signup-form__switch">
         <span>{{ 'auth.signup.alreadyHaveAccount' | translate }}</span>
-        <button type="button" (click)="switchToSignin()"
-            class="text-primary-700 hover:underline dark:text-primary-500">{{ 'auth.signup.login' | translate }}</button>
+        <button type="button" (click)="switchToSignin()" class="signup-form__switch-link">{{ 'auth.signup.login' | translate }}</button>
     </div>
 </form>

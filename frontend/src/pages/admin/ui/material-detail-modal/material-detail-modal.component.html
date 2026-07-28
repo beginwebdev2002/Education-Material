@@ -1,0 +1,72 @@
+<app-modal [title]="material()?.title ?? ('admin.materialDetail.title' | translate)" (closed)="close()">
+  @if (isLoading()) {
+  <p class="material-detail__state">{{ 'admin.materialDetail.loading' | translate }}</p>
+  } @else if (errorMessage()) {
+  <p class="material-detail__state material-detail__state--error">{{ errorMessage() }}</p>
+  } @else if (material(); as material) {
+  <dl class="material-detail__grid">
+    <div class="material-detail__field material-detail__field--wide">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.description' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.description }}</dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.subject' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.subject | translationLabel }}</dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.institution' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.institution | translationLabel }}</dd>
+    </div>
+    <div class="material-detail__field material-detail__field--wide">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.category' | translate }}</dt>
+      <dd class="material-detail__category-list">
+        @for (c of material.category; track c) {
+        <span class="material-detail__category">
+          {{ ('materials.category.' + c) | translate }}
+        </span>
+        }
+      </dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.format' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.format }} · {{ (material.size / 1024 / 1024).toFixed(2) }} MB</dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.owner' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.owner.firstName }} {{ material.owner.lastName }}</dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.status' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.status }}</dd>
+    </div>
+    <div class="material-detail__field">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.stats' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.downloadsCount }} ⭳ · {{ material.commentsCount }} 💬</dd>
+    </div>
+    <div class="material-detail__field material-detail__field--wide">
+      <dt class="material-detail__label">{{ 'admin.materialDetail.createdAt' | translate }}</dt>
+      <dd class="material-detail__value">{{ material.createdAt | date:'medium' }}</dd>
+    </div>
+  </dl>
+  }
+  <div modal-footer class="material-detail__footer">
+    @if (material(); as material) {
+    <button type="button" (click)="download()" class="material-detail__download">
+      {{ 'admin.materialDetail.download' | translate }}
+    </button>
+    @if (material.status !== 'PUBLISHED') {
+    <button type="button" (click)="setStatus('PUBLISHED')" class="material-detail__approve">
+      {{ 'admin.materialDetail.approve' | translate }}
+    </button>
+    }
+    @if (material.status !== 'REJECTED') {
+    <button type="button" (click)="setStatus('REJECTED')" class="material-detail__reject">
+      {{ 'admin.materialDetail.reject' | translate }}
+    </button>
+    }
+    <button type="button" (click)="remove()" class="material-detail__delete">
+      {{ 'admin.materialDetail.delete' | translate }}
+    </button>
+    }
+  </div>
+</app-modal>

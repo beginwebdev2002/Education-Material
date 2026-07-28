@@ -1,0 +1,68 @@
+<app-modal [title]="isEditMode() ? ('admin.autocomplete.listForm.editTitle' | translate) : ('admin.autocomplete.listForm.createTitle' | translate)" (closed)="close()">
+  @if (isLoading()) {
+  <p class="autocomplete-list-form__state">{{ 'admin.autocomplete.listForm.loading' | translate }}</p>
+  } @else {
+  <form class="autocomplete-list-form" novalidate (submit)="onSubmit($event)">
+    <div class="autocomplete-list-form__field">
+      <label for="list-key" class="autocomplete-list-form__label">{{ 'admin.autocomplete.listForm.keyLabel' | translate }}</label>
+      @if (isEditMode()) {
+      <p class="autocomplete-list-form__readonly-value">{{ model().key }}</p>
+      } @else {
+      <input id="list-key" type="text" [field]="form.key"
+        class="autocomplete-list-form__input" [attr.placeholder]="'admin.autocomplete.listForm.keyPlaceholder' | translate">
+      <p class="autocomplete-list-form__hint">{{ 'admin.autocomplete.listForm.keyHint' | translate }}</p>
+      @if (form.key().touched() && form.key().invalid()) {
+      <ul class="autocomplete-list-form__errors">
+        @for (e of form.key().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+      }
+    </div>
+
+    <div class="autocomplete-list-form__field">
+      <label for="list-label-en" class="autocomplete-list-form__label">{{ 'admin.autocomplete.listForm.labelEnLabel' | translate }}</label>
+      <input id="list-label-en" type="text" [field]="form.labelTranslationEn" class="autocomplete-list-form__input">
+      @if (form.labelTranslationEn().touched() && form.labelTranslationEn().invalid()) {
+      <ul class="autocomplete-list-form__errors">
+        @for (e of form.labelTranslationEn().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="autocomplete-list-form__field">
+      <label for="list-label-ru" class="autocomplete-list-form__label">{{ 'admin.autocomplete.listForm.labelRuLabel' | translate }}</label>
+      <input id="list-label-ru" type="text" [field]="form.labelTranslationRu" class="autocomplete-list-form__input">
+      @if (form.labelTranslationRu().touched() && form.labelTranslationRu().invalid()) {
+      <ul class="autocomplete-list-form__errors">
+        @for (e of form.labelTranslationRu().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="autocomplete-list-form__field">
+      <label for="list-label-tj" class="autocomplete-list-form__label">{{ 'admin.autocomplete.listForm.labelTjLabel' | translate }}</label>
+      <input id="list-label-tj" type="text" [field]="form.labelTranslationTj" class="autocomplete-list-form__input">
+      @if (form.labelTranslationTj().touched() && form.labelTranslationTj().invalid()) {
+      <ul class="autocomplete-list-form__errors">
+        @for (e of form.labelTranslationTj().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="autocomplete-list-form__field">
+      <label for="list-description" class="autocomplete-list-form__label">{{ 'admin.autocomplete.listForm.descriptionLabel' | translate }}</label>
+      <textarea id="list-description" rows="2" [field]="form.description" class="autocomplete-list-form__textarea"></textarea>
+    </div>
+
+    @if (errorMessage()) {
+    <p class="autocomplete-list-form__error">{{ errorMessage() }}</p>
+    }
+
+    <div modal-footer>
+      <button type="button" [disabled]="form().invalid() || isSaving()" class="autocomplete-list-form__submit" (click)="onSubmit($event)">
+        {{ isSaving() ? ('admin.autocomplete.listForm.saving' | translate) : ('admin.autocomplete.listForm.save' | translate) }}
+      </button>
+    </div>
+  </form>
+  }
+</app-modal>

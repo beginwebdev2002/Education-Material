@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, effect, inject, signal, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, effect, inject, signal, OnInit } from '@angular/core';
 import { RouterOutlet, Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
@@ -7,7 +7,6 @@ import { HeaderComponent } from '@widgets/header';
 import { SettingsService, LoadingService } from '@shared/services';
 import { ProgressBarComponent } from '@shared/ui';
 import { FooterComponent } from '@widgets/footer';
-import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +15,7 @@ import { initFlowbite } from 'flowbite';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, HeaderComponent, ProgressBarComponent, FooterComponent],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   private settingsService: SettingsService = inject(SettingsService);
   private router: Router = inject(Router);
   loadingService: LoadingService = inject(LoadingService);
@@ -53,10 +52,5 @@ export class AppComponent implements AfterViewInit {
         setTimeout(() => this.loadingService.isLoading.set(false), 200);
       }
     });
-  }
-  ngAfterViewInit(): void {
-    if (typeof initFlowbite === 'function') {
-      initFlowbite();
-    }
   }
 }

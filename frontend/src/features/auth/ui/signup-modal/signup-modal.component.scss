@@ -1,0 +1,38 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.signup-form {
+  @apply space-y-4;
+
+  &__row {
+    @apply grid grid-cols-2 gap-4;
+  }
+
+  &__label {
+    @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
+  }
+
+  &__input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400;
+  }
+
+  &__errors {
+    @apply mt-2 text-sm text-red-600 dark:text-red-500;
+  }
+
+  &__submit {
+    @apply w-full rounded-lg bg-primary-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800;
+  }
+
+  &__error-message {
+    @apply text-sm font-medium text-red-500 dark:text-red-400;
+  }
+
+  &__switch {
+    @apply text-sm font-medium text-gray-500 dark:text-gray-300;
+  }
+
+  &__switch-link {
+    @apply text-primary-700 hover:underline dark:text-primary-500;
+  }
+}

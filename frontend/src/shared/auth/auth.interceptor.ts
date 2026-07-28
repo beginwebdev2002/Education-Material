@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { API_BASE_URL } from '@shared/api/api.config';
+import { API_BASE_URL } from '@shared/api';
 import { TokenStorageService } from './token-storage.service';
 import { SessionStore } from './session.store';
 

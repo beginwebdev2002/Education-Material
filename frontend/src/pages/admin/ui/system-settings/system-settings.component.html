@@ -1,0 +1,74 @@
+<h1 class="system-settings-page__title">{{ 'admin.systemSettings.title' | translate }}</h1>
+
+<div class="system-settings-page__content">
+  <!-- General Settings -->
+  <div class="system-settings-page__section">
+    <h5 class="system-settings-page__section-title">{{ 'admin.systemSettings.generalControls' | translate }}</h5>
+    <div class="system-settings-page__toggle-list">
+      <!-- Maintenance Mode -->
+      <div class="system-settings-page__toggle-row">
+        <div>
+          <p class="system-settings-page__toggle-label">{{ 'admin.systemSettings.maintenanceModeLabel' | translate }}</p>
+          <p class="system-settings-page__toggle-desc">{{ 'admin.systemSettings.maintenanceModeDesc' | translate }}</p>
+        </div>
+        <label class="system-settings-page__toggle">
+          <input type="checkbox" [checked]="settingsService.maintenanceMode()"
+            (change)="settingsService.maintenanceMode.set($any($event.target).checked)" class="system-settings-page__toggle-input peer">
+          <div class="system-settings-page__toggle-track"></div>
+        </label>
+      </div>
+
+      <!-- User Registration -->
+      <div class="system-settings-page__toggle-row">
+        <div>
+          <p class="system-settings-page__toggle-label">{{ 'admin.systemSettings.userRegistrationLabel' | translate }}</p>
+          <p class="system-settings-page__toggle-desc">{{ 'admin.systemSettings.userRegistrationDesc' | translate }}</p>
+        </div>
+        <label class="system-settings-page__toggle">
+          <input type="checkbox" [checked]="settingsService.userRegistration()"
+            (change)="settingsService.userRegistration.set($any($event.target).checked)" class="system-settings-page__toggle-input peer">
+          <div class="system-settings-page__toggle-track"></div>
+        </label>
+      </div>
+
+      <!-- Community Materials -->
+      <div class="system-settings-page__toggle-row">
+        <div>
+          <p class="system-settings-page__toggle-label">{{ 'admin.systemSettings.communityMaterialsLabel' | translate }}</p>
+          <p class="system-settings-page__toggle-desc">{{ 'admin.systemSettings.communityMaterialsDesc' | translate }}</p>
+        </div>
+        <label class="system-settings-page__toggle">
+          <input type="checkbox" [checked]="settingsService.communityMaterials()"
+            (change)="settingsService.communityMaterials.set($any($event.target).checked)" class="system-settings-page__toggle-input peer">
+          <div class="system-settings-page__toggle-track"></div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI & Generation Settings -->
+  <div class="system-settings-page__section">
+    <h5 class="system-settings-page__section-title">{{ 'admin.systemSettings.generationSettingsTitle' | translate }}</h5>
+    <div class="system-settings-page__toggle-list">
+      <!-- Max Generations per Day -->
+      <div>
+        <label for="max-generations" class="system-settings-page__field-label">{{ 'admin.systemSettings.maxGenerationsLabel' | translate }}</label>
+        <input type="number" id="max-generations" [value]="settingsService.maxGenerationsPerDay()"
+          (change)="settingsService.maxGenerationsPerDay.set(+$any($event.target).value)"
+          class="system-settings-page__field-input">
+      </div>
+
+      <!-- Default Language -->
+      <div>
+        <label for="default-language" class="system-settings-page__field-label">{{ 'admin.systemSettings.defaultLanguageLabel' | translate }}</label>
+        <select id="default-language" [value]="settingsService.defaultLanguage()"
+          (change)="settingsService.defaultLanguage.set($any($event.target).value)"
+          class="system-settings-page__field-input">
+          @for (lang of languages; track lang.code) {
+          <option [value]="lang.code">{{ lang.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

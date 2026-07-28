@@ -1,45 +1,42 @@
-<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <!-- Logo and About -->
-      <div class="md:col-span-2 space-y-4">
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-graduation-cap text-2xl text-primary-600 dark:text-primary-400"></i>
-          <span class="font-bold text-xl text-gray-800 dark:text-white">EduGen</span>
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="footer__brand-row">
+          <i class="fa-solid fa-graduation-cap footer__brand-icon"></i>
+          <span class="footer__brand-name">EduGen</span>
         </div>
-        <p class="text-gray-500 dark:text-gray-400 text-sm max-w-sm">{{ 'footer.about' | translate }}</p>
+        <p class="footer__about">{{ 'footer.about' | translate }}</p>
       </div>
 
-      <!-- Quick Links -->
       <div>
-        <h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">{{ 'footer.quickLinks' | translate }}</h3>
-        <ul class="mt-4 space-y-2">
-          <li><a routerLink="/" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ 'footer.links.home' | translate }}</a></li>
+        <h3 class="footer__heading">{{ 'footer.quickLinks' | translate }}</h3>
+        <ul class="footer__link-list">
+          <li><a routerLink="/" class="footer__link">{{ 'footer.links.home' | translate }}</a></li>
           @if (currentUser()) {
-            <li><a routerLink="/dashboard" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ 'footer.links.dashboard' | translate }}</a></li>
+          <li><a routerLink="/dashboard" class="footer__link">{{ 'footer.links.dashboard' | translate }}</a></li>
           }
-          <li><a routerLink="/materials" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ 'footer.links.materials' | translate }}</a></li>
-           @if (currentUser()) {
-            <li><a routerLink="/settings" class="text-base text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">{{ 'footer.links.settings' | translate }}</a></li>
+          <li><a routerLink="/materials" class="footer__link">{{ 'footer.links.materials' | translate }}</a></li>
+          @if (currentUser()) {
+          <li><a routerLink="/settings" class="footer__link">{{ 'footer.links.settings' | translate }}</a></li>
           }
         </ul>
       </div>
 
-      <!-- Social Media -->
       <div>
-        <h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">{{ 'footer.connect' | translate }}</h3>
-        <div class="flex space-x-6 mt-4">
-          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">{{ 'footer.social.telegram' | translate }}</span><i class="fa-brands fa-telegram fa-lg"></i></a>
-          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">{{ 'footer.social.instagram' | translate }}</span><i class="fa-brands fa-instagram fa-lg"></i></a>
-          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">{{ 'footer.social.linkedin' | translate }}</span><i class="fa-brands fa-linkedin fa-lg"></i></a>
-          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">{{ 'footer.social.whatsapp' | translate }}</span><i class="fa-brands fa-whatsapp fa-lg"></i></a>
-          <a href="#" class="text-gray-400 hover:text-primary-500 transition-colors"><span class="sr-only">{{ 'footer.social.github' | translate }}</span><i class="fa-brands fa-github fa-lg"></i></a>
+        <h3 class="footer__heading">{{ 'footer.connect' | translate }}</h3>
+        <div class="footer__social-list">
+          <a href="#" class="footer__social-link"><span class="sr-only">{{ 'footer.social.telegram' | translate }}</span><i class="fa-brands fa-telegram fa-lg"></i></a>
+          <a href="#" class="footer__social-link"><span class="sr-only">{{ 'footer.social.instagram' | translate }}</span><i class="fa-brands fa-instagram fa-lg"></i></a>
+          <a href="#" class="footer__social-link"><span class="sr-only">{{ 'footer.social.linkedin' | translate }}</span><i class="fa-brands fa-linkedin fa-lg"></i></a>
+          <a href="#" class="footer__social-link"><span class="sr-only">{{ 'footer.social.whatsapp' | translate }}</span><i class="fa-brands fa-whatsapp fa-lg"></i></a>
+          <a href="#" class="footer__social-link"><span class="sr-only">{{ 'footer.social.github' | translate }}</span><i class="fa-brands fa-github fa-lg"></i></a>
         </div>
       </div>
     </div>
 
-    <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8 text-center">
-      <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'footer.copyright' | translate }}</p>
+    <div class="footer__bottom">
+      <p class="footer__copyright">{{ 'footer.copyright' | translate }}</p>
     </div>
   </div>
 </footer>

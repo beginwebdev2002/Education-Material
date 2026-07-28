@@ -1,0 +1,99 @@
+<app-modal [title]="isEditMode() ? ('admin.autocomplete.itemForm.editTitle' | translate) : ('admin.autocomplete.itemForm.createTitle' | translate)" (closed)="close()">
+  @if (isLoading()) {
+  <p class="autocomplete-item-form__state">{{ 'admin.autocomplete.itemForm.loading' | translate }}</p>
+  } @else {
+  <form class="autocomplete-item-form" novalidate (submit)="onSubmit($event)">
+    <div class="autocomplete-item-form__field">
+      <label for="item-translation-en" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.translationEnLabel' | translate }}</label>
+      <input id="item-translation-en" type="text" [field]="form.translationEn" class="autocomplete-item-form__input">
+      @if (form.translationEn().touched() && form.translationEn().invalid()) {
+      <ul class="autocomplete-item-form__errors">
+        @for (e of form.translationEn().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="autocomplete-item-form__field">
+      <label for="item-translation-ru" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.translationRuLabel' | translate }}</label>
+      <input id="item-translation-ru" type="text" [field]="form.translationRu" class="autocomplete-item-form__input">
+      @if (form.translationRu().touched() && form.translationRu().invalid()) {
+      <ul class="autocomplete-item-form__errors">
+        @for (e of form.translationRu().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="autocomplete-item-form__field">
+      <label for="item-translation-tj" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.translationTjLabel' | translate }}</label>
+      <input id="item-translation-tj" type="text" [field]="form.translationTj" class="autocomplete-item-form__input">
+      @if (form.translationTj().touched() && form.translationTj().invalid()) {
+      <ul class="autocomplete-item-form__errors">
+        @for (e of form.translationTj().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <!-- Metadata: switches on the current list's key. Unknown/future lists fall back to a raw JSON field. -->
+    @if (isInstitutionsList()) {
+    <div class="autocomplete-item-form__row">
+      <div class="autocomplete-item-form__field">
+        <label for="item-institution-type" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.institutionTypeLabel' | translate }}</label>
+        <select id="item-institution-type" [value]="institutionType()" (change)="institutionType.set($any($event.target).value)" class="autocomplete-item-form__input">
+          <option value="UNIVERSITY">{{ 'admin.autocomplete.itemForm.institutionTypeUniversity' | translate }}</option>
+          <option value="SCHOOL">{{ 'admin.autocomplete.itemForm.institutionTypeSchool' | translate }}</option>
+        </select>
+      </div>
+      <div class="autocomplete-item-form__field">
+        <label for="item-city" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.cityLabel' | translate }}</label>
+        <input id="item-city" type="text" [value]="city()" (input)="city.set($any($event.target).value)" class="autocomplete-item-form__input">
+      </div>
+    </div>
+    } @else if (isSubjectsList()) {
+    <div class="autocomplete-item-form__field">
+      <label for="item-subject-kind" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.subjectKindLabel' | translate }}</label>
+      <select id="item-subject-kind" [value]="subjectKind()" (change)="subjectKind.set($any($event.target).value)" class="autocomplete-item-form__input">
+        <option value="SCHOOL_SUBJECT">{{ 'admin.autocomplete.itemForm.subjectKindSchoolSubject' | translate }}</option>
+        <option value="SPECIALIZATION">{{ 'admin.autocomplete.itemForm.subjectKindSpecialization' | translate }}</option>
+      </select>
+    </div>
+    } @else {
+    <div class="autocomplete-item-form__field">
+      <label for="item-metadata-json" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.metadataJsonLabel' | translate }}</label>
+      <textarea id="item-metadata-json" rows="3" [value]="metadataJson()" (input)="metadataJson.set($any($event.target).value)" class="autocomplete-item-form__textarea"></textarea>
+    </div>
+    }
+
+    <!-- parentItems picker: choose another list, then check which of its items this one is linked to. -->
+    <div class="autocomplete-item-form__field">
+      <label for="item-link-from" class="autocomplete-item-form__label">{{ 'admin.autocomplete.itemForm.linkFromListLabel' | translate }}</label>
+      <select id="item-link-from" [value]="linkFromListKey()" (change)="onLinkFromListChange($any($event.target).value)" class="autocomplete-item-form__input">
+        <option value="">{{ 'admin.autocomplete.itemForm.linkFromListNone' | translate }}</option>
+        @for (l of allLists(); track l._id) {
+        <option [value]="l.key">{{ l | translationLabel }}</option>
+        }
+      </select>
+      @if (linkFromListKey()) {
+      <p class="autocomplete-item-form__hint">{{ 'admin.autocomplete.itemForm.parentItemsLabel' | translate }}</p>
+      <div class="autocomplete-item-form__checkbox-list">
+        @for (linkable of linkableItems(); track linkable._id) {
+        <label class="autocomplete-item-form__checkbox-row">
+          <input type="checkbox" [checked]="selectedParentItemIds().includes(linkable._id)" (change)="toggleParentItem(linkable._id)">
+          {{ linkable | translationLabel }}
+        </label>
+        }
+      </div>
+      }
+    </div>
+
+    @if (errorMessage()) {
+    <p class="autocomplete-item-form__error">{{ errorMessage() }}</p>
+    }
+
+    <div modal-footer>
+      <button type="button" [disabled]="form().invalid() || isSaving()" class="autocomplete-item-form__submit" (click)="onSubmit($event)">
+        {{ isSaving() ? ('admin.autocomplete.itemForm.saving' | translate) : ('admin.autocomplete.itemForm.save' | translate) }}
+      </button>
+    </div>
+  </form>
+  }
+</app-modal>

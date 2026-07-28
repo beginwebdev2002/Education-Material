@@ -1,0 +1,17 @@
+<div class="dashboard-page__hero animate-fadeInUp">
+  <div>
+    <h1 i18n class="dashboard-page__title">
+      My Teaching Materials</h1>
+    <p class="dashboard-page__subtitle animate-fadeInUp" style="animation-delay: 0.2s;" i18n>
+      Share your PDF or DOCX materials with the community.</p>
+  </div>
+  <div class="dashboard-page__illustration animate-fadeInUp" style="animation-delay: 0.4s;">
+    <app-illustration type="dashboard"></app-illustration>
+  </div>
+</div>
+
+<div class="dashboard-page__grid">
+  <app-material-upload-form (uploaded)="onUploaded($event)"></app-material-upload-form>
+  <app-material-list [materials]="myMaterials()" [isLoading]="isLoadingMaterials()" (download)="onDownload($event)"
+    (remove)="onDelete($event)"></app-material-list>
+</div>

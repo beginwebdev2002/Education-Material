@@ -1,21 +1,18 @@
-<div class="relative">
-  <button (click)="toggle()" type="button" [attr.aria-label]="'languageSwitcher.selectLanguage' | translate"
+<div class="language-switcher">
+  <button #trigger type="button" [attr.aria-label]="'languageSwitcher.selectLanguage' | translate"
     title="{{ 'languageSwitcher.selectLanguage' | translate }}"
-    class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm px-2.5 py-2.5 transition-colors">
-    <img [src]="i18n.current().flag" [alt]="i18n.current().name" class="w-5 h-5 rounded-sm object-cover">
-    <span class="font-medium">{{ i18n.current().labelShort }}</span>
+    class="language-switcher__trigger">
+    <img [src]="i18n.current().flag" [alt]="i18n.current().name" class="language-switcher__flag">
+    <span class="language-switcher__label">{{ i18n.current().labelShort }}</span>
   </button>
-  <div [class.hidden]="!isOpen()"
-    class="z-50 absolute right-0 mt-2 w-40 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-    <ul class="py-1">
+  <div #panel class="language-switcher__panel hidden">
+    <ul class="language-switcher__list">
       @for (locale of i18n.locales; track locale.code) {
       <li>
         <button (click)="select(locale.code)" type="button"
-          class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-          [class.font-semibold]="locale.code === i18n.locale()"
-          [class.text-primary-700]="locale.code === i18n.locale()"
-          [class.dark:text-primary-400]="locale.code === i18n.locale()">
-          <img [src]="locale.flag" [alt]="locale.name" class="w-5 h-5 rounded-sm object-cover">
+          class="language-switcher__option"
+          [class.language-switcher__option--active]="locale.code === i18n.locale()">
+          <img [src]="locale.flag" [alt]="locale.name" class="language-switcher__flag">
           <span>{{ locale.name }}</span>
         </button>
       </li>

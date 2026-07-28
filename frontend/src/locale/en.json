@@ -171,7 +171,201 @@
       "professional": "Professional"
     }
   },
+  "dashboard": {
+    "upload": {
+      "title": "Upload a Teaching Material",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Introduction to Linear Algebra",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "What does this material cover?",
+      "institutionLabel": "Educational Institution",
+      "institutionPlaceholder": "Select an institution...",
+      "subjectLabel": "Subject / Specialization",
+      "subjectPlaceholder": "Select a subject...",
+      "categoryLabel": "Category",
+      "filesLabel": "Files (PDF or DOCX, max 15MB each)",
+      "multiFileHint": "Selecting more than one file will package them into a single ZIP.",
+      "removeFile": "Remove",
+      "uploading": "Uploading...",
+      "submit": "Upload Material",
+      "successMessage": "Material submitted. It will appear publicly once an admin approves it.",
+      "errorFailed": "Upload failed. Please try again.",
+      "errorInvalidType": "{{name}}: only PDF or DOCX files are allowed.",
+      "errorTooLarge": "{{name}}: file is too large. Maximum size is 15MB."
+    }
+  },
+  "materials": {
+    "category": {
+      "SYLLABUS": "Syllabus",
+      "LECTURES": "Lectures",
+      "TEST_QUESTIONS": "Test Questions"
+    },
+    "filters": {
+      "category": "Category",
+      "allCategories": "All categories",
+      "dateFrom": "From date",
+      "dateTo": "To date"
+    }
+  },
+  "shared": {
+    "modal": {
+      "close": "Close"
+    }
+  },
   "admin": {
+    "nav": {
+      "overview": "Dashboard Overview",
+      "users": "User Management",
+      "materials": "Material Control",
+      "autocomplete": "Dropdown Lists",
+      "comments": "Comments Moderation",
+      "analytics": "Analytics & Reports",
+      "activity": "Activity Log",
+      "monitoring": "Monitoring",
+      "profile": "My Profile",
+      "systemSettings": "System Settings"
+    },
+    "autocomplete": {
+      "listsIndex": {
+        "title": "Dropdown Lists",
+        "newList": "New List",
+        "colKey": "Key",
+        "colLabel": "Label",
+        "colDescription": "Description",
+        "colActions": "Actions",
+        "viewItems": "View items",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDeleteList": "Delete list \"{{key}}\"? This will also delete all of its items. This cannot be undone.",
+        "noLists": "No lists yet.",
+        "loading": "Loading..."
+      },
+      "listForm": {
+        "createTitle": "New List",
+        "editTitle": "Edit List",
+        "loading": "Loading...",
+        "keyLabel": "Key",
+        "keyPlaceholder": "e.g. educational-institutions",
+        "keyHint": "Lowercase letters, numbers and hyphens only. Cannot be changed after creation.",
+        "labelEnLabel": "Label (English)",
+        "labelRuLabel": "Label (Russian)",
+        "labelTjLabel": "Label (Tajik)",
+        "descriptionLabel": "Description",
+        "save": "Save",
+        "saving": "Saving...",
+        "errorFailed": "Failed to save. Please try again."
+      },
+      "itemsTable": {
+        "backToLists": "Back to lists",
+        "title": "Items",
+        "newItem": "New Item",
+        "searchPlaceholder": "Search...",
+        "filterByParentListLabel": "Link items from",
+        "filterByParentLabel": "Filter by linked item",
+        "filterByParentNone": "None",
+        "colTranslations": "Translations",
+        "colParents": "Linked to",
+        "colMetadata": "Details",
+        "colActions": "Actions",
+        "universal": "Universal (all)",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDeleteItem": "Delete this item? This cannot be undone.",
+        "noItems": "No items yet.",
+        "loading": "Loading..."
+      },
+      "itemForm": {
+        "createTitle": "New Item",
+        "editTitle": "Edit Item",
+        "loading": "Loading...",
+        "translationEnLabel": "Translation (English)",
+        "translationRuLabel": "Translation (Russian)",
+        "translationTjLabel": "Translation (Tajik)",
+        "institutionTypeLabel": "Institution Type",
+        "institutionTypeUniversity": "University",
+        "institutionTypeSchool": "School",
+        "cityLabel": "City",
+        "subjectKindLabel": "Kind",
+        "subjectKindSchoolSubject": "School Subject",
+        "subjectKindSpecialization": "Specialization",
+        "linkFromListLabel": "Link to items from",
+        "linkFromListNone": "None (universal item)",
+        "parentItemsLabel": "Select the items this one is linked to:",
+        "metadataJsonLabel": "Metadata (JSON)",
+        "save": "Save",
+        "saving": "Saving...",
+        "errorFailed": "Failed to save. Please try again."
+      }
+    },
+    "materialsControl": {
+      "colInstitutionSubject": "Institution / Subject"
+    },
+    "materialDetail": {
+      "title": "Material Details",
+      "loading": "Loading material...",
+      "description": "Description",
+      "subject": "Subject",
+      "institution": "Institution",
+      "category": "Category",
+      "format": "Format",
+      "owner": "Uploaded by",
+      "status": "Status",
+      "stats": "Downloads / Comments",
+      "createdAt": "Uploaded on",
+      "download": "Download",
+      "approve": "Approve",
+      "reject": "Reject",
+      "delete": "Delete"
+    },
+    "userDetail": {
+      "title": "User Details",
+      "loading": "Loading user...",
+      "role": "Role",
+      "status": "Status",
+      "banned": "Banned",
+      "active": "Active",
+      "phone": "Phone",
+      "country": "Country",
+      "lastSeen": "Last seen",
+      "never": "Never",
+      "registered": "Registered",
+      "demote": "Demote",
+      "promote": "Promote",
+      "unban": "Unban",
+      "ban": "Ban"
+    },
+    "monitoring": {
+      "title": "Monitoring",
+      "loading": "Loading monitoring data...",
+      "totalUsers": "Total Users",
+      "totalMaterials": "Total Materials",
+      "totalDownloads": "Total Downloads",
+      "totalComments": "Total Comments",
+      "registrationsTrend": "Registrations (last 30 days)",
+      "downloadsTrend": "Downloads (last 30 days)",
+      "activityBreakdown": "Activity Breakdown",
+      "onlineUsers": "Online Users",
+      "recentActivity": "Recent Activity",
+      "noData": "No data available yet.",
+      "noOnlineUsers": "No one is online right now."
+    },
+    "userProfile": {
+      "title": "My Profile",
+      "loading": "Loading profile...",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "country": "Country",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "successMessage": "Profile updated successfully.",
+      "errorFailed": "Failed to update profile. Please try again."
+    },
     "advertising": {
       "title": "Advertising Management",
       "createNew": "Create New Advertisement",

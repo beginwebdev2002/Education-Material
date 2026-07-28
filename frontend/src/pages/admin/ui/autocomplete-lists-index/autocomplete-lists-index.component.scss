@@ -1,0 +1,68 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.autocomplete-lists-page {
+  &__header {
+    @apply mb-6 flex items-center justify-between;
+  }
+
+  &__title {
+    @apply text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__new-button {
+    @apply inline-flex items-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700;
+  }
+
+  &__new-icon {
+    @apply mr-2;
+  }
+
+  &__card {
+    @apply relative overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
+  }
+
+  &__table {
+    @apply w-full text-left rtl:text-right text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__thead {
+    @apply bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400;
+  }
+
+  &__th {
+    @apply px-6 py-3;
+  }
+
+  &__row {
+    @apply border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600;
+  }
+
+  &__row-message {
+    @apply px-6 py-12 text-center text-gray-400;
+  }
+
+  &__cell-key {
+    @apply whitespace-nowrap px-6 py-4 font-mono text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__cell {
+    @apply px-6 py-4;
+  }
+
+  &__actions {
+    @apply flex flex-wrap gap-x-3 gap-y-1;
+  }
+
+  &__view-items {
+    @apply font-medium text-primary-600 hover:underline dark:text-primary-400;
+  }
+
+  &__edit {
+    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
+  }
+
+  &__delete {
+    @apply font-medium text-red-600 hover:underline dark:text-red-500;
+  }
+}

@@ -1,0 +1,118 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.header {
+  @apply bg-white border-gray-200 dark:bg-gray-900 fixed w-full z-50 top-0 start-0 border-b dark:border-gray-600;
+
+  &__bar {
+    @apply max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4;
+  }
+
+  &__logo {
+    @apply flex items-center space-x-3 rtl:space-x-reverse;
+  }
+
+  &__logo-icon {
+    @apply w-8 h-8 text-primary-600 dark:text-primary-500;
+  }
+
+  &__actions {
+    @apply flex items-center md:order-2 space-x-3 rtl:space-x-reverse;
+  }
+
+  &__theme-toggle {
+    @apply text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-colors;
+  }
+
+  &__theme-icon {
+    @apply w-5 h-5;
+  }
+
+  &__user {
+    @apply flex items-center space-x-3;
+  }
+
+  &__admin-link {
+    @apply text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 items-center hidden sm:flex transition-colors;
+  }
+
+  &__admin-link-icon {
+    @apply mr-2;
+  }
+
+  &__user-menu {
+    @apply relative;
+  }
+
+  &__avatar-button {
+    @apply flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600;
+  }
+
+  &__avatar {
+    @apply w-8 h-8 rounded-full;
+  }
+
+  &__dropdown {
+    @apply z-50 absolute right-0 top-full my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600;
+  }
+
+  &__dropdown-header {
+    @apply px-4 py-3;
+  }
+
+  &__dropdown-name {
+    @apply block text-sm text-gray-900 dark:text-white;
+  }
+
+  &__dropdown-email {
+    @apply block text-sm text-gray-500 truncate dark:text-gray-400;
+  }
+
+  &__dropdown-list {
+    @apply py-2;
+  }
+
+  &__dropdown-link {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white;
+
+    &--action {
+      @apply cursor-pointer;
+    }
+  }
+
+  &__guest-actions {
+    @apply space-x-2;
+  }
+
+  &__signin-button {
+    @apply text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800 transition-colors;
+  }
+
+  &__signup-button {
+    @apply text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 transition-colors;
+  }
+
+  &__mobile-toggle {
+    @apply inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600;
+  }
+
+  &__mobile-toggle-icon {
+    @apply w-5 h-5;
+  }
+
+  &__mobile-menu {
+    @apply items-center justify-between w-full md:flex md:w-auto md:order-1;
+  }
+
+  &__nav-list {
+    @apply flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700;
+  }
+
+  &__nav-link {
+    @apply block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-700 md:p-0 dark:text-white md:dark:hover:text-primary-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 transition-transform duration-200 hover:-translate-y-0.5;
+
+    &--active {
+      @apply text-primary-700 dark:text-primary-500;
+    }
+  }
+}

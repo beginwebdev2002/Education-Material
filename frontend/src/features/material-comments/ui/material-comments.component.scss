@@ -1,0 +1,46 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.material-comments {
+  @apply mt-4 border-t border-gray-200 pt-4 dark:border-gray-700;
+
+  &__composer {
+    @apply mb-4 flex gap-2;
+  }
+
+  &__input {
+    @apply flex-1 rounded-md border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  }
+
+  &__submit {
+    @apply rounded-lg bg-primary-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-50;
+  }
+
+  &__status {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__list {
+    @apply max-h-64 space-y-3 overflow-y-auto;
+  }
+
+  &__item {
+    @apply flex items-start justify-between gap-2 text-sm;
+  }
+
+  &__author {
+    @apply font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__timestamp {
+    @apply ml-2 text-xs text-gray-400;
+  }
+
+  &__text {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  &__delete {
+    @apply shrink-0 text-gray-400 hover:text-red-500;
+  }
+}

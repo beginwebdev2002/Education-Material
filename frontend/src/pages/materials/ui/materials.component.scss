@@ -1,0 +1,173 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.materials-page {
+  @apply mt-24;
+
+  &__header {
+    @apply mb-12 text-center;
+  }
+
+  &__title {
+    @apply text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl;
+  }
+
+  &__subtitle {
+    @apply mt-4 text-lg text-gray-500 dark:text-gray-400;
+  }
+
+  &__filters {
+    @apply mb-8 flex flex-col items-center justify-between gap-4 md:flex-row;
+  }
+
+  &__search-wrap {
+    @apply relative w-full md:w-1/2 lg:w-1/3;
+  }
+
+  &__search-icon {
+    @apply pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-gray-500 dark:text-gray-400;
+  }
+
+  &__search-input,
+  &__sort,
+  &__category-filter,
+  &__date-input {
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:focus:ring-primary-500;
+  }
+
+  &__search-input {
+    @apply ps-10 dark:placeholder-gray-400;
+  }
+
+  &__date-range {
+    @apply flex items-center gap-2;
+  }
+
+  &__date-separator {
+    @apply text-gray-400;
+  }
+
+  &__grid {
+    @apply grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  &__skeleton-card {
+    @apply flex flex-col overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800;
+  }
+
+  &__skeleton-body {
+    @apply grow p-6;
+  }
+
+  &__skeleton-title {
+    @apply mb-3;
+  }
+
+  &__skeleton-line--spaced {
+    @apply mt-2;
+  }
+
+  &__skeleton-badge {
+    @apply mt-4;
+  }
+
+  &__skeleton-footer {
+    @apply flex items-center justify-between bg-gray-50 p-6 dark:bg-gray-700/50;
+  }
+
+  &__skeleton-footer-info {
+    @apply w-1/2 text-sm;
+  }
+
+  &__card {
+    @apply flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 ease-in-out dark:bg-gray-800;
+  }
+
+  &__card-body {
+    @apply grow p-6;
+  }
+
+  &__tags {
+    @apply mb-2 flex flex-wrap gap-1;
+  }
+
+  &__format-tag {
+    @apply inline-block rounded-full bg-primary-100 px-2 py-0.5 text-xs font-semibold text-primary-700 dark:bg-primary-900 dark:text-primary-200;
+  }
+
+  &__category-tag {
+    @apply inline-block rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-700 dark:bg-gray-700 dark:text-gray-200;
+  }
+
+  &__card-title {
+    @apply mb-2 text-xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__card-desc {
+    @apply mb-4 text-sm text-gray-600 dark:text-gray-400;
+  }
+
+  &__card-stats {
+    @apply flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__stat-icon {
+    @apply mr-1;
+  }
+
+  &__comments-toggle {
+    @apply hover:text-primary-600 dark:hover:text-primary-400;
+  }
+
+  &__card-footer {
+    @apply flex items-center justify-between bg-gray-50 p-6 dark:bg-gray-700/50;
+  }
+
+  &__owner-info {
+    @apply overflow-hidden pr-2 text-sm;
+  }
+
+  &__owner-name {
+    @apply truncate font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__owner-link {
+    @apply hover:underline;
+  }
+
+  &__material-meta {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__download {
+    @apply inline-block rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800;
+  }
+
+  &__signin-hint {
+    @apply text-xs text-gray-400;
+  }
+
+  &__comments-panel {
+    @apply px-6 pb-6;
+  }
+
+  &__load-more-wrap {
+    @apply mt-8 text-center;
+  }
+
+  &__load-more {
+    @apply rounded-lg border border-gray-200 bg-white px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700;
+  }
+
+  &__empty {
+    @apply py-16 text-center;
+  }
+
+  &__empty-title {
+    @apply mt-8 text-2xl font-semibold text-gray-700 dark:text-gray-300;
+  }
+
+  &__empty-desc {
+    @apply mt-2 text-gray-500 dark:text-gray-400;
+  }
+}

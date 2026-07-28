@@ -1,0 +1,90 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.admin-header {
+  @apply fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700;
+
+  &__bar {
+    @apply px-3 py-3 lg:px-5 lg:pl-3 flex items-center justify-between;
+  }
+
+  &__start {
+    @apply flex items-center justify-start rtl:justify-end;
+  }
+
+  &__sidebar-toggle {
+    @apply inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600;
+  }
+
+  &__sidebar-toggle-icon {
+    @apply h-6 w-6;
+  }
+
+  &__search {
+    @apply hidden sm:block w-full max-w-md;
+  }
+
+  &__search-wrapper {
+    @apply relative;
+  }
+
+  &__search-icon {
+    @apply absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none text-gray-500 dark:text-gray-400;
+  }
+
+  &__search-input {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500;
+  }
+
+  &__end {
+    @apply flex items-center space-x-3;
+  }
+
+  &__theme-toggle {
+    @apply text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5;
+  }
+
+  &__theme-icon {
+    @apply h-5 w-5;
+  }
+
+  &__profile {
+    @apply flex items-center ms-3 relative;
+  }
+
+  &__avatar-button {
+    @apply flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600;
+  }
+
+  &__avatar {
+    @apply w-8 h-8 rounded-full;
+  }
+
+  &__dropdown {
+    @apply z-50 absolute right-0 top-full my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600;
+  }
+
+  &__dropdown-header {
+    @apply px-4 py-3;
+  }
+
+  &__dropdown-name {
+    @apply text-sm text-gray-900 dark:text-white;
+  }
+
+  &__dropdown-email {
+    @apply text-sm font-medium text-gray-900 truncate dark:text-gray-300;
+  }
+
+  &__dropdown-list {
+    @apply py-1;
+  }
+
+  &__dropdown-link {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white;
+
+    &--action {
+      @apply cursor-pointer;
+    }
+  }
+}

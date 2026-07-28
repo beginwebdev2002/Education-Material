@@ -1,0 +1,61 @@
+<h1 class="overview-page__title" i18n>Overview</h1>
+
+@if (isLoading()) {
+<p class="overview-page__loading" i18n>Loading dashboard...</p>
+} @else {
+<div class="overview-page__tiles">
+  @for (tile of tiles(); track tile.label) {
+  <div class="overview-page__tile">
+    <i class="fa-solid {{ tile.icon }} overview-page__tile-icon overview-page__tile-icon--{{ tile.modifier }}"></i>
+    <div>
+      <p class="overview-page__tile-value">{{ tile.value }}</p>
+      <p class="overview-page__tile-label">{{ tile.label }}</p>
+    </div>
+  </div>
+  }
+</div>
+
+<div class="overview-page__panels">
+  <div class="overview-page__panel overview-page__panel--wide">
+    <h2 class="overview-page__panel-title" i18n>Recent Activity</h2>
+    @if (overview()?.recentActivity?.length) {
+    <ul class="overview-page__activity-list">
+      @for (entry of overview()!.recentActivity; track entry._id) {
+      <li class="overview-page__activity-item">
+        <img [src]="entry.user?.avatar" class="overview-page__activity-avatar" [alt]="entry.user?.firstName" />
+        <div class="overview-page__activity-body">
+          <span class="overview-page__activity-name">{{ entry.user?.firstName }} {{ entry.user?.lastName }}</span>
+          <span class="overview-page__activity-detail"> &mdash; {{ activityLabel(entry.type) }}</span>
+          @if (entry.material) {
+          <span class="overview-page__activity-detail">: {{ entry.material.title }}</span>
+          }
+        </div>
+        <span class="overview-page__activity-time">{{ entry.createdAt | date:'short' }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="overview-page__empty" i18n>No activity recorded yet.</p>
+    }
+  </div>
+
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title" i18n>Online Now</h2>
+    @if (onlineUsers().length) {
+    <ul class="overview-page__online-list">
+      @for (user of onlineUsers(); track user._id) {
+      <li class="overview-page__online-item">
+        <span class="overview-page__online-avatar-wrap">
+          <img [src]="user.avatar" class="overview-page__online-avatar" [alt]="user.firstName" />
+          <span class="overview-page__online-status-dot"></span>
+        </span>
+        <a [routerLink]="['/profile', user._id]" class="overview-page__online-name">{{ user.firstName }} {{ user.lastName }}</a>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="overview-page__empty" i18n>No one is online right now.</p>
+    }
+  </div>
+</div>
+}

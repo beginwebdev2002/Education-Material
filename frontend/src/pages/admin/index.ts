@@ -1,1 +1,1 @@
-export { AdminLayoutComponent } from './admin-layout.component';
+export { AdminLayoutComponent } from './ui/admin-layout/admin-layout.component';

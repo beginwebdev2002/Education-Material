@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, OnInit, signal } from '@angular/core';
 import { IllustrationNames, IllustrationsData } from '@shared/models';
-import { getIllustrationData } from './lib/illustration.data';
+import { getIllustrationData } from './illustration.data';
 
 
 @Component({

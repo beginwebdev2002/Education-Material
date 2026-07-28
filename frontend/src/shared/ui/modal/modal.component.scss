@@ -1,0 +1,34 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.modal {
+  @apply fixed inset-0 z-50 w-full p-4 overflow-y-auto overflow-x-hidden md:inset-0 h-[calc(100%-1rem)] max-h-full;
+
+  &__dialog {
+    @apply relative w-full max-w-2xl max-h-full mx-auto;
+  }
+
+  &__content {
+    @apply relative rounded-lg bg-white shadow-xl dark:bg-gray-800 max-h-[90vh] overflow-y-auto;
+  }
+
+  &__header {
+    @apply flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700;
+  }
+
+  &__title {
+    @apply text-lg font-bold text-gray-900 dark:text-white;
+  }
+
+  &__close {
+    @apply rounded-lg p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+  }
+
+  &__body {
+    @apply p-4 sm:p-6;
+  }
+
+  &__footer {
+    @apply flex items-center justify-end gap-2 border-t border-gray-200 p-4 dark:border-gray-700;
+  }
+}

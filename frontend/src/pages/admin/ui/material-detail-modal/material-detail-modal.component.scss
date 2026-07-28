@@ -1,0 +1,58 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.material-detail {
+  &__state {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+
+    &--error {
+      @apply text-red-600 dark:text-red-500;
+    }
+  }
+
+  &__grid {
+    @apply grid grid-cols-1 gap-x-4 gap-y-3 text-sm sm:grid-cols-2;
+  }
+
+  &__field {
+    &--wide {
+      @apply sm:col-span-2;
+    }
+  }
+
+  &__label {
+    @apply font-medium text-gray-500 dark:text-gray-400;
+  }
+
+  &__value {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  &__category-list {
+    @apply mt-1 flex flex-wrap gap-1;
+  }
+
+  &__category {
+    @apply rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-200;
+  }
+
+  &__footer {
+    @apply flex flex-wrap gap-2;
+  }
+
+  &__download {
+    @apply rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700;
+  }
+
+  &__approve {
+    @apply rounded-lg bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700;
+  }
+
+  &__reject {
+    @apply rounded-lg bg-yellow-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-yellow-700;
+  }
+
+  &__delete {
+    @apply rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700;
+  }
+}

@@ -1,0 +1,56 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.user-detail {
+  &__state {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+
+    &--error {
+      @apply text-red-600 dark:text-red-500;
+    }
+  }
+
+  &__identity {
+    @apply mb-4 flex items-center gap-3;
+  }
+
+  &__avatar {
+    @apply h-14 w-14 rounded-full object-cover;
+  }
+
+  &__name {
+    @apply font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__email {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__grid {
+    @apply grid grid-cols-1 gap-x-4 gap-y-3 text-sm sm:grid-cols-2;
+  }
+
+  &__label {
+    @apply font-medium text-gray-500 dark:text-gray-400;
+  }
+
+  &__value {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  &__footer {
+    @apply flex flex-wrap gap-2;
+  }
+
+  &__role-toggle {
+    @apply rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700;
+  }
+
+  &__ban-toggle {
+    @apply rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700;
+
+    &--banned {
+      @apply bg-green-600 hover:bg-green-700;
+    }
+  }
+}

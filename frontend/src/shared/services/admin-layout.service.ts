@@ -1,18 +1,19 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import type { Drawer } from 'flowbite';
 
 @Injectable({ providedIn: 'root' })
 export class AdminLayoutService {
-  isSidebarOpen = signal(false);
+  private drawer?: Drawer;
 
-  toggleSidebar(): void {
-    this.isSidebarOpen.update(isOpen => !isOpen);
+  registerDrawer(drawer: Drawer): void {
+    this.drawer = drawer;
   }
 
-  openSidebar(): void {
-    this.isSidebarOpen.set(true);
+  toggleSidebar(): void {
+    this.drawer?.toggle();
   }
 
   closeSidebar(): void {
-    this.isSidebarOpen.set(false);
+    this.drawer?.hide();
   }
 }

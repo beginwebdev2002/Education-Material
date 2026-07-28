@@ -1,0 +1,121 @@
+<h1 class="monitoring-page__title">{{ 'admin.monitoring.title' | translate }}</h1>
+
+@if (isLoading()) {
+<p class="monitoring-page__loading">{{ 'admin.monitoring.loading' | translate }}</p>
+} @else if (overview(); as data) {
+<div class="monitoring-page__tiles">
+  <div class="monitoring-page__tile">
+    <p class="monitoring-page__tile-value">{{ data.totalUsers }}</p>
+    <p class="monitoring-page__tile-label">{{ 'admin.monitoring.totalUsers' | translate }}</p>
+  </div>
+  <div class="monitoring-page__tile">
+    <p class="monitoring-page__tile-value">{{ data.totalMaterials }}</p>
+    <p class="monitoring-page__tile-label">{{ 'admin.monitoring.totalMaterials' | translate }}</p>
+  </div>
+  <div class="monitoring-page__tile">
+    <p class="monitoring-page__tile-value">{{ data.totalDownloads }}</p>
+    <p class="monitoring-page__tile-label">{{ 'admin.monitoring.totalDownloads' | translate }}</p>
+  </div>
+  <div class="monitoring-page__tile">
+    <p class="monitoring-page__tile-value">{{ data.totalComments }}</p>
+    <p class="monitoring-page__tile-label">{{ 'admin.monitoring.totalComments' | translate }}</p>
+  </div>
+</div>
+
+<div class="monitoring-page__trends">
+  <div class="monitoring-page__panel">
+    <h2 class="monitoring-page__panel-title">{{ 'admin.monitoring.registrationsTrend' | translate }}</h2>
+    @if (analytics()?.registrationsSeries?.length) {
+    <div class="monitoring-page__trend-list">
+      @for (point of analytics()!.registrationsSeries; track point.date) {
+      <div class="monitoring-page__trend-row">
+        <span class="monitoring-page__trend-label">{{ point.date }}</span>
+        <div class="monitoring-page__trend-track">
+          <div class="monitoring-page__trend-fill monitoring-page__trend-fill--registrations" [style.width.%]="barWidth(point.count, registrationsMax())"></div>
+        </div>
+        <span class="monitoring-page__trend-count">{{ point.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="monitoring-page__empty">{{ 'admin.monitoring.noData' | translate }}</p>
+    }
+  </div>
+
+  <div class="monitoring-page__panel">
+    <h2 class="monitoring-page__panel-title">{{ 'admin.monitoring.downloadsTrend' | translate }}</h2>
+    @if (analytics()?.downloadsSeries?.length) {
+    <div class="monitoring-page__trend-list">
+      @for (point of analytics()!.downloadsSeries; track point.date) {
+      <div class="monitoring-page__trend-row">
+        <span class="monitoring-page__trend-label">{{ point.date }}</span>
+        <div class="monitoring-page__trend-track">
+          <div class="monitoring-page__trend-fill monitoring-page__trend-fill--downloads" [style.width.%]="barWidth(point.count, downloadsMax())"></div>
+        </div>
+        <span class="monitoring-page__trend-count">{{ point.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="monitoring-page__empty">{{ 'admin.monitoring.noData' | translate }}</p>
+    }
+  </div>
+</div>
+
+<div class="monitoring-page__bottom">
+  <div class="monitoring-page__panel">
+    <h2 class="monitoring-page__panel-title">{{ 'admin.monitoring.activityBreakdown' | translate }}</h2>
+    @if (analytics()?.activityBreakdown?.length) {
+    <div class="monitoring-page__trend-list">
+      @for (entry of analytics()!.activityBreakdown; track entry.type) {
+      <div class="monitoring-page__trend-row">
+        <span class="monitoring-page__trend-label monitoring-page__trend-label--wide">{{ activityLabel(entry.type) }}</span>
+        <div class="monitoring-page__trend-track">
+          <div class="monitoring-page__trend-fill monitoring-page__trend-fill--breakdown" [style.width.%]="barWidth(entry.count, activityBreakdownMax())"></div>
+        </div>
+        <span class="monitoring-page__trend-count">{{ entry.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="monitoring-page__empty">{{ 'admin.monitoring.noData' | translate }}</p>
+    }
+  </div>
+
+  <div class="monitoring-page__panel">
+    <h2 class="monitoring-page__panel-title">{{ 'admin.monitoring.onlineUsers' | translate }}</h2>
+    @if (onlineUsers().length) {
+    <ul class="monitoring-page__online-list">
+      @for (user of onlineUsers(); track user._id) {
+      <li class="monitoring-page__online-item">
+        <span class="monitoring-page__online-avatar-wrap">
+          <img [src]="user.avatar" class="monitoring-page__online-avatar" [alt]="user.firstName" />
+          <span class="monitoring-page__online-status-dot"></span>
+        </span>
+        <a [routerLink]="['/admin/users', { outlets: { modal: [user._id] } }]" class="monitoring-page__online-name">{{ user.firstName }} {{ user.lastName }}</a>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="monitoring-page__empty">{{ 'admin.monitoring.noOnlineUsers' | translate }}</p>
+    }
+  </div>
+
+  <div class="monitoring-page__panel">
+    <h2 class="monitoring-page__panel-title">{{ 'admin.monitoring.recentActivity' | translate }}</h2>
+    @if (recentActivity().length) {
+    <ul class="monitoring-page__activity-list">
+      @for (entry of recentActivity(); track entry._id) {
+      <li class="monitoring-page__activity-item">
+        <span class="monitoring-page__activity-name">{{ entry.user?.firstName }} {{ entry.user?.lastName }}</span>
+        <span class="monitoring-page__activity-detail"> — {{ activityLabel(entry.type) }}</span>
+        <span class="monitoring-page__activity-time">{{ entry.createdAt | date:'short' }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="monitoring-page__empty">{{ 'admin.monitoring.noData' | translate }}</p>
+    }
+  </div>
+</div>
+}

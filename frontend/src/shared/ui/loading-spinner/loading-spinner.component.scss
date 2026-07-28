@@ -1,0 +1,14 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.loading-spinner {
+  @apply fixed inset-0 bg-gray-900/50 dark:bg-gray-900/80 z-[100] flex items-center justify-center backdrop-blur-sm;
+
+  &__icon {
+    @apply w-12 h-12 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600;
+  }
+
+  &__label {
+    @apply sr-only;
+  }
+}

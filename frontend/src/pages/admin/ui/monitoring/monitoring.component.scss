@@ -1,0 +1,129 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.monitoring-page {
+  &__title {
+    @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__loading,
+  &__empty {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__tiles {
+    @apply mb-8 grid grid-cols-2 gap-4 md:grid-cols-4;
+  }
+
+  &__tile {
+    @apply rounded-lg bg-white p-4 shadow dark:bg-gray-800;
+  }
+
+  &__tile-value {
+    @apply text-2xl font-bold text-gray-900 dark:text-white;
+  }
+
+  &__tile-label {
+    @apply text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__trends {
+    @apply mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2;
+  }
+
+  &__bottom {
+    @apply grid grid-cols-1 gap-6 lg:grid-cols-3;
+  }
+
+  &__panel {
+    @apply rounded-lg bg-white p-6 shadow dark:bg-gray-800;
+  }
+
+  &__panel-title {
+    @apply mb-4 text-lg font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__trend-list {
+    @apply space-y-2;
+  }
+
+  &__trend-row {
+    @apply flex items-center gap-2 text-xs;
+  }
+
+  &__trend-label {
+    @apply w-20 shrink-0 text-gray-500 dark:text-gray-400;
+
+    &--wide {
+      @apply w-28;
+    }
+  }
+
+  &__trend-track {
+    @apply h-3 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700;
+  }
+
+  &__trend-fill {
+    @apply h-full rounded-full;
+
+    &--registrations {
+      @apply bg-blue-500;
+    }
+
+    &--downloads {
+      @apply bg-purple-500;
+    }
+
+    &--breakdown {
+      @apply bg-primary-500;
+    }
+  }
+
+  &__trend-count {
+    @apply w-6 text-right text-gray-500 dark:text-gray-400;
+  }
+
+  &__online-list {
+    @apply space-y-3;
+  }
+
+  &__online-item {
+    @apply flex items-center gap-3 text-sm;
+  }
+
+  &__online-avatar-wrap {
+    @apply relative shrink-0;
+  }
+
+  &__online-avatar {
+    @apply h-8 w-8 rounded-full;
+  }
+
+  &__online-status-dot {
+    @apply absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-500 dark:border-gray-800;
+  }
+
+  &__online-name {
+    @apply truncate text-gray-900 hover:underline dark:text-white;
+  }
+
+  &__activity-list {
+    @apply divide-y divide-gray-200 dark:divide-gray-700;
+  }
+
+  &__activity-item {
+    @apply py-2 text-xs;
+  }
+
+  &__activity-name {
+    @apply font-medium text-gray-900 dark:text-white;
+  }
+
+  &__activity-detail {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__activity-time {
+    @apply block text-gray-400;
+  }
+}

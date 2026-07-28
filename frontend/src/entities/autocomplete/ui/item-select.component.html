@@ -1,0 +1,6 @@
+<select class="autocomplete-item-select" [attr.id]="selectId() || null" [disabled]="disabled() || isLoading()" [value]="selectedId()" (change)="onChange($event)">
+  <option value="">{{ placeholder() }}</option>
+  @for (item of items(); track item._id) {
+  <option [value]="item._id">{{ item | translationLabel }}</option>
+  }
+</select>

@@ -1,0 +1,53 @@
+<div class="settings-page animate-fadeInUp">
+  <h1 class="settings-page__title">Settings</h1>
+  <div class="settings-page__card">
+    <!-- Theme Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.1s;">
+      <h2 class="settings-page__section-title">Theme</h2>
+      <div class="settings-page__options">
+        <button (click)="setTheme('light')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.theme() === 'light'">
+          Light
+        </button>
+        <button (click)="setTheme('dark')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.theme() === 'dark'">
+          Dark
+        </button>
+      </div>
+    </div>
+
+    <!-- Font Size Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.2s;">
+      <h2 class="settings-page__section-title">Font Size</h2>
+      <div class="settings-page__options">
+        <button (click)="setFontSize('sm')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.fontSize() === 'sm'">
+          Small
+        </button>
+        <button (click)="setFontSize('base')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.fontSize() === 'base'">
+          Medium
+        </button>
+        <button (click)="setFontSize('lg')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.fontSize() === 'lg'">
+          Large
+        </button>
+      </div>
+    </div>
+
+    <!-- Font Family Settings -->
+    <div class="animate-fadeInUp" style="animation-delay: 0.3s;">
+      <h2 class="settings-page__section-title">Font Family</h2>
+      <div class="settings-page__options">
+        <button (click)="setFontFamily('sans')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.fontFamily() === 'sans'">
+          Sans-Serif
+        </button>
+        <button (click)="setFontFamily('serif')" class="settings-page__option"
+                [class.settings-page__option--active]="settingsService.fontFamily() === 'serif'">
+          Serif
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

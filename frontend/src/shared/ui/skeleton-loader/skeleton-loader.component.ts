@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-loader',
@@ -9,5 +9,5 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 export class SkeletonLoaderComponent {
   width = input<string>('100%');
   height = input<string>('1rem');
-  className = input<string>('');
+  shape = input<'rounded' | 'circle'>('rounded');
 }

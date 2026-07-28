@@ -1,0 +1,76 @@
+<h1 class="user-profile-page__title">{{ 'admin.userProfile.title' | translate }}</h1>
+
+@if (isLoading()) {
+<p class="user-profile-page__loading">{{ 'admin.userProfile.loading' | translate }}</p>
+} @else {
+<div class="user-profile-page__card">
+  <form class="user-profile-page__form" novalidate (submit)="onSubmit($event)">
+    <div class="user-profile-page__row">
+      <div>
+        <label for="profile-firstName" class="user-profile-page__label">{{ 'admin.userProfile.firstName' | translate }}</label>
+        <input id="profile-firstName" type="text" [field]="form.firstName" class="user-profile-page__input" />
+        @if (form.firstName().touched() && form.firstName().invalid()) {
+        <ul class="user-profile-page__errors">
+          @for (e of form.firstName().errors(); track e) { <li>{{ e.message }}</li> }
+        </ul>
+        }
+      </div>
+      <div>
+        <label for="profile-lastName" class="user-profile-page__label">{{ 'admin.userProfile.lastName' | translate }}</label>
+        <input id="profile-lastName" type="text" [field]="form.lastName" class="user-profile-page__input" />
+        @if (form.lastName().touched() && form.lastName().invalid()) {
+        <ul class="user-profile-page__errors">
+          @for (e of form.lastName().errors(); track e) { <li>{{ e.message }}</li> }
+        </ul>
+        }
+      </div>
+    </div>
+
+    <div>
+      <label class="user-profile-page__label">{{ 'admin.userProfile.email' | translate }}</label>
+      <p class="user-profile-page__readonly-value">{{ model().email }}</p>
+    </div>
+
+    <div class="user-profile-page__row">
+      <div>
+        <label for="profile-phone" class="user-profile-page__label">{{ 'admin.userProfile.phone' | translate }}</label>
+        <input id="profile-phone" type="text" [field]="form.phoneNumber" class="user-profile-page__input" />
+      </div>
+      <div>
+        <label for="profile-country" class="user-profile-page__label">{{ 'admin.userProfile.country' | translate }}</label>
+        <input id="profile-country" type="text" [field]="form.country" class="user-profile-page__input" />
+      </div>
+    </div>
+
+    <div class="user-profile-page__row">
+      <div>
+        <label for="profile-whatsapp" class="user-profile-page__label">{{ 'admin.userProfile.whatsapp' | translate }}</label>
+        <input id="profile-whatsapp" type="text" [field]="form.whatsappLink" class="user-profile-page__input" />
+      </div>
+      <div>
+        <label for="profile-telegram" class="user-profile-page__label">{{ 'admin.userProfile.telegram' | translate }}</label>
+        <input id="profile-telegram" type="text" [field]="form.telegramLink" class="user-profile-page__input" />
+      </div>
+      <div>
+        <label for="profile-instagram" class="user-profile-page__label">{{ 'admin.userProfile.instagram' | translate }}</label>
+        <input id="profile-instagram" type="text" [field]="form.instagramLink" class="user-profile-page__input" />
+      </div>
+      <div>
+        <label for="profile-linkedin" class="user-profile-page__label">{{ 'admin.userProfile.linkedin' | translate }}</label>
+        <input id="profile-linkedin" type="text" [field]="form.linkedinLink" class="user-profile-page__input" />
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="form().invalid() || isSaving()" class="user-profile-page__submit">
+      {{ isSaving() ? ('admin.userProfile.saving' | translate) : ('admin.userProfile.save' | translate) }}
+    </button>
+
+    @if (successMessage()) {
+    <p class="user-profile-page__success">{{ successMessage() }}</p>
+    }
+    @if (errorMessage()) {
+    <p class="user-profile-page__error">{{ errorMessage() }}</p>
+    }
+  </form>
+</div>
+}

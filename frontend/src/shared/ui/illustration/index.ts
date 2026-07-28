@@ -1,2 +1,2 @@
 export { IllustrationComponent } from './illustration.component'
-export { getIllustrationData } from './lib/illustration.data';
+export { getIllustrationData } from './illustration.data';

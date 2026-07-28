@@ -1,45 +1,40 @@
-<div class="container mx-auto px-4 py-8 pt-24 max-w-5xl animate-fadeInUp">
+<div class="profile-page animate-fadeInUp">
   @if (isLoading()) {
-  <div class="text-center p-12 text-gray-500 dark:text-gray-400">Loading profile...</div>
+  <div class="profile-page__state">Loading profile...</div>
   } @else if (loadError() || !profile()) {
-  <div class="text-center p-12 text-gray-500 dark:text-gray-400">Profile not found.</div>
+  <div class="profile-page__state">Profile not found.</div>
   } @else {
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
+  <div class="profile-page__card">
     <!-- Header -->
-    <div
-      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b border-gray-200 dark:border-gray-700 animate-fadeInUp"
-      style="animation-delay: 0.1s;">
-      <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-        <img class="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-600" [src]="profile()?.avatar"
+    <div class="profile-page__header animate-fadeInUp" style="animation-delay: 0.1s;">
+      <div class="profile-page__identity">
+        <img class="profile-page__avatar" [src]="profile()?.avatar"
           [alt]="profile()?.firstName + ' ' + profile()?.lastName">
-        <div class="text-center sm:text-left">
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ profile()?.firstName }} {{
+        <div class="profile-page__identity-info">
+          <h1 class="profile-page__name">{{ profile()?.firstName }} {{
             profile()?.lastName }}</h1>
-          <p class="text-md text-gray-500 dark:text-gray-400">{{ profile()?.email }}</p>
-          <span class="inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
-            [class]="profile()?.role === 'ADMIN' ? 'bg-red-500' : 'bg-blue-500'">
+          <p class="profile-page__email">{{ profile()?.email }}</p>
+          <span class="profile-page__role-badge"
+            [class.profile-page__role-badge--admin]="profile()?.role === 'ADMIN'">
             {{ profile()?.role | titlecase }}
           </span>
         </div>
       </div>
       @if (isOwnProfile()) {
-      <div class="flex-shrink-0 mt-4 sm:mt-0 self-center sm:self-auto">
+      <div class="profile-page__actions">
         @if (isEditing()) {
-        <div class="flex space-x-2">
-          <button (click)="saveProfile()" [disabled]="hasErrors() || isSaving()"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 disabled:opacity-50">
-            <i class="fa-solid fa-save mr-2"></i>
+        <div class="profile-page__edit-actions">
+          <button (click)="saveProfile()" [disabled]="hasErrors() || isSaving()" class="profile-page__save">
+            <i class="fa-solid fa-save profile-page__save-icon"></i>
             {{ isSaving() ? 'Saving...' : 'Save Changes' }}
           </button>
-          <button type="button" (click)="cancelEdit()"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+          <button type="button" (click)="cancelEdit()" class="profile-page__cancel">
             Cancel
           </button>
         </div>
         } @else {
-        <button (click)="startEditing()"
-          class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700">
-          <i class="fa-solid fa-pencil-alt mr-2"></i>
+        <button (click)="startEditing()" class="profile-page__edit">
+          <i class="fa-solid fa-pencil-alt profile-page__edit-icon"></i>
           Edit Profile
         </button>
         }
@@ -48,67 +43,67 @@
     </div>
 
     <!-- Profile Details Form -->
-    <div class="space-y-6 animate-fadeInUp" style="animation-delay: 0.2s;">
+    <div class="profile-page__details animate-fadeInUp" style="animation-delay: 0.2s;">
       <!-- Personal Info -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+      <div class="profile-page__grid">
+        <div class="profile-page__field">
+          <label class="profile-page__label">First Name</label>
           @if (isEditing()) {
           <input type="text" [value]="firstName()" (input)="firstName.set($any($event.target).value)"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            class="profile-page__input">
           @if (formErrors().firstName().length > 0) {
-          <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ formErrors().firstName()[0] }}</p>
+          <p class="profile-page__error">{{ formErrors().firstName()[0] }}</p>
           }
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ profile()?.firstName }}</p>
+          <p class="profile-page__value">{{ profile()?.firstName }}</p>
           }
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+        <div class="profile-page__field">
+          <label class="profile-page__label">Last Name</label>
           @if (isEditing()) {
           <input type="text" [value]="lastName()" (input)="lastName.set($any($event.target).value)"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            class="profile-page__input">
           @if (formErrors().lastName().length > 0) {
-          <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ formErrors().lastName()[0] }}</p>
+          <p class="profile-page__error">{{ formErrors().lastName()[0] }}</p>
           }
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ profile()?.lastName }}</p>
+          <p class="profile-page__value">{{ profile()?.lastName }}</p>
           }
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
+        <div class="profile-page__field">
+          <label class="profile-page__label">Phone Number</label>
           @if (isEditing()) {
           <input type="tel" [value]="phoneNumber()" (input)="phoneNumber.set($any($event.target).value)"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            class="profile-page__input">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ profile()?.phoneNumber || 'Not provided' }}</p>
+          <p class="profile-page__value">{{ profile()?.phoneNumber || 'Not provided' }}</p>
           }
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Country</label>
+        <div class="profile-page__field">
+          <label class="profile-page__label">Country</label>
           @if (isEditing()) {
           <input type="text" [value]="country()" (input)="country.set($any($event.target).value)"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            class="profile-page__input">
           } @else {
-          <p class="mt-1 text-lg text-gray-900 dark:text-white">{{ profile()?.country || 'Not provided' }}</p>
+          <p class="profile-page__value">{{ profile()?.country || 'Not provided' }}</p>
           }
         </div>
       </div>
 
       <!-- Social Media -->
       <div>
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Social Media</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <h3 class="profile-page__social-title">Social Media</h3>
+        <div class="profile-page__social-grid">
           @for (social of socialMediaLinks(); track social.key) {
           <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center">
-              <i [class]="social.icon" class="mr-2"></i> {{ social.name }}
+            <label class="profile-page__social-label">
+              <i [class]="social.icon" class="profile-page__social-icon"></i> {{ social.name }}
             </label>
             @if (isEditing()) {
             <input type="text" [value]="social.value()" (input)="social.value.set($any($event.target).value)"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              class="profile-page__input">
             } @else {
-            <p class="mt-1 text-lg text-gray-900 dark:text-white truncate">{{ social.display || 'Not provided' }}</p>
+            <p class="profile-page__value profile-page__value--truncate">{{ social.display || 'Not provided' }}</p>
             }
           </div>
           }
