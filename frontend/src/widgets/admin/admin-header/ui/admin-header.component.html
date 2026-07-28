@@ -18,6 +18,7 @@
     </div>
 
     <div class="admin-header__end">
+      <app-language-switcher></app-language-switcher>
       <button (click)="settingsService.toggleTheme()" type="button"
         [attr.aria-label]="settingsService.theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
         class="admin-header__theme-toggle">
