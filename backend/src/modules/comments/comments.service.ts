@@ -61,26 +61,40 @@ export class CommentsService {
         return { items, total, page, limit };
     }
 
-    async listAllForAdmin(page: number, limit: number): Promise<PaginatedResult<CommentDocument>> {
+    async listAllForAdmin(page: number, limit: number, search?: string): Promise<PaginatedResult<CommentDocument>> {
+        const filter = await this.buildAdminSearchFilter(search);
         const [items, total] = await Promise.all([
             this.commentModel
-                .find()
+                .find(filter)
                 .sort({ createdAt: -1 })
                 .skip((page - 1) * limit)
                 .limit(limit)
                 .populate('author', AUTHOR_POPULATE)
                 .populate('material', 'title')
                 .exec(),
-            this.commentModel.countDocuments().exec(),
+            this.commentModel.countDocuments(filter).exec(),
         ]);
         return { items, total, page, limit };
+    }
+
+    private async buildAdminSearchFilter(search?: string): Promise<Record<string, unknown>> {
+        if (!search) {
+            return {};
+        }
+        const matchingAuthorIds = await this.usersService.findIdsBySearch(search);
+        return {
+            $or: [
+                { text: { $regex: search, $options: 'i' } },
+                { author: { $in: matchingAuthorIds.map((id) => new Types.ObjectId(id)) } },
+            ],
+        };
     }
 
     async countAll(): Promise<number> {
         return this.commentModel.countDocuments().exec();
     }
 
-    async remove(id: string, requester: JwtPayload) {
+    async remove(id: string, requester: JwtPayload, meta: RequestMeta = {}) {
         const comment = await this.commentModel.findById(id).exec();
         if (!comment) {
             throw new NotFoundException('Comment not found');
@@ -96,5 +110,12 @@ export class CommentsService {
 
         await this.commentModel.findByIdAndDelete(id).exec();
         await this.materialsService.incrementComments(comment.material.toString(), -1);
+        await this.activityService.log({
+            userId: requester._id,
+            type: ActivityType.COMMENT_DELETE,
+            materialId: comment.material.toString(),
+            ip: meta.ip,
+            userAgent: meta.userAgent,
+        });
     }
 }

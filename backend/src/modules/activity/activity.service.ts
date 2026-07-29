@@ -91,6 +91,37 @@ export class ActivityService {
         return rows.map((row) => ({ date: row._id, count: row.count }));
     }
 
+    /** Daily count of activity events of any type. */
+    async dailyTotalSeriesSince(sinceDate: Date): Promise<DailySeriesPoint[]> {
+        const rows = await this.activityModel.aggregate<{ _id: string; count: number }>([
+            { $match: { createdAt: { $gte: sinceDate } } },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    count: { $sum: 1 },
+                },
+            },
+            { $sort: { _id: 1 } },
+        ]);
+        return rows.map((row) => ({ date: row._id, count: row.count }));
+    }
+
+    /** Daily count of distinct users who generated at least one activity event. */
+    async distinctActiveUsersSeriesSince(sinceDate: Date): Promise<DailySeriesPoint[]> {
+        const rows = await this.activityModel.aggregate<{ _id: string; count: number }>([
+            { $match: { createdAt: { $gte: sinceDate } } },
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    users: { $addToSet: '$user' },
+                },
+            },
+            { $project: { count: { $size: '$users' } } },
+            { $sort: { _id: 1 } },
+        ]);
+        return rows.map((row) => ({ date: row._id, count: row.count }));
+    }
+
     async countSince(type: ActivityType, sinceDate: Date): Promise<number> {
         return this.activityModel.countDocuments({ type, createdAt: { $gte: sinceDate } }).exec();
     }

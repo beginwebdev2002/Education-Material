@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ForbiddenException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { getModelToken } from '@nestjs/mongoose';
 import { UsersService } from './users.service';
 import { Users } from '@modules/users/entities/users.schema';
 import { UserRole } from '@modules/users/user-role.enum';
+import { ActivityService } from '@modules/activity/activity.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -19,6 +21,8 @@ describe('UsersService', () => {
       providers: [
         UsersService,
         { provide: getModelToken(Users.name), useValue: usersModel },
+        { provide: ConfigService, useValue: { get: jest.fn() } },
+        { provide: ActivityService, useValue: { log: jest.fn() } },
       ],
     }).compile();
 

@@ -43,11 +43,11 @@
   }
 
   &__role-toggle {
-    @apply rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700;
+    @apply inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700;
   }
 
   &__ban-toggle {
-    @apply rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700;
+    @apply inline-flex items-center gap-2 rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700;
 
     &--banned {
       @apply bg-green-600 hover:bg-green-700;

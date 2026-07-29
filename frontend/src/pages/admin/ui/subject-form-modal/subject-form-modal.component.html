@@ -1,0 +1,77 @@
+<app-modal [title]="isEditMode() ? ('admin.autocomplete.subjectForm.editTitle' | translate) : ('admin.autocomplete.subjectForm.createTitle' | translate)" (closed)="close()">
+  @if (isLoading()) {
+  <p class="subject-form__state">{{ 'admin.autocomplete.subjectForm.loading' | translate }}</p>
+  } @else {
+  <form class="subject-form" novalidate (submit)="onSubmit($event)">
+    <div class="subject-form__field">
+      <label for="subject-translation-en" class="subject-form__label">{{ 'admin.autocomplete.subjectForm.translationEnLabel' | translate }}</label>
+      <input id="subject-translation-en" type="text" [field]="form.translationEn" class="subject-form__input">
+      @if (form.translationEn().touched() && form.translationEn().invalid()) {
+      <ul class="subject-form__errors">
+        @for (e of form.translationEn().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="subject-form__field">
+      <label for="subject-translation-ru" class="subject-form__label">{{ 'admin.autocomplete.subjectForm.translationRuLabel' | translate }}</label>
+      <input id="subject-translation-ru" type="text" [field]="form.translationRu" class="subject-form__input">
+      @if (form.translationRu().touched() && form.translationRu().invalid()) {
+      <ul class="subject-form__errors">
+        @for (e of form.translationRu().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="subject-form__field">
+      <label for="subject-translation-tj" class="subject-form__label">{{ 'admin.autocomplete.subjectForm.translationTjLabel' | translate }}</label>
+      <input id="subject-translation-tj" type="text" [field]="form.translationTj" class="subject-form__input">
+      @if (form.translationTj().touched() && form.translationTj().invalid()) {
+      <ul class="subject-form__errors">
+        @for (e of form.translationTj().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="subject-form__field">
+      <label for="subject-kind" class="subject-form__label">{{ 'admin.autocomplete.subjectForm.subjectKindLabel' | translate }}</label>
+      <select id="subject-kind" [value]="subjectKind()" (change)="onSubjectKindChange($any($event.target).value)" class="subject-form__input">
+        <option value="SCHOOL_SUBJECT">{{ 'admin.autocomplete.subjectForm.subjectKindSchoolSubject' | translate }}</option>
+        <option value="SPECIALIZATION">{{ 'admin.autocomplete.subjectForm.subjectKindSpecialization' | translate }}</option>
+      </select>
+    </div>
+
+    <!-- Link to Institutions: candidates switch between Schools/Universities based on subjectKind. -->
+    <div class="subject-form__field">
+      <p class="subject-form__label">
+        {{ (subjectKind() === 'SCHOOL_SUBJECT' ? 'admin.autocomplete.subjectForm.linkToSchoolsLabel' : 'admin.autocomplete.subjectForm.linkToUniversitiesLabel') | translate }}
+      </p>
+      @if (isLoadingInstitutions()) {
+      <p class="subject-form__hint">{{ 'admin.autocomplete.subjectForm.loading' | translate }}</p>
+      } @else {
+      <div class="subject-form__checkbox-list">
+        @for (institution of linkableInstitutions(); track institution._id) {
+        <label class="subject-form__checkbox-row">
+          <input type="checkbox" [checked]="selectedParentItemIds().includes(institution._id)" (change)="toggleParentItem(institution._id)">
+          {{ institution | translationLabel }}
+        </label>
+        } @empty {
+        <p class="subject-form__hint">{{ 'admin.autocomplete.subjectForm.noInstitutionsAvailable' | translate }}</p>
+        }
+      </div>
+      }
+    </div>
+
+    @if (errorMessage()) {
+    <p class="subject-form__error">{{ errorMessage() }}</p>
+    }
+
+    <div modal-footer>
+      <button type="button" [disabled]="form().invalid() || isSaving()" class="subject-form__submit" (click)="onSubmit($event)">
+        <i class="fa-solid" [class.fa-save]="!isSaving()" [class.fa-spinner]="isSaving()" [class.fa-spin]="isSaving()"></i>
+        {{ isSaving() ? ('admin.autocomplete.subjectForm.saving' | translate) : ('admin.autocomplete.subjectForm.save' | translate) }}
+      </button>
+    </div>
+  </form>
+  }
+</app-modal>

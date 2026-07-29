@@ -14,11 +14,9 @@
   </a>
 </div>
 
-<div class="autocomplete-items-page__card">
-  <div class="autocomplete-items-page__toolbar">
-    <input type="text" [value]="searchTerm()" (input)="onSearch($any($event.target).value)"
-      [attr.placeholder]="'admin.autocomplete.itemsTable.searchPlaceholder' | translate"
-      class="autocomplete-items-page__search-input">
+<div class="autocomplete-items-page__layout">
+  <app-list-filter-sidebar>
+    <app-search-input [value]="searchTerm()" [placeholder]="'admin.autocomplete.itemsTable.searchPlaceholder' | translate" (search)="onSearch($event)" />
 
     <div class="autocomplete-items-page__filter">
       <label for="filter-list" class="autocomplete-items-page__filter-label">{{ 'admin.autocomplete.itemsTable.filterByParentListLabel' | translate }}</label>
@@ -35,7 +33,10 @@
       </app-autocomplete-item-select>
       }
     </div>
+  </app-list-filter-sidebar>
 
+  <div class="autocomplete-items-page__card">
+  <div class="autocomplete-items-page__toolbar">
     <p class="autocomplete-items-page__count">{{ total() }}</p>
   </div>
 
@@ -71,12 +72,13 @@
         <td class="autocomplete-items-page__cell">{{ metadataSummary(item) }}</td>
         <td class="autocomplete-items-page__cell">
           <div class="autocomplete-items-page__actions">
-            <a [routerLink]="[{ outlets: { modal: [item._id] } }]" class="autocomplete-items-page__edit">
-              {{ 'admin.autocomplete.itemsTable.edit' | translate }}
+            <a [routerLink]="[{ outlets: { modal: [item._id] } }]" class="autocomplete-items-page__icon-action"
+              [attr.aria-label]="'admin.autocomplete.itemsTable.edit' | translate"
+              [attr.title]="'admin.autocomplete.itemsTable.edit' | translate">
+              <i class="fa-solid fa-pen"></i>
             </a>
-            <button type="button" (click)="remove(item)" class="autocomplete-items-page__delete">
-              {{ 'admin.autocomplete.itemsTable.delete' | translate }}
-            </button>
+            <app-icon-button icon="fa-solid fa-trash" variant="danger" [ariaLabel]="'admin.autocomplete.itemsTable.delete' | translate"
+              (click)="remove(item)" />
           </div>
         </td>
       </tr>
@@ -86,4 +88,8 @@
       }
     </tbody>
   </table>
+  <div class="autocomplete-items-page__pagination">
+    <app-pagination [page]="page()" [limit]="limit" [total]="total()" (pageChange)="onPageChange($event)" />
+  </div>
+  </div>
 </div>

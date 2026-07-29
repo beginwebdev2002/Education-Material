@@ -5,10 +5,23 @@ import { filter } from 'rxjs';
 import { AutocompleteList, AutocompleteListService } from '@entities/autocomplete';
 import { TranslatePipe, TranslationLabelPipe } from '@shared/pipes';
 import { TranslationService } from '@shared/services';
+import { IconButtonComponent, PaginationComponent, SearchInputComponent } from '@shared/ui';
+import { ListFilterSidebarComponent } from '@widgets/admin';
+
+const PAGE_SIZE = 20;
 
 @Component({
   selector: 'app-autocomplete-lists-index-page',
-  imports: [CommonModule, RouterLink, TranslationLabelPipe, TranslatePipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    TranslationLabelPipe,
+    TranslatePipe,
+    PaginationComponent,
+    SearchInputComponent,
+    ListFilterSidebarComponent,
+    IconButtonComponent,
+  ],
   templateUrl: './autocomplete-lists-index.component.html',
   styleUrls: ['./autocomplete-lists-index.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,15 +34,29 @@ export class AutocompleteListsIndexComponent {
   isLoading = signal(true);
   lists = signal<AutocompleteList[]>([]);
   total = signal(0);
+  page = signal(1);
+  limit = PAGE_SIZE;
+  searchTerm = signal('');
 
   constructor() {
     this.load();
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => this.load());
   }
 
+  onSearch(term: string): void {
+    this.searchTerm.set(term);
+    this.page.set(1);
+    this.load();
+  }
+
+  onPageChange(page: number): void {
+    this.page.set(page);
+    this.load();
+  }
+
   private load(): void {
     this.isLoading.set(true);
-    this.autocompleteListService.adminList(1, 100).subscribe({
+    this.autocompleteListService.adminList(this.page(), this.limit, this.searchTerm()).subscribe({
       next: (response) => {
         this.lists.set(response.items);
         this.total.set(response.total);

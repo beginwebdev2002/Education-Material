@@ -1,15 +1,20 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
+import { resolve } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
   const PORT = configService.get<number>('port')
   app.use(cookieParser());
+  app.useStaticAssets(resolve(configService.get<string>('uploads.avatarsDir')!), {
+    prefix: '/uploads/avatars',
+  });
   app.enableCors({
     origin: configService.get('cors.origin'),
     methods: configService.get('cors.methods'),

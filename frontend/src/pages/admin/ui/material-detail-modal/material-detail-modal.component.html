@@ -52,19 +52,23 @@
   <div modal-footer class="material-detail__footer">
     @if (material(); as material) {
     <button type="button" (click)="download()" class="material-detail__download">
+      <i class="fa-solid fa-download"></i>
       {{ 'admin.materialDetail.download' | translate }}
     </button>
     @if (material.status !== 'PUBLISHED') {
     <button type="button" (click)="setStatus('PUBLISHED')" class="material-detail__approve">
+      <i class="fa-solid fa-check"></i>
       {{ 'admin.materialDetail.approve' | translate }}
     </button>
     }
     @if (material.status !== 'REJECTED') {
     <button type="button" (click)="setStatus('REJECTED')" class="material-detail__reject">
+      <i class="fa-solid fa-xmark"></i>
       {{ 'admin.materialDetail.reject' | translate }}
     </button>
     }
     <button type="button" (click)="remove()" class="material-detail__delete">
+      <i class="fa-solid fa-trash"></i>
       {{ 'admin.materialDetail.delete' | translate }}
     </button>
     }

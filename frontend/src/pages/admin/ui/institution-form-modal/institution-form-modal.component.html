@@ -1,0 +1,80 @@
+<app-modal [title]="isEditMode() ? ('admin.autocomplete.institutionForm.editTitle' | translate) : ('admin.autocomplete.institutionForm.createTitle' | translate)" (closed)="close()">
+  @if (isLoading()) {
+  <p class="institution-form__state">{{ 'admin.autocomplete.institutionForm.loading' | translate }}</p>
+  } @else {
+  <form class="institution-form" novalidate (submit)="onSubmit($event)">
+    <div class="institution-form__field">
+      <label for="institution-translation-en" class="institution-form__label">{{ 'admin.autocomplete.institutionForm.translationEnLabel' | translate }}</label>
+      <input id="institution-translation-en" type="text" [field]="form.translationEn" class="institution-form__input">
+      @if (form.translationEn().touched() && form.translationEn().invalid()) {
+      <ul class="institution-form__errors">
+        @for (e of form.translationEn().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="institution-form__field">
+      <label for="institution-translation-ru" class="institution-form__label">{{ 'admin.autocomplete.institutionForm.translationRuLabel' | translate }}</label>
+      <input id="institution-translation-ru" type="text" [field]="form.translationRu" class="institution-form__input">
+      @if (form.translationRu().touched() && form.translationRu().invalid()) {
+      <ul class="institution-form__errors">
+        @for (e of form.translationRu().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="institution-form__field">
+      <label for="institution-translation-tj" class="institution-form__label">{{ 'admin.autocomplete.institutionForm.translationTjLabel' | translate }}</label>
+      <input id="institution-translation-tj" type="text" [field]="form.translationTj" class="institution-form__input">
+      @if (form.translationTj().touched() && form.translationTj().invalid()) {
+      <ul class="institution-form__errors">
+        @for (e of form.translationTj().errors(); track e) { <li>{{ e.message }}</li> }
+      </ul>
+      }
+    </div>
+
+    <div class="institution-form__row">
+      <div class="institution-form__field">
+        <label for="institution-type" class="institution-form__label">{{ 'admin.autocomplete.institutionForm.institutionTypeLabel' | translate }}</label>
+        <select id="institution-type" [value]="institutionType()" (change)="institutionType.set($any($event.target).value)" class="institution-form__input">
+          <option value="UNIVERSITY">{{ 'admin.autocomplete.institutionForm.institutionTypeUniversity' | translate }}</option>
+          <option value="SCHOOL">{{ 'admin.autocomplete.institutionForm.institutionTypeSchool' | translate }}</option>
+        </select>
+      </div>
+      <div class="institution-form__field">
+        <label for="institution-city" class="institution-form__label">{{ 'admin.autocomplete.institutionForm.cityLabel' | translate }}</label>
+        <input id="institution-city" type="text" [value]="city()" (input)="city.set($any($event.target).value)" class="institution-form__input">
+      </div>
+    </div>
+
+    <!-- Read-only: the link is written from the Subject/Specialty form, not here. -->
+    @if (isEditMode()) {
+    <div class="institution-form__field">
+      <p class="institution-form__label">{{ 'admin.autocomplete.institutionForm.linkedSubjectsLabel' | translate }}</p>
+      @if (isLoadingLinkedSubjects()) {
+      <p class="institution-form__hint">{{ 'admin.autocomplete.institutionForm.loading' | translate }}</p>
+      } @else if (linkedSubjects().length > 0) {
+      <div class="institution-form__badge-list">
+        @for (subject of linkedSubjects(); track subject._id) {
+        <span class="institution-form__badge">{{ subject | translationLabel }}</span>
+        }
+      </div>
+      } @else {
+      <p class="institution-form__hint">{{ 'admin.autocomplete.institutionForm.linkedSubjectsEmpty' | translate }}</p>
+      }
+    </div>
+    }
+
+    @if (errorMessage()) {
+    <p class="institution-form__error">{{ errorMessage() }}</p>
+    }
+
+    <div modal-footer>
+      <button type="button" [disabled]="form().invalid() || isSaving()" class="institution-form__submit" (click)="onSubmit($event)">
+        <i class="fa-solid" [class.fa-save]="!isSaving()" [class.fa-spinner]="isSaving()" [class.fa-spin]="isSaving()"></i>
+        {{ isSaving() ? ('admin.autocomplete.institutionForm.saving' | translate) : ('admin.autocomplete.institutionForm.save' | translate) }}
+      </button>
+    </div>
+  </form>
+  }
+</app-modal>

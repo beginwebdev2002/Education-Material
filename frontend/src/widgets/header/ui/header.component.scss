@@ -50,6 +50,7 @@
 
   &__avatar {
     @apply w-8 h-8 rounded-full;
+    object-fit: cover;
   }
 
   &__dropdown {

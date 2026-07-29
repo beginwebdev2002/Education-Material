@@ -8,7 +8,12 @@ export type ActivityType =
     | 'MATERIAL_UPLOAD'
     | 'MATERIAL_DOWNLOAD'
     | 'MATERIAL_COMMENT'
-    | 'MATERIAL_STATUS_CHANGE';
+    | 'MATERIAL_STATUS_CHANGE'
+    | 'MATERIAL_DELETE'
+    | 'COMMENT_DELETE'
+    | 'ACCOUNT_DELETE';
+
+export type AnalyticsCategory = ActivityType | 'ALL' | 'ACTIVE_USERS';
 
 export interface ActivityActor {
     _id: string;
@@ -28,6 +33,21 @@ export interface ActivityEntry {
     createdAt: string;
 }
 
+export interface UserRoleCount {
+    role: string;
+    count: number;
+}
+
+export interface TopContributor {
+    user: {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        avatar?: string;
+    };
+    uploadsCount: number;
+}
+
 export interface AdminOverview {
     totalUsers: number;
     onlineUsersCount: number;
@@ -35,9 +55,14 @@ export interface AdminOverview {
     totalMaterials: number;
     publishedMaterials: number;
     pendingMaterials: number;
+    rejectedMaterials: number;
+    rejectionRate: number;
     totalDownloads: number;
     totalComments: number;
     recentActivity: ActivityEntry[];
+    usersByRole: UserRoleCount[];
+    storageBytes: number;
+    topContributors: TopContributor[];
 }
 
 export interface OnlineUser {
@@ -61,7 +86,8 @@ export interface ActivityTypeCount {
 
 export interface AdminAnalytics {
     registrationsSeries: DailySeriesPoint[];
-    downloadsSeries: DailySeriesPoint[];
+    categorySeries: DailySeriesPoint[];
+    category: AnalyticsCategory;
     activityBreakdown: ActivityTypeCount[];
     topMaterials: Material[];
 }

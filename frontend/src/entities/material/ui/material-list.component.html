@@ -29,12 +29,8 @@
         }
       </div>
       <div class="material-list__actions">
-        <button type="button" (click)="download.emit(material)" class="material-list__download" title="Download" i18n-title>
-          <i class="fa-solid fa-download"></i>
-        </button>
-        <button type="button" (click)="remove.emit(material)" class="material-list__delete" title="Delete" i18n-title>
-          <i class="fa-solid fa-trash"></i>
-        </button>
+        <app-icon-button icon="fa-solid fa-download" ariaLabel="Download" i18n-ariaLabel (click)="download.emit(material)" />
+        <app-icon-button icon="fa-solid fa-trash" variant="danger" ariaLabel="Delete" i18n-ariaLabel (click)="remove.emit(material)" />
       </div>
     </li>
     }

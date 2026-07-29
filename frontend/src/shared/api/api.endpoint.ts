@@ -10,7 +10,7 @@ const ADMIN_PREFIX = `${API_BASE_URL}/admin`;
 const AUTOCOMPLETE_PREFIX = `${API_BASE_URL}/autocomplete`;
 
 type AuthEndpointKeys = 'SIGN_IN' | 'SIGN_UP' | 'LOGOUT';
-type UserEndpointKeys = 'GET_PROFILE' | 'UPDATE_PROFILE' | 'GET_ALL_USERS' | 'UPDATE_ROLE' | 'UPDATE_BAN' | 'GET_BY_ID';
+type UserEndpointKeys = 'GET_PROFILE' | 'UPDATE_PROFILE' | 'UPLOAD_AVATAR' | 'GET_ALL_USERS' | 'UPDATE_ROLE' | 'UPDATE_BAN' | 'GET_BY_ID';
 type MaterialsEndpointKeys = 'LIST' | 'MINE' | 'ADMIN_LIST' | 'GET_BY_ID' | 'UPLOAD' | 'DOWNLOAD' | 'DELETE' | 'UPDATE_STATUS';
 type CommentsEndpointKeys = 'LIST_FOR_MATERIAL' | 'CREATE' | 'DELETE' | 'ADMIN_LIST';
 type AdminEndpointKeys = 'OVERVIEW' | 'ONLINE_USERS' | 'ANALYTICS' | 'ACTIVITY';
@@ -46,6 +46,11 @@ export const USER_ENDPOINTS: ModuleEndpoints<UserEndpointKeys> = {
         url: `${USER_PREFIX}/me`,
         methods: ['PATCH'],
         description: 'Обновление профиля текущего пользователя',
+    },
+    UPLOAD_AVATAR: {
+        url: `${USER_PREFIX}/me/avatar`,
+        methods: ['POST'],
+        description: 'Загрузка аватара текущего пользователя',
     },
     GET_ALL_USERS: {
         url: `${USER_PREFIX}`,

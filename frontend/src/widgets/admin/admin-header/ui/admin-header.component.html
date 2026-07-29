@@ -2,25 +2,25 @@
   <div class="admin-header__bar">
     <div class="admin-header__start">
       <button (click)="layoutService.toggleSidebar()" type="button" class="admin-header__sidebar-toggle">
-        <span class="sr-only">Open sidebar</span>
+        <span class="sr-only">{{ 'admin.header.openSidebar' | translate }}</span>
         <i class="fa-solid fa-bars admin-header__sidebar-toggle-icon"></i>
       </button>
     </div>
 
     <div class="admin-header__search">
-      <label for="admin-search" class="sr-only">Search</label>
+      <label for="admin-search" class="sr-only">{{ 'admin.header.search' | translate }}</label>
       <div class="admin-header__search-wrapper">
         <div class="admin-header__search-icon">
           <i class="fa-solid fa-search"></i>
         </div>
-        <input type="text" id="admin-search" class="admin-header__search-input" placeholder="Search users, materials...">
+        <input type="text" id="admin-search" class="admin-header__search-input" [attr.placeholder]="'admin.header.searchPlaceholder' | translate">
       </div>
     </div>
 
     <div class="admin-header__end">
       <app-language-switcher></app-language-switcher>
       <button (click)="settingsService.toggleTheme()" type="button"
-        [attr.aria-label]="settingsService.theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        [attr.aria-label]="(settingsService.theme() === 'dark' ? 'header.themeToggle.toLight' : 'header.themeToggle.toDark') | translate"
         class="admin-header__theme-toggle">
         @if (settingsService.theme() === 'dark') {
         <i class="fa-solid fa-sun admin-header__theme-icon"></i>
@@ -33,7 +33,7 @@
         @if (currentUser()) {
         <div>
           <button #trigger type="button" class="admin-header__avatar-button" aria-expanded="false">
-            <span class="sr-only">Open user menu</span>
+            <span class="sr-only">{{ 'header.openUserMenu' | translate }}</span>
             <img class="admin-header__avatar" [src]="currentUser()?.avatar"
               [alt]="currentUser()?.firstName + ' ' + currentUser()?.lastName">
           </button>
@@ -49,16 +49,16 @@
           </div>
           <ul class="admin-header__dropdown-list" role="none">
             <li>
-              <a [routerLink]="['/profile', currentUser()?._id]" class="admin-header__dropdown-link" role="menuitem">My Profile</a>
+              <a [routerLink]="['/profile', currentUser()?._id]" class="admin-header__dropdown-link" role="menuitem">{{ 'header.profileMenu.profile' | translate }}</a>
             </li>
             <li>
-              <a routerLink="/settings" class="admin-header__dropdown-link" role="menuitem">Settings</a>
+              <a routerLink="/settings" class="admin-header__dropdown-link" role="menuitem">{{ 'header.profileMenu.settings' | translate }}</a>
             </li>
             <li>
-              <a routerLink="/" class="admin-header__dropdown-link" role="menuitem">Back to Site</a>
+              <a routerLink="/" class="admin-header__dropdown-link" role="menuitem">{{ 'admin.header.backToSite' | translate }}</a>
             </li>
             <li>
-              <a (click)="logout()" class="admin-header__dropdown-link admin-header__dropdown-link--action" role="menuitem">Sign out</a>
+              <a (click)="logout()" class="admin-header__dropdown-link admin-header__dropdown-link--action" role="menuitem">{{ 'header.logout' | translate }}</a>
             </li>
           </ul>
         </div>

@@ -65,7 +65,7 @@
         @for (file of files(); track file.name; let i = $index) {
         <li class="material-upload-form__file-item">
           <span><i class="fa-solid fa-paperclip material-upload-form__file-icon"></i>{{ file.name }}</span>
-          <button type="button" (click)="removeFile(i)" class="material-upload-form__file-remove">{{ 'dashboard.upload.removeFile' | translate }}</button>
+          <app-icon-button icon="fa-solid fa-xmark" size="sm" [ariaLabel]="'dashboard.upload.removeFile' | translate" (click)="removeFile(i)" />
         </li>
         }
       </ul>

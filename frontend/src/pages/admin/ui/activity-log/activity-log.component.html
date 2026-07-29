@@ -1,47 +1,47 @@
-<h1 class="activity-log-page__title" i18n>Activity Log</h1>
+<h1 class="activity-log-page__title">{{ 'admin.activityLog.title' | translate }}</h1>
 
 <div class="activity-log-page__card">
   <div class="activity-log-page__toolbar">
     <select [ngModel]="typeFilter()" (ngModelChange)="onFilterChange($event)" class="activity-log-page__filter">
-      <option value="">All types</option>
+      <option value="">{{ 'admin.activityLog.allTypes' | translate }}</option>
       @for (type of activityTypes; track type) {
-      <option [value]="type">{{ activityLabel(type) }}</option>
+      <option [value]="type">{{ activityLabel(type) | translate }}</option>
       }
     </select>
-    <p class="activity-log-page__count">{{ total() }} <span i18n>events total</span></p>
+    <p class="activity-log-page__count">{{ total() }} <span>{{ 'admin.activityLog.eventsTotal' | translate }}</span></p>
   </div>
   <table class="activity-log-page__table">
     <thead class="activity-log-page__thead">
       <tr>
-        <th scope="col" class="activity-log-page__th">User</th>
-        <th scope="col" class="activity-log-page__th">Action</th>
-        <th scope="col" class="activity-log-page__th">Material</th>
-        <th scope="col" class="activity-log-page__th">When</th>
+        <th scope="col" class="activity-log-page__th">{{ 'admin.activityLog.colUser' | translate }}</th>
+        <th scope="col" class="activity-log-page__th">{{ 'admin.activityLog.colAction' | translate }}</th>
+        <th scope="col" class="activity-log-page__th">{{ 'admin.activityLog.colMaterial' | translate }}</th>
+        <th scope="col" class="activity-log-page__th">{{ 'admin.activityLog.colWhen' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       @if (isLoading()) {
-      <tr><td colspan="4" class="activity-log-page__row-message" i18n>Loading...</td></tr>
+      <tr><td colspan="4" class="activity-log-page__row-message">{{ 'admin.activityLog.loading' | translate }}</td></tr>
       } @else {
       @for (entry of entries(); track entry._id) {
       <tr class="activity-log-page__row">
         <td class="activity-log-page__cell-user">
           {{ entry.user?.firstName }} {{ entry.user?.lastName }}
         </td>
-        <td class="activity-log-page__cell-action">{{ activityLabel(entry.type) }}</td>
+        <td class="activity-log-page__cell-action">{{ activityLabel(entry.type) | translate }}</td>
         <td class="activity-log-page__cell-material">{{ entry.material?.title || '—' }}</td>
         <td class="activity-log-page__cell-time">{{ entry.createdAt | date:'medium' }}</td>
       </tr>
       } @empty {
-      <tr><td colspan="4" class="activity-log-page__row-message activity-log-page__row-message--empty" i18n>No activity recorded yet.</td></tr>
+      <tr><td colspan="4" class="activity-log-page__row-message activity-log-page__row-message--empty">{{ 'admin.activityLog.noActivity' | translate }}</td></tr>
       }
       }
     </tbody>
   </table>
   @if (hasMore()) {
   <div class="activity-log-page__footer">
-    <button type="button" (click)="loadMore()" class="activity-log-page__load-more" i18n>
-      Load more
+    <button type="button" (click)="loadMore()" class="activity-log-page__load-more">
+      {{ 'admin.activityLog.loadMore' | translate }}
     </button>
   </div>
   }

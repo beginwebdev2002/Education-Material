@@ -207,9 +207,42 @@
       "dateTo": "То сана"
     }
   },
+  "profile": {
+    "loading": "Боргузории профил...",
+    "notFound": "Профил ёфт нашуд.",
+    "saving": "Нигоҳ дошта истодааст...",
+    "saveChanges": "Нигоҳ доштани тағйирот",
+    "cancel": "Бекор кардан",
+    "editProfile": "Таҳрири профил",
+    "firstName": "Ном",
+    "lastName": "Насаб",
+    "phoneNumber": "Рақами телефон",
+    "country": "Кишвар",
+    "notProvided": "Дода нашудааст",
+    "socialMedia": "Шабакаҳои иҷтимоӣ",
+    "changePhoto": "Тағйир додани акси профил",
+    "avatarErrorType": "Танҳо тасвирҳои JPEG, PNG, WEBP ё GIF иҷозат дода мешаванд.",
+    "avatarErrorSize": "Тасвир хеле калон аст. Андозаи ҳадди аксар 2МБ.",
+    "avatarErrorFailed": "Боргузории аватар ноком шуд. Лутфан аз нав кӯшиш кунед."
+  },
   "shared": {
     "modal": {
       "close": "Пӯшидан"
+    },
+    "validation": {
+      "required": "Ин майдон ҳатмист."
+    },
+    "pagination": {
+      "label": "Саҳифабандӣ",
+      "previous": "Қафо",
+      "next": "Пеш",
+      "page": "Саҳифаи {{page}} аз {{totalPages}}",
+      "range": "Нишон дода мешавад {{start}}-{{end}} аз {{total}}"
+    },
+    "listFilterSidebar": {
+      "title": "Ҷустуҷӯ ва филтрҳо",
+      "collapse": "Печондани филтрҳо",
+      "expand": "Кушодани филтрҳо"
     }
   },
   "admin": {
@@ -221,9 +254,126 @@
       "comments": "Модератсияи шарҳҳо",
       "analytics": "Таҳлил ва ҳисоботҳо",
       "activity": "Журнали фаъолият",
-      "monitoring": "Мониторинг",
       "profile": "Профили ман",
       "systemSettings": "Танзимоти система"
+    },
+    "activityTypes": {
+      "REGISTER": "Бақайдгирӣ",
+      "LOGIN": "Воридшавӣ",
+      "LOGOUT": "Баромадан",
+      "PROFILE_UPDATE": "Навсозии профил",
+      "MATERIAL_UPLOAD": "Боргузории мавод",
+      "MATERIAL_DOWNLOAD": "Боргирии мавод",
+      "MATERIAL_COMMENT": "Шарҳ",
+      "MATERIAL_STATUS_CHANGE": "Тағйири вазъияти мавод",
+      "MATERIAL_DELETE": "Нест кардани мавод",
+      "COMMENT_DELETE": "Нест кардани шарҳ",
+      "ACCOUNT_DELETE": "Нест кардани ҳисоб"
+    },
+    "overview": {
+      "title": "Дурнамо",
+      "loading": "Боргузории лавҳа...",
+      "tiles": {
+        "totalUsers": "Ҳамаи корбарон",
+        "onlineNow": "Ҳозир онлайн",
+        "active7d": "Фаъол (7 рӯз)",
+        "publishedMaterials": "Маводҳои нашршуда",
+        "pendingMaterials": "Маводҳои интизор",
+        "totalDownloads": "Ҳамаи боргириҳо",
+        "totalComments": "Ҳамаи шарҳҳо",
+        "rejectionRate": "Ҳиссаи радшуда",
+        "storageUsed": "Ҷои истифодашуда"
+      },
+      "recentActivity": "Фаъолияти охирин",
+      "noActivity": "Ҳанӯз фаъолияте сабт нашудааст.",
+      "onlineNowPanel": "Ҳозир онлайн",
+      "noOneOnline": "Ҳозир ҳеҷ кас онлайн нест.",
+      "registrationsTrend": "Бақайдгириҳои нав",
+      "downloadsTrend": "Боргириҳо",
+      "activityBreakdown": "Тақсимоти фаъолият",
+      "usersByRole": "Корбарон аз рӯи нақш",
+      "topContributors": "Муаллифони беҳтарин",
+      "noTrendData": "Ҳанӯз маълумот нест."
+    },
+    "header": {
+      "openSidebar": "Кушодани панели ҷонибӣ",
+      "search": "Ҷустуҷӯ",
+      "searchPlaceholder": "Ҷустуҷӯи корбарон, маводҳо...",
+      "backToSite": "Ба сомона"
+    },
+    "sidebar": {
+      "title": "Панели маъмур",
+      "closeSidebar": "Пӯшидани панели ҷонибӣ",
+      "backToMainSite": "Ба сомонаи асосӣ"
+    },
+    "usersManagement": {
+      "title": "Идоракунии корбарон",
+      "searchPlaceholder": "Ҷустуҷӯи корбарон бо ном ё почтаи электронӣ",
+      "usersTotal": "корбар ҳамагӣ",
+      "colUser": "Корбар",
+      "colRole": "Нақш",
+      "colStatus": "Вазъият",
+      "colLastSeen": "Дидашуда",
+      "colActions": "Амалҳо",
+      "banned": "Бастшуда",
+      "active": "Фаъол",
+      "never": "Ҳеҷ гоҳ",
+      "promote": "Баланд бардоштан",
+      "demote": "Паст кардан",
+      "ban": "Баст кардан",
+      "unban": "Кушодан",
+      "you": "Шумо",
+      "noUsersFound": "Корбари мувофиқи ҷустуҷӯ ёфт нашуд."
+    },
+    "commentsModeration": {
+      "title": "Модератсияи шарҳҳо",
+      "searchPlaceholder": "Ҷустуҷӯи шарҳҳо ё муаллифон",
+      "commentsTotal": "шарҳ ҳамагӣ",
+      "colAuthor": "Муаллиф",
+      "colMaterial": "Мавод",
+      "colComment": "Шарҳ",
+      "colPosted": "Гузошта шуд",
+      "colActions": "Амалҳо",
+      "loading": "Боргузорӣ...",
+      "noComments": "Ҳанӯз шарҳе нест.",
+      "delete": "Нест кардан",
+      "confirmDelete": "Ин шарҳро нест мекунед?"
+    },
+    "activityLog": {
+      "title": "Журнали фаъолият",
+      "allTypes": "Ҳамаи навъҳо",
+      "eventsTotal": "рӯйдод ҳамагӣ",
+      "colUser": "Корбар",
+      "colAction": "Амал",
+      "colMaterial": "Мавод",
+      "colWhen": "Вақт",
+      "loading": "Боргузорӣ...",
+      "noActivity": "Ҳанӯз фаъолияте сабт нашудааст.",
+      "loadMore": "Боз нишон додан"
+    },
+    "analytics": {
+      "title": "Таҳлил ва ҳисоботҳо",
+      "loading": "Боргузории таҳлил...",
+      "newRegistrations": "Бақайдгириҳои нав",
+      "signupsPerDay": "Бақайдгирӣ дар як рӯз",
+      "noRegistrations": "Дар ин давра бақайдгирӣ набудааст.",
+      "downloads": "Боргириҳо",
+      "downloadsPerDay": "Боргирии мавод дар як рӯз",
+      "noDownloads": "Дар ин давра боргирӣ набудааст.",
+      "activityBreakdown": "Тақсимоти фаъолият",
+      "noActivityInPeriod": "Дар ин давра фаъолият набудааст.",
+      "topMaterials": "Маводҳои маъмул",
+      "noTopMaterials": "Ҳанӯз боргирӣ сабт нашудааст.",
+      "categoryLabel": "Категория",
+      "categoryAll": "Ҳама",
+      "categoryDownloads": "Боргириҳо",
+      "categoryLogins": "Воридшавиҳо",
+      "categoryRegistrations": "Ҳисобҳои нав",
+      "categoryMaterialDeletions": "Нест кардани маводҳо",
+      "categoryComments": "Шарҳҳо",
+      "categoryActiveUsers": "Корбарони фаъол",
+      "perDay": "Дар як рӯз",
+      "noDataInPeriod": "Дар ин давра маълумот нест."
     },
     "autocomplete": {
       "listsIndex": {
@@ -274,9 +424,9 @@
         "noItems": "Ҳанӯз ягон элемент нест.",
         "loading": "Боргузорӣ..."
       },
-      "itemForm": {
-        "createTitle": "Элементи нав",
-        "editTitle": "Тағйир додани элемент",
+      "institutionForm": {
+        "createTitle": "Мактаб / донишгоҳи нав",
+        "editTitle": "Тағйир додани мактаб / донишгоҳ",
         "loading": "Боргузорӣ...",
         "translationEnLabel": "Тарҷума (англисӣ)",
         "translationRuLabel": "Тарҷума (русӣ)",
@@ -285,20 +435,53 @@
         "institutionTypeUniversity": "Донишгоҳ",
         "institutionTypeSchool": "Мактаб",
         "cityLabel": "Шаҳр",
+        "linkedSubjectsLabel": "Фанҳо / ихтисосҳои пайвастшуда",
+        "linkedSubjectsEmpty": "Ба ин муассиса ҳанӯз фан ё ихтисосе пайваст нашудааст.",
+        "save": "Нигоҳ доштан",
+        "saving": "Нигоҳ дошта истодааст...",
+        "errorFailed": "Нигоҳ доштан ноком шуд. Лутфан аз нав кӯшиш кунед."
+      },
+      "subjectForm": {
+        "createTitle": "Фанни мактабӣ / ихтисоси нав",
+        "editTitle": "Тағйир додани фанни мактабӣ / ихтисос",
+        "loading": "Боргузорӣ...",
+        "translationEnLabel": "Тарҷума (англисӣ)",
+        "translationRuLabel": "Тарҷума (русӣ)",
+        "translationTjLabel": "Тарҷума (тоҷикӣ)",
         "subjectKindLabel": "Намуд",
         "subjectKindSchoolSubject": "Фанни мактабӣ",
-        "subjectKindSpecialization": "Ихтисос",
-        "linkFromListLabel": "Пайваст кардан ба элементҳои аз",
-        "linkFromListNone": "Нест (элементи универсалӣ)",
-        "parentItemsLabel": "Элементҳоеро, ки ин элемент бо онҳо пайваст аст, интихоб кунед:",
-        "metadataJsonLabel": "Метамаълумот (JSON)",
+        "subjectKindSpecialization": "Ихтисоси донишгоҳ",
+        "linkToSchoolsLabel": "Пайваст кардан ба мактабҳо",
+        "linkToUniversitiesLabel": "Пайваст кардан ба донишгоҳҳо",
+        "noInstitutionsAvailable": "Муассисаи мувофиқ ёфт нашуд.",
         "save": "Нигоҳ доштан",
         "saving": "Нигоҳ дошта истодааст...",
         "errorFailed": "Нигоҳ доштан ноком шуд. Лутфан аз нав кӯшиш кунед."
       }
     },
     "materialsControl": {
-      "colInstitutionSubject": "Муассиса / Фан"
+      "title": "Идоракунии маводҳо",
+      "searchPlaceholder": "Ҷустуҷӯи маводҳо",
+      "statusLabel": "Вазъият",
+      "allStatuses": "Ҳамаи вазъиятҳо",
+      "statusPending": "Дар интизорӣ",
+      "statusPublished": "Нашршуда",
+      "statusRejected": "Рад шуда",
+      "materialsTotal": "мавод ҳамагӣ",
+      "colTitle": "Сарлавҳа",
+      "colAuthor": "Муаллиф",
+      "colInstitutionSubject": "Муассиса / Фан",
+      "colDownloads": "Боргириҳо",
+      "colComments": "Шарҳҳо",
+      "colStatus": "Вазъият",
+      "colActions": "Амалҳо",
+      "loading": "Боргузорӣ...",
+      "noMaterials": "Ягон мавод ёфт нашуд.",
+      "download": "Боргирӣ",
+      "approve": "Тасдиқ",
+      "reject": "Рад кардан",
+      "delete": "Нест кардан",
+      "confirmDelete": "«{{title}}»-ро нест мекунед? Ин амалро бозгардонидан мумкин нест."
     },
     "materialDetail": {
       "title": "Маълумоти мавод",
@@ -334,21 +517,6 @@
       "unban": "Рафъи бастан",
       "ban": "Бастан"
     },
-    "monitoring": {
-      "title": "Мониторинг",
-      "loading": "Боргузории маълумоти мониторинг...",
-      "totalUsers": "Ҳамаи корбарон",
-      "totalMaterials": "Ҳамаи маводҳо",
-      "totalDownloads": "Ҳамаи боргириҳо",
-      "totalComments": "Ҳамаи шарҳҳо",
-      "registrationsTrend": "Сабтҳо (30 рӯзи охир)",
-      "downloadsTrend": "Боргириҳо (30 рӯзи охир)",
-      "activityBreakdown": "Тақсимоти фаъолият",
-      "onlineUsers": "Корбарони онлайн",
-      "recentActivity": "Фаъолияти охирин",
-      "noData": "Ҳанӯз маълумот нест.",
-      "noOnlineUsers": "Ҳоло ҳеҷ кас онлайн нест."
-    },
     "userProfile": {
       "title": "Профили ман",
       "loading": "Боргузории профил...",
@@ -364,7 +532,11 @@
       "save": "Нигоҳ доштани тағйирот",
       "saving": "Нигоҳ дошта истодааст...",
       "successMessage": "Профил бомуваффақият навсозӣ шуд.",
-      "errorFailed": "Навсозии профил ноком шуд. Лутфан аз нав кӯшиш кунед."
+      "errorFailed": "Навсозии профил ноком шуд. Лутфан аз нав кӯшиш кунед.",
+      "changePhoto": "Тағйир додани акси профил",
+      "avatarErrorType": "Танҳо тасвирҳои JPEG, PNG, WEBP ё GIF иҷозат дода мешаванд.",
+      "avatarErrorSize": "Тасвир хеле калон аст. Андозаи ҳадди аксар 2МБ.",
+      "avatarErrorFailed": "Боргузории аватар ноком шуд. Лутфан аз нав кӯшиш кунед."
     },
     "advertising": {
       "title": "Идоракунии реклама",

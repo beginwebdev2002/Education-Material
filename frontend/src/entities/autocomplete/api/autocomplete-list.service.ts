@@ -9,8 +9,11 @@ import { AutocompleteList, CreateAutocompleteListPayload, UpdateAutocompleteList
 export class AutocompleteListService {
     private readonly http = inject(HttpClient);
 
-    adminList(page: number, limit: number): Observable<PaginatedResponse<AutocompleteList>> {
-        const params = new HttpParams().set('page', page).set('limit', limit);
+    adminList(page: number, limit: number, search?: string): Observable<PaginatedResponse<AutocompleteList>> {
+        let params = new HttpParams().set('page', page).set('limit', limit);
+        if (search) {
+            params = params.set('search', search);
+        }
         return this.http.get<PaginatedResponse<AutocompleteList>>(AUTOCOMPLETE_ENDPOINTS.LIST_LISTS.url, { params });
     }
 

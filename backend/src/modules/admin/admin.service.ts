@@ -7,6 +7,8 @@ import { ActivityService } from '@modules/activity/activity.service';
 import { ActivityType } from '@modules/activity/activity.interface';
 import { MaterialStatus } from '@modules/materials/material.interface';
 
+export type AnalyticsCategory = ActivityType | 'ALL' | 'ACTIVE_USERS';
+
 @Injectable()
 export class AdminService {
     constructor(
@@ -35,9 +37,13 @@ export class AdminService {
             totalMaterials,
             publishedMaterials,
             pendingMaterials,
+            rejectedMaterials,
             totalDownloads,
             totalComments,
             recentActivity,
+            usersByRole,
+            storageBytes,
+            topContributors,
         ] = await Promise.all([
             this.usersService.countAll(),
             this.usersService.countOnlineSince(this.onlineSince()),
@@ -45,10 +51,16 @@ export class AdminService {
             this.materialsService.countAll(),
             this.materialsService.countByStatus(MaterialStatus.PUBLISHED),
             this.materialsService.countByStatus(MaterialStatus.PENDING),
+            this.materialsService.countByStatus(MaterialStatus.REJECTED),
             this.materialsService.sumDownloads(),
             this.commentsService.countAll(),
             this.activityService.findRecent(20),
+            this.usersService.countByRole(),
+            this.materialsService.sumStorageBytes(),
+            this.usersService.topContributors(5),
         ]);
+
+        const rejectionRate = totalMaterials > 0 ? rejectedMaterials / totalMaterials : 0;
 
         return {
             totalUsers,
@@ -57,9 +69,14 @@ export class AdminService {
             totalMaterials,
             publishedMaterials,
             pendingMaterials,
+            rejectedMaterials,
+            rejectionRate,
             totalDownloads,
             totalComments,
             recentActivity,
+            usersByRole,
+            storageBytes,
+            topContributors,
         };
     }
 
@@ -67,17 +84,30 @@ export class AdminService {
         return this.usersService.findOnlineSince(this.onlineSince(), 50);
     }
 
-    async analytics(days: number) {
+    async analytics(days: number, category: AnalyticsCategory = 'ALL') {
         const sinceDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
-        const [registrationsSeries, downloadsSeries, activityBreakdown, topMaterials] = await Promise.all([
+        const [registrationsSeries, categorySeries, activityBreakdown, topMaterials] = await Promise.all([
             this.usersService.registrationsSeriesSince(sinceDate),
-            this.activityService.dailySeriesSince(ActivityType.MATERIAL_DOWNLOAD, sinceDate),
+            this.categorySeriesSince(category, sinceDate),
             this.activityService.activityBreakdownSince(sinceDate),
             this.materialsService.topByDownloads(5),
         ]);
 
-        return { registrationsSeries, downloadsSeries, activityBreakdown, topMaterials };
+        return { registrationsSeries, categorySeries, category, activityBreakdown, topMaterials };
+    }
+
+    private categorySeriesSince(category: AnalyticsCategory, sinceDate: Date) {
+        if (category === 'ALL') {
+            return this.activityService.dailyTotalSeriesSince(sinceDate);
+        }
+        if (category === 'ACTIVE_USERS') {
+            return this.activityService.distinctActiveUsersSeriesSince(sinceDate);
+        }
+        if (category === 'REGISTER') {
+            return this.usersService.registrationsSeriesSince(sinceDate);
+        }
+        return this.activityService.dailySeriesSince(category, sinceDate);
     }
 
     async activityLog(page: number, limit: number, type?: ActivityType) {

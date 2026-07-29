@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { Field, form, submit } from '@angular/forms/signals';
 import { UserService } from '@entities/user';
 import { initialProfileForm, profileFormSchema } from '../../model/user-profile-form.model';
 import { SessionStore } from '@shared/auth';
 import { TranslatePipe } from '@shared/pipes';
 import { TranslationService } from '@shared/services';
+
+const AVATAR_MAX_SIZE_BYTES = 2 * 1024 * 1024;
+const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 @Component({
   selector: 'app-user-profile-page',
@@ -28,6 +31,11 @@ export class UserProfileComponent {
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
 
+  avatar = signal<string | undefined>(undefined);
+  private readonly avatarInput = viewChild<ElementRef<HTMLInputElement>>('avatarInput');
+  isUploadingAvatar = signal(false);
+  avatarError = signal<string | null>(null);
+
   constructor() {
     this.userService.getProfile().subscribe({
       next: (user) => {
@@ -42,9 +50,46 @@ export class UserProfileComponent {
           instagramLink: user.instagramLink ?? '',
           whatsappLink: user.whatsappLink ?? '',
         });
+        this.avatar.set(user.avatar);
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false),
+    });
+  }
+
+  triggerAvatarPicker(): void {
+    this.avatarInput()?.nativeElement.click();
+  }
+
+  onAvatarSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) {
+      return;
+    }
+
+    this.avatarError.set(null);
+    if (!AVATAR_ALLOWED_TYPES.includes(file.type)) {
+      this.avatarError.set(this.i18n.translate('admin.userProfile.avatarErrorType'));
+      return;
+    }
+    if (file.size > AVATAR_MAX_SIZE_BYTES) {
+      this.avatarError.set(this.i18n.translate('admin.userProfile.avatarErrorSize'));
+      return;
+    }
+
+    this.isUploadingAvatar.set(true);
+    this.userService.uploadAvatar(file).subscribe({
+      next: (updated) => {
+        this.avatar.set(updated.avatar);
+        this.sessionStore.setSession(updated);
+        this.isUploadingAvatar.set(false);
+      },
+      error: () => {
+        this.avatarError.set(this.i18n.translate('admin.userProfile.avatarErrorFailed'));
+        this.isUploadingAvatar.set(false);
+      },
     });
   }
 

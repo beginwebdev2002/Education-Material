@@ -1,22 +1,32 @@
 <div class="analytics-page__header">
-  <h1 class="analytics-page__title" i18n>Analytics & Reports</h1>
-  <div class="analytics-page__range">
-    @for (option of [7, 30, 90]; track option) {
-    <button type="button" (click)="changeRange(option)" class="analytics-page__range-button"
-      [class.analytics-page__range-button--active]="days() === option">
-      {{ option }}d
-    </button>
-    }
+  <h1 class="analytics-page__title">{{ 'admin.analytics.title' | translate }}</h1>
+  <div class="analytics-page__controls">
+    <div class="analytics-page__category">
+      <label for="analytics-category" class="sr-only">{{ 'admin.analytics.categoryLabel' | translate }}</label>
+      <select id="analytics-category" [value]="category()" (change)="changeCategory($any($event.target).value)" class="analytics-page__category-select">
+        @for (option of categoryOptions; track option.value) {
+        <option [value]="option.value">{{ option.labelKey | translate }}</option>
+        }
+      </select>
+    </div>
+    <div class="analytics-page__range">
+      @for (option of [7, 30, 90]; track option) {
+      <button type="button" (click)="changeRange(option)" class="analytics-page__range-button"
+        [class.analytics-page__range-button--active]="days() === option">
+        {{ option }}d
+      </button>
+      }
+    </div>
   </div>
 </div>
 
 @if (isLoading()) {
-<p class="analytics-page__loading" i18n>Loading analytics...</p>
+<p class="analytics-page__loading">{{ 'admin.analytics.loading' | translate }}</p>
 } @else {
 <div class="analytics-page__row">
   <div class="analytics-page__panel">
-    <h2 class="analytics-page__panel-title" i18n>New Registrations</h2>
-    <p class="analytics-page__panel-subtitle" i18n>Signups per day</p>
+    <h2 class="analytics-page__panel-title">{{ 'admin.analytics.newRegistrations' | translate }}</h2>
+    <p class="analytics-page__panel-subtitle">{{ 'admin.analytics.signupsPerDay' | translate }}</p>
     @if (registrationBars().length) {
     <div class="analytics-page__chart">
       @for (bar of registrationBars(); track bar.date) {
@@ -26,30 +36,30 @@
       }
     </div>
     } @else {
-    <p class="analytics-page__empty" i18n>No registrations in this period.</p>
+    <p class="analytics-page__empty">{{ 'admin.analytics.noRegistrations' | translate }}</p>
     }
   </div>
 
   <div class="analytics-page__panel">
-    <h2 class="analytics-page__panel-title" i18n>Downloads</h2>
-    <p class="analytics-page__panel-subtitle" i18n>Material downloads per day</p>
-    @if (downloadBars().length) {
+    <h2 class="analytics-page__panel-title">{{ selectedCategoryLabelKey() | translate }}</h2>
+    <p class="analytics-page__panel-subtitle">{{ 'admin.analytics.perDay' | translate }}</p>
+    @if (categoryBars().length) {
     <div class="analytics-page__chart">
-      @for (bar of downloadBars(); track bar.date) {
+      @for (bar of categoryBars(); track bar.date) {
       <div class="analytics-page__chart-column">
         <div class="analytics-page__chart-bar analytics-page__chart-bar--downloads" [style.height.%]="bar.heightPercent" [title]="bar.date + ': ' + bar.count"></div>
       </div>
       }
     </div>
     } @else {
-    <p class="analytics-page__empty" i18n>No downloads in this period.</p>
+    <p class="analytics-page__empty">{{ 'admin.analytics.noDataInPeriod' | translate }}</p>
     }
   </div>
 </div>
 
 <div class="analytics-page__row">
   <div class="analytics-page__panel">
-    <h2 class="analytics-page__panel-title" i18n>Activity Breakdown</h2>
+    <h2 class="analytics-page__panel-title">{{ 'admin.analytics.activityBreakdown' | translate }}</h2>
     @if (breakdownRows().length) {
     <ul class="analytics-page__breakdown-list">
       @for (row of breakdownRows(); track row.type) {
@@ -57,7 +67,7 @@
         <div class="analytics-page__breakdown-row">
           <span class="analytics-page__breakdown-label">
             <span class="analytics-page__breakdown-dot analytics-page__breakdown-dot--{{ row.modifier }}"></span>
-            {{ activityLabel(row.type) }}
+            {{ activityLabel(row.type) | translate }}
           </span>
           <span class="analytics-page__breakdown-count">{{ row.count }}</span>
         </div>
@@ -68,12 +78,12 @@
       }
     </ul>
     } @else {
-    <p class="analytics-page__empty" i18n>No activity in this period.</p>
+    <p class="analytics-page__empty">{{ 'admin.analytics.noActivityInPeriod' | translate }}</p>
     }
   </div>
 
   <div class="analytics-page__panel">
-    <h2 class="analytics-page__panel-title" i18n>Top Materials</h2>
+    <h2 class="analytics-page__panel-title">{{ 'admin.analytics.topMaterials' | translate }}</h2>
     @if (analytics()?.topMaterials?.length) {
     <ol class="analytics-page__top-list">
       @for (material of analytics()!.topMaterials; track material._id; let i = $index) {
@@ -87,7 +97,7 @@
       }
     </ol>
     } @else {
-    <p class="analytics-page__empty" i18n>No downloads recorded yet.</p>
+    <p class="analytics-page__empty">{{ 'admin.analytics.noTopMaterials' | translate }}</p>
     }
   </div>
 </div>

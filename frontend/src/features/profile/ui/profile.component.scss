@@ -20,8 +20,16 @@
     @apply flex flex-col items-center space-y-4 sm:flex-row sm:items-start sm:space-x-6 sm:space-y-0;
   }
 
+  &__avatar-wrap {
+    @apply relative shrink-0;
+  }
+
   &__avatar {
-    @apply h-24 w-24 rounded-full border-4 border-gray-200 dark:border-gray-600;
+    @apply h-24 w-24 rounded-full border-4 border-gray-200 object-cover dark:border-gray-600;
+  }
+
+  &__avatar-edit {
+    @apply absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-white shadow hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   &__identity-info {

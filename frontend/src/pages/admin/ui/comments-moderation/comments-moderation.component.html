@@ -1,22 +1,27 @@
-<h1 class="comments-moderation-page__title" i18n>Comment Moderation</h1>
+<h1 class="comments-moderation-page__title">{{ 'admin.commentsModeration.title' | translate }}</h1>
 
-<div class="comments-moderation-page__card">
+<div class="comments-moderation-page__layout">
+  <app-list-filter-sidebar>
+    <app-search-input [value]="searchTerm()" [placeholder]="'admin.commentsModeration.searchPlaceholder' | translate" (search)="onSearch($event)" />
+  </app-list-filter-sidebar>
+
+  <div class="comments-moderation-page__card">
   <div class="comments-moderation-page__toolbar">
-    <p class="comments-moderation-page__count">{{ total() }} <span i18n>comments total</span></p>
+    <p class="comments-moderation-page__count">{{ total() }} <span>{{ 'admin.commentsModeration.commentsTotal' | translate }}</span></p>
   </div>
   <table class="comments-moderation-page__table">
     <thead class="comments-moderation-page__thead">
       <tr>
-        <th scope="col" class="comments-moderation-page__th">Author</th>
-        <th scope="col" class="comments-moderation-page__th">Material</th>
-        <th scope="col" class="comments-moderation-page__th">Comment</th>
-        <th scope="col" class="comments-moderation-page__th">Posted</th>
-        <th scope="col" class="comments-moderation-page__th">Actions</th>
+        <th scope="col" class="comments-moderation-page__th">{{ 'admin.commentsModeration.colAuthor' | translate }}</th>
+        <th scope="col" class="comments-moderation-page__th">{{ 'admin.commentsModeration.colMaterial' | translate }}</th>
+        <th scope="col" class="comments-moderation-page__th">{{ 'admin.commentsModeration.colComment' | translate }}</th>
+        <th scope="col" class="comments-moderation-page__th">{{ 'admin.commentsModeration.colPosted' | translate }}</th>
+        <th scope="col" class="comments-moderation-page__th">{{ 'admin.commentsModeration.colActions' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       @if (isLoading()) {
-      <tr><td colspan="5" class="comments-moderation-page__row-message" i18n>Loading...</td></tr>
+      <tr><td colspan="5" class="comments-moderation-page__row-message">{{ 'admin.commentsModeration.loading' | translate }}</td></tr>
       } @else {
       @for (comment of comments(); track comment._id) {
       <tr class="comments-moderation-page__row">
@@ -25,13 +30,17 @@
         <td class="comments-moderation-page__cell-text">{{ comment.text }}</td>
         <td class="comments-moderation-page__cell-time">{{ comment.createdAt | date:'medium' }}</td>
         <td class="comments-moderation-page__cell-actions">
-          <button type="button" (click)="remove(comment)" class="comments-moderation-page__delete" i18n>Delete</button>
+          <app-icon-button icon="fa-solid fa-trash" variant="danger" [ariaLabel]="'admin.commentsModeration.delete' | translate" (click)="remove(comment)" />
         </td>
       </tr>
       } @empty {
-      <tr><td colspan="5" class="comments-moderation-page__row-message comments-moderation-page__row-message--empty" i18n>No comments yet.</td></tr>
+      <tr><td colspan="5" class="comments-moderation-page__row-message comments-moderation-page__row-message--empty">{{ 'admin.commentsModeration.noComments' | translate }}</td></tr>
       }
       }
     </tbody>
   </table>
+  <div class="comments-moderation-page__pagination">
+    <app-pagination [page]="page()" [limit]="limit" [total]="total()" (pageChange)="onPageChange($event)" />
+  </div>
+  </div>
 </div>

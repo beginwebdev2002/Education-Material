@@ -1,13 +1,22 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Query, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
 import { UsersService } from '@modules/users/users.service';
 import { UserRole } from '@modules/users/user-role.enum';
 import type { JwtPayload } from '@modules/auth/jwt-payload.interface';
 import { Roles } from '@common/decorators/roles.decorator';
 import { RolesGuard } from '@common/guards/roles.guard';
+
+function requestMeta(req: Request) {
+  return { ip: req.ip, userAgent: req.headers['user-agent'] as string | undefined };
+}
+
+interface UploadedAvatarFile {
+  filename: string;
+}
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -28,7 +37,19 @@ export class UsersController {
   @ApiOperation({ summary: "Update the authenticated user's own profile" })
   updateProfile(@Body() updateUserDto: UpdateUserDto, @Req() req: Request) {
     const payload = req.user as JwtPayload;
-    return this.usersService.updateAsUser(payload._id, updateUserDto, payload);
+    return this.usersService.updateOwnProfile(payload._id, updateUserDto, payload, requestMeta(req));
+  }
+
+  @Post('me/avatar')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('avatar'))
+  @ApiOperation({ summary: "Upload the authenticated user's own avatar image" })
+  async uploadAvatar(@UploadedFile() file: UploadedAvatarFile, @Req() req: Request) {
+    if (!file) {
+      throw new BadRequestException('No avatar file was provided');
+    }
+    const payload = req.user as JwtPayload;
+    return this.usersService.updateAvatar(payload._id, file.filename, requestMeta(req));
   }
 
   @Get()
@@ -61,7 +82,8 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete a user (admin only)' })
-  remove(@Param('id') id: string) {
-    return this.usersService.delete(id);
+  remove(@Param('id') id: string, @Req() req: Request) {
+    const admin = req.user as JwtPayload;
+    return this.usersService.delete(id, admin._id, requestMeta(req));
   }
 }

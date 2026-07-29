@@ -1,4 +1,5 @@
 import { ForbiddenException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
@@ -6,6 +7,9 @@ import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
 import { Users, UsersDocument } from '@modules/users/entities/users.schema';
 import { UserRole } from '@modules/users/user-role.enum';
 import type { JwtPayload } from '@modules/auth/jwt-payload.interface';
+import { ActivityService } from '@modules/activity/activity.service';
+import { ActivityType } from '@modules/activity/activity.interface';
+import { RequestMeta } from '@common/interfaces/request-meta.interface';
 
 export interface PaginatedUsers {
     items: UsersDocument[];
@@ -18,6 +22,8 @@ export interface PaginatedUsers {
 export class UsersService {
     constructor(
         @InjectModel(Users.name) private readonly usersModel: Model<UsersDocument>,
+        private readonly configService: ConfigService,
+        private readonly activityService: ActivityService,
     ) { }
 
     async create(userData: CreateUserDto): Promise<UsersDocument> {
@@ -44,6 +50,20 @@ export class UsersService {
             .exec();
     }
 
+    async updateAvatar(id: string, storedFileName: string, meta: RequestMeta = {}): Promise<UsersDocument | null> {
+        const publicUrl = this.configService.get<string>('app.publicUrl');
+        const avatar = `${publicUrl}/uploads/avatars/${storedFileName}`;
+        const updated = await this.update(id, { avatar });
+        await this.activityService.log({ userId: id, type: ActivityType.PROFILE_UPDATE, ip: meta.ip, userAgent: meta.userAgent });
+        return updated;
+    }
+
+    async updateOwnProfile(id: string, updateUserDto: UpdateUserDto, requester: JwtPayload, meta: RequestMeta = {}): Promise<UsersDocument | null> {
+        const updated = await this.updateAsUser(id, updateUserDto, requester);
+        await this.activityService.log({ userId: id, type: ActivityType.PROFILE_UPDATE, ip: meta.ip, userAgent: meta.userAgent });
+        return updated;
+    }
+
     async updateAsUser(id: string, updateUserDto: UpdateUserDto, requester: JwtPayload): Promise<UsersDocument | null> {
         const requesterUser = await this.findById(requester._id);
         const isAdmin = requesterUser?.role === UserRole.ADMIN;
@@ -62,11 +82,18 @@ export class UsersService {
         return this.update(id, updateUserDto);
     }
 
-    async delete(id: string): Promise<boolean> {
+    async delete(id: string, deletedBy?: string, meta: RequestMeta = {}): Promise<boolean> {
         const deletedUser = await this.usersModel.findByIdAndDelete(id).exec();
         if (!deletedUser) {
             throw new NotFoundException();
         }
+        await this.activityService.log({
+            userId: id,
+            type: ActivityType.ACCOUNT_DELETE,
+            metadata: deletedBy ? { deletedBy } : undefined,
+            ip: meta.ip,
+            userAgent: meta.userAgent,
+        });
         return true;
     }
 
@@ -98,8 +125,62 @@ export class UsersService {
         return this.findById(payload._id);
     }
 
+    async findIdsBySearch(search: string): Promise<string[]> {
+        const matches = await this.usersModel
+            .find({
+                $or: [
+                    { firstName: { $regex: search, $options: 'i' } },
+                    { lastName: { $regex: search, $options: 'i' } },
+                    { email: { $regex: search, $options: 'i' } },
+                ],
+            })
+            .select('_id')
+            .exec();
+        return matches.map((user) => user._id.toString());
+    }
+
     async countAll(): Promise<number> {
         return this.usersModel.countDocuments().exec();
+    }
+
+    async touchLastSeen(id: string): Promise<void> {
+        await this.usersModel.updateOne({ _id: id }, { lastSeenAt: new Date() }).exec();
+    }
+
+    async countByRole(): Promise<{ role: UserRole; count: number }[]> {
+        const rows = await this.usersModel.aggregate<{ _id: UserRole; count: number }>([
+            { $group: { _id: '$role', count: { $sum: 1 } } },
+        ]);
+        return rows.map((row) => ({ role: row._id, count: row.count }));
+    }
+
+    async topContributors(limit: number): Promise<{ user: UsersDocument; uploadsCount: number }[]> {
+        const rows = await this.usersModel.aggregate<{ _id: string; uploadsCount: number }>([
+            {
+                $lookup: {
+                    from: 'materials',
+                    localField: '_id',
+                    foreignField: 'owner',
+                    as: 'materials',
+                },
+            },
+            { $project: { uploadsCount: { $size: '$materials' } } },
+            { $match: { uploadsCount: { $gt: 0 } } },
+            { $sort: { uploadsCount: -1 } },
+            { $limit: limit },
+        ]);
+
+        const users = await this.usersModel.find({ _id: { $in: rows.map((row) => row._id) } }).select('-password').exec();
+        const userById = new Map(users.map((user) => [user.id as string, user]));
+
+        const contributors: { user: UsersDocument; uploadsCount: number }[] = [];
+        for (const row of rows) {
+            const user = userById.get(row._id);
+            if (user) {
+                contributors.push({ user, uploadsCount: row.uploadsCount });
+            }
+        }
+        return contributors;
     }
 
     async countOnlineSince(sinceDate: Date): Promise<number> {

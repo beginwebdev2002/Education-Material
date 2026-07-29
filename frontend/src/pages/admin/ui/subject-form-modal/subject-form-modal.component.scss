@@ -1,28 +1,23 @@
 @reference "tailwindcss";
 @reference "../../../../styles.scss";
 
-.autocomplete-item-form {
+.subject-form {
   @apply space-y-4;
 
   &__state {
     @apply text-sm text-gray-500 dark:text-gray-400;
   }
 
-  &__row {
-    @apply grid grid-cols-1 gap-4 sm:grid-cols-2;
-  }
-
   &__label {
     @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
   }
 
-  &__input,
-  &__textarea {
+  &__input {
     @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
   }
 
   &__hint {
-    @apply mb-2 mt-3 text-xs text-gray-500 dark:text-gray-400;
+    @apply mb-2 mt-1 text-xs text-gray-500 dark:text-gray-400;
   }
 
   &__errors {
@@ -42,6 +37,6 @@
   }
 
   &__submit {
-    @apply inline-flex items-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-50;
   }
 }

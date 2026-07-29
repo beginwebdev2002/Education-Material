@@ -60,6 +60,7 @@
 
     <div modal-footer>
       <button type="button" [disabled]="form().invalid() || isSaving()" class="autocomplete-list-form__submit" (click)="onSubmit($event)">
+        <i class="fa-solid" [class.fa-save]="!isSaving()" [class.fa-spinner]="isSaving()" [class.fa-spin]="isSaving()"></i>
         {{ isSaving() ? ('admin.autocomplete.listForm.saving' | translate) : ('admin.autocomplete.listForm.save' | translate) }}
       </button>
     </div>

@@ -11,10 +11,24 @@ import {
 } from '@entities/autocomplete';
 import { TranslatePipe, TranslationLabelPipe } from '@shared/pipes';
 import { TranslationService } from '@shared/services';
+import { IconButtonComponent, PaginationComponent, SearchInputComponent } from '@shared/ui';
+import { ListFilterSidebarComponent } from '@widgets/admin';
+
+const PAGE_SIZE = 20;
 
 @Component({
   selector: 'app-autocomplete-items-table-page',
-  imports: [CommonModule, RouterLink, AutocompleteItemSelectComponent, TranslationLabelPipe, TranslatePipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    AutocompleteItemSelectComponent,
+    TranslationLabelPipe,
+    TranslatePipe,
+    PaginationComponent,
+    SearchInputComponent,
+    ListFilterSidebarComponent,
+    IconButtonComponent,
+  ],
   templateUrl: './autocomplete-items-table.component.html',
   styleUrls: ['./autocomplete-items-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +46,8 @@ export class AutocompleteItemsTableComponent {
   isLoading = signal(true);
   items = signal<AutocompleteItem[]>([]);
   total = signal(0);
+  page = signal(1);
+  limit = PAGE_SIZE;
   searchTerm = signal('');
 
   allLists = signal<AutocompleteList[]>([]);
@@ -56,8 +72,8 @@ export class AutocompleteItemsTableComponent {
         listId: this.listId(),
         parentItem: this.filterParentItemId() ?? undefined,
         search: this.searchTerm(),
-        page: 1,
-        limit: 200,
+        page: this.page(),
+        limit: this.limit,
       })
       .subscribe({
         next: (response) => {
@@ -71,17 +87,25 @@ export class AutocompleteItemsTableComponent {
 
   onSearch(term: string): void {
     this.searchTerm.set(term);
+    this.page.set(1);
     this.load();
   }
 
   onFilterListChange(key: string): void {
     this.filterListKey.set(key);
     this.filterParentItemId.set(null);
+    this.page.set(1);
     this.load();
   }
 
   onFilterParentSelected(item: AutocompleteItem | null): void {
     this.filterParentItemId.set(item?._id ?? null);
+    this.page.set(1);
+    this.load();
+  }
+
+  onPageChange(page: number): void {
+    this.page.set(page);
     this.load();
   }
 

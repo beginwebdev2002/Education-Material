@@ -1,7 +1,7 @@
-<h1 class="overview-page__title" i18n>Overview</h1>
+<h1 class="overview-page__title">{{ 'admin.overview.title' | translate }}</h1>
 
 @if (isLoading()) {
-<p class="overview-page__loading" i18n>Loading dashboard...</p>
+<p class="overview-page__loading">{{ 'admin.overview.loading' | translate }}</p>
 } @else {
 <div class="overview-page__tiles">
   @for (tile of tiles(); track tile.label) {
@@ -15,9 +15,49 @@
   }
 </div>
 
+<div class="overview-page__trends">
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.registrationsTrend' | translate }}</h2>
+    @if (analytics()?.registrationsSeries?.length) {
+    <div class="overview-page__trend-list">
+      @for (point of analytics()!.registrationsSeries; track point.date) {
+      <div class="overview-page__trend-row">
+        <span class="overview-page__trend-label">{{ point.date }}</span>
+        <div class="overview-page__trend-track">
+          <div class="overview-page__trend-fill overview-page__trend-fill--registrations" [style.width.%]="barWidth(point.count, registrationsMax())"></div>
+        </div>
+        <span class="overview-page__trend-count">{{ point.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="overview-page__empty">{{ 'admin.overview.noTrendData' | translate }}</p>
+    }
+  </div>
+
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.downloadsTrend' | translate }}</h2>
+    @if (analytics()?.categorySeries?.length) {
+    <div class="overview-page__trend-list">
+      @for (point of analytics()!.categorySeries; track point.date) {
+      <div class="overview-page__trend-row">
+        <span class="overview-page__trend-label">{{ point.date }}</span>
+        <div class="overview-page__trend-track">
+          <div class="overview-page__trend-fill overview-page__trend-fill--downloads" [style.width.%]="barWidth(point.count, categoryMax())"></div>
+        </div>
+        <span class="overview-page__trend-count">{{ point.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="overview-page__empty">{{ 'admin.overview.noTrendData' | translate }}</p>
+    }
+  </div>
+</div>
+
 <div class="overview-page__panels">
   <div class="overview-page__panel overview-page__panel--wide">
-    <h2 class="overview-page__panel-title" i18n>Recent Activity</h2>
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.recentActivity' | translate }}</h2>
     @if (overview()?.recentActivity?.length) {
     <ul class="overview-page__activity-list">
       @for (entry of overview()!.recentActivity; track entry._id) {
@@ -25,7 +65,7 @@
         <img [src]="entry.user?.avatar" class="overview-page__activity-avatar" [alt]="entry.user?.firstName" />
         <div class="overview-page__activity-body">
           <span class="overview-page__activity-name">{{ entry.user?.firstName }} {{ entry.user?.lastName }}</span>
-          <span class="overview-page__activity-detail"> &mdash; {{ activityLabel(entry.type) }}</span>
+          <span class="overview-page__activity-detail"> &mdash; {{ activityLabel(entry.type) | translate }}</span>
           @if (entry.material) {
           <span class="overview-page__activity-detail">: {{ entry.material.title }}</span>
           }
@@ -35,12 +75,12 @@
       }
     </ul>
     } @else {
-    <p class="overview-page__empty" i18n>No activity recorded yet.</p>
+    <p class="overview-page__empty">{{ 'admin.overview.noActivity' | translate }}</p>
     }
   </div>
 
   <div class="overview-page__panel">
-    <h2 class="overview-page__panel-title" i18n>Online Now</h2>
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.onlineNowPanel' | translate }}</h2>
     @if (onlineUsers().length) {
     <ul class="overview-page__online-list">
       @for (user of onlineUsers(); track user._id) {
@@ -54,7 +94,61 @@
       }
     </ul>
     } @else {
-    <p class="overview-page__empty" i18n>No one is online right now.</p>
+    <p class="overview-page__empty">{{ 'admin.overview.noOneOnline' | translate }}</p>
+    }
+  </div>
+</div>
+
+<div class="overview-page__panels">
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.activityBreakdown' | translate }}</h2>
+    @if (analytics()?.activityBreakdown?.length) {
+    <div class="overview-page__trend-list">
+      @for (entry of analytics()!.activityBreakdown; track entry.type) {
+      <div class="overview-page__trend-row">
+        <span class="overview-page__trend-label overview-page__trend-label--wide">{{ activityLabel(entry.type) | translate }}</span>
+        <div class="overview-page__trend-track">
+          <div class="overview-page__trend-fill overview-page__trend-fill--breakdown" [style.width.%]="barWidth(entry.count, activityBreakdownMax())"></div>
+        </div>
+        <span class="overview-page__trend-count">{{ entry.count }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="overview-page__empty">{{ 'admin.overview.noTrendData' | translate }}</p>
+    }
+  </div>
+
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.usersByRole' | translate }}</h2>
+    @if (overview()?.usersByRole?.length) {
+    <ul class="overview-page__role-list">
+      @for (entry of overview()!.usersByRole; track entry.role) {
+      <li class="overview-page__role-item">
+        <span class="overview-page__role-name">{{ entry.role }}</span>
+        <span class="overview-page__role-count">{{ entry.count }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="overview-page__empty">{{ 'admin.overview.noTrendData' | translate }}</p>
+    }
+  </div>
+
+  <div class="overview-page__panel">
+    <h2 class="overview-page__panel-title">{{ 'admin.overview.topContributors' | translate }}</h2>
+    @if (overview()?.topContributors?.length) {
+    <ul class="overview-page__online-list">
+      @for (entry of overview()!.topContributors; track entry.user._id) {
+      <li class="overview-page__online-item">
+        <img [src]="entry.user.avatar" class="overview-page__online-avatar" [alt]="entry.user.firstName" />
+        <a [routerLink]="['/profile', entry.user._id]" class="overview-page__online-name">{{ entry.user.firstName }} {{ entry.user.lastName }}</a>
+        <span class="overview-page__role-count">{{ entry.uploadsCount }}</span>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="overview-page__empty">{{ 'admin.overview.noTrendData' | translate }}</p>
     }
   </div>
 </div>

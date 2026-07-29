@@ -5,12 +5,13 @@ import { Dropdown } from 'flowbite';
 import { AuthService } from '@features/auth';
 import { AdminLayoutService, SettingsService } from '@shared/services';
 import { SessionStore } from '@shared/auth';
+import { TranslatePipe } from '@shared/pipes';
 import { LanguageSwitcherComponent } from '@widgets/language-switcher';
 
 @Component({
   selector: 'app-admin-header',
   styleUrls: ['./admin-header.component.scss'],
-  imports: [CommonModule, RouterLink, LanguageSwitcherComponent],
+  imports: [CommonModule, RouterLink, LanguageSwitcherComponent, TranslatePipe],
   templateUrl: './admin-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

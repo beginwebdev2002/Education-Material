@@ -1,0 +1,46 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.institution-form {
+  @apply space-y-4;
+
+  &__state {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__row {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2;
+  }
+
+  &__label {
+    @apply mb-2 block text-sm font-medium text-gray-900 dark:text-white;
+  }
+
+  &__input {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  }
+
+  &__hint {
+    @apply mb-2 mt-1 text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  &__errors {
+    @apply mt-1 text-sm text-red-600 dark:text-red-500;
+  }
+
+  &__error {
+    @apply text-sm font-medium text-red-600 dark:text-red-400;
+  }
+
+  &__badge-list {
+    @apply flex flex-wrap gap-2;
+  }
+
+  &__badge {
+    @apply inline-flex items-center rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300;
+  }
+
+  &__submit {
+    @apply inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}

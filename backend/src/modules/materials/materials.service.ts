@@ -221,6 +221,13 @@ export class MaterialsService {
         return row?.total ?? 0;
     }
 
+    async sumStorageBytes(): Promise<number> {
+        const [row] = await this.materialModel.aggregate<{ total: number }>([
+            { $group: { _id: null, total: { $sum: '$size' } } },
+        ]);
+        return row?.total ?? 0;
+    }
+
     async topByDownloads(limit: number): Promise<MaterialDocument[]> {
         return this.materialModel
             .find({ status: MaterialStatus.PUBLISHED })
@@ -262,7 +269,7 @@ export class MaterialsService {
         return join(this.config.get<string>('uploads.materialsDir')!, storedFileName);
     }
 
-    async remove(id: string, requester: JwtPayload) {
+    async remove(id: string, requester: JwtPayload, meta: RequestMeta = {}) {
         const material = await this.findById(id);
         if (!material) {
             throw new NotFoundException('Material not found');
@@ -275,6 +282,13 @@ export class MaterialsService {
 
         await this.materialModel.findByIdAndDelete(id).exec();
         await unlink(this.resolveFilePath(material.storedFileName)).catch(() => undefined);
+        await this.activityService.log({
+            userId: requester._id,
+            type: ActivityType.MATERIAL_DELETE,
+            materialId: id,
+            ip: meta.ip,
+            userAgent: meta.userAgent,
+        });
     }
 
     async updateStatus(id: string, status: MaterialStatus, admin: JwtPayload) {

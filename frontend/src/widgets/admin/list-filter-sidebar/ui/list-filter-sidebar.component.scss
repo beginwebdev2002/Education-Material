@@ -1,0 +1,30 @@
+@reference "tailwindcss";
+@reference "../../../../styles.scss";
+
+.list-filter-sidebar {
+  @apply w-full shrink-0 rounded-lg border border-gray-200 bg-white p-4 sm:w-64 dark:border-gray-700 dark:bg-gray-800;
+
+  &__header {
+    @apply flex items-center justify-between;
+  }
+
+  &__title {
+    @apply text-sm font-semibold text-gray-900 dark:text-white;
+  }
+
+  &__toggle {
+    @apply rounded-lg p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 sm:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+  }
+
+  &__body {
+    @apply mt-4 space-y-4;
+  }
+
+  &__actions {
+    @apply empty:hidden;
+  }
+
+  &--collapsed &__toggle {
+    @apply text-primary-600;
+  }
+}

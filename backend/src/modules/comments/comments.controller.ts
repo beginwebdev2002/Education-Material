@@ -43,15 +43,16 @@ export class CommentsController {
     async adminList(
         @Query('page', new ParseIntPipe({ optional: true })) page = 1,
         @Query('limit', new ParseIntPipe({ optional: true })) limit = 20,
+        @Query('search') search?: string,
     ) {
-        return this.commentsService.listAllForAdmin(page, limit);
+        return this.commentsService.listAllForAdmin(page, limit, search);
     }
 
     @Delete('comments/:id')
     @UseGuards(AuthGuard('jwt'))
     async remove(@Req() req: Request, @Param('id') id: string) {
         const user = req.user as JwtPayload;
-        await this.commentsService.remove(id, user);
+        await this.commentsService.remove(id, user, requestMeta(req));
         return { success: true };
     }
 }

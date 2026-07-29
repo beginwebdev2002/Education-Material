@@ -22,6 +22,18 @@
     @apply grid grid-cols-1 gap-4 sm:grid-cols-2;
   }
 
+  &__avatar-wrap {
+    @apply relative inline-block w-fit;
+  }
+
+  &__avatar {
+    @apply h-20 w-20 rounded-full border-4 border-gray-200 object-cover dark:border-gray-600;
+  }
+
+  &__avatar-edit {
+    @apply absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-primary-600 text-xs text-white shadow hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
   &__label {
     @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
   }

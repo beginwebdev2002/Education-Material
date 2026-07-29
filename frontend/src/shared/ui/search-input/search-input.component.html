@@ -1,0 +1,5 @@
+<div class="search-input">
+  <i class="fa-solid fa-magnifying-glass search-input__icon"></i>
+  <input type="search" [value]="term()" (input)="onInput($any($event.target).value)" [attr.placeholder]="placeholder()"
+    class="search-input__field">
+</div>

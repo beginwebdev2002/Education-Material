@@ -1,18 +1,18 @@
 import { maxLength, required, schema } from '@angular/forms/signals';
 
-export interface AutocompleteItemForm {
+export interface SubjectForm {
     translationEn: string;
     translationRu: string;
     translationTj: string;
 }
 
-export const initialAutocompleteItemForm: AutocompleteItemForm = {
+export const initialSubjectForm: SubjectForm = {
     translationEn: '',
     translationRu: '',
     translationTj: '',
 };
 
-export const autocompleteItemFormSchema = schema<AutocompleteItemForm>((path) => {
+export const subjectFormSchema = schema<SubjectForm>((path) => {
     required(path.translationEn, { message: 'This is a required field.' });
     maxLength(path.translationEn, 300, { message: 'Maximum length: 300 characters.' });
 

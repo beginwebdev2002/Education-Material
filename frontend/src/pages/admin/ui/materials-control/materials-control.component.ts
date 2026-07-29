@@ -4,10 +4,24 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { Material, MaterialService, MaterialStatus } from '@entities/material';
 import { TranslatePipe, TranslationLabelPipe } from '@shared/pipes';
+import { TranslationService } from '@shared/services';
+import { IconButtonComponent, PaginationComponent, SearchInputComponent } from '@shared/ui';
+import { ListFilterSidebarComponent } from '@widgets/admin';
+
+const PAGE_SIZE = 20;
 
 @Component({
   selector: 'app-materials-control-page',
-  imports: [CommonModule, RouterLink, TranslatePipe, TranslationLabelPipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    TranslatePipe,
+    TranslationLabelPipe,
+    PaginationComponent,
+    SearchInputComponent,
+    ListFilterSidebarComponent,
+    IconButtonComponent,
+  ],
   templateUrl: './materials-control.component.html',
   styleUrls: ['./materials-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,10 +29,13 @@ import { TranslatePipe, TranslationLabelPipe } from '@shared/pipes';
 export class MaterialsControlComponent {
   private readonly materialService = inject(MaterialService);
   private readonly router = inject(Router);
+  private readonly i18n = inject(TranslationService);
 
   isLoading = signal(true);
   materials = signal<Material[]>([]);
   total = signal(0);
+  page = signal(1);
+  limit = PAGE_SIZE;
   searchTerm = signal('');
   statusFilter = signal<MaterialStatus | ''>('');
 
@@ -29,18 +46,25 @@ export class MaterialsControlComponent {
 
   onSearch(term: string): void {
     this.searchTerm.set(term);
+    this.page.set(1);
     this.load();
   }
 
   onStatusFilterChange(status: MaterialStatus | ''): void {
     this.statusFilter.set(status);
+    this.page.set(1);
+    this.load();
+  }
+
+  onPageChange(page: number): void {
+    this.page.set(page);
     this.load();
   }
 
   private load(): void {
     this.isLoading.set(true);
     this.materialService
-      .adminList({ search: this.searchTerm(), status: this.statusFilter() || undefined, page: 1, limit: 50 })
+      .adminList({ search: this.searchTerm(), status: this.statusFilter() || undefined, page: this.page(), limit: this.limit })
       .subscribe({
         next: (response) => {
           this.materials.set(response.items);
@@ -58,7 +82,7 @@ export class MaterialsControlComponent {
   }
 
   remove(material: Material): void {
-    if (!confirm($localize`Delete "${material.title}"? This cannot be undone.`)) {
+    if (!confirm(this.i18n.translate('admin.materialsControl.confirmDelete', { title: material.title }))) {
       return;
     }
     this.materialService.remove(material._id).subscribe(() => {

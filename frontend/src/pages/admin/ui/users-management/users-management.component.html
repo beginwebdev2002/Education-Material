@@ -1,30 +1,24 @@
-<h1 class="users-management-page__title" i18n>User Management</h1>
+<h1 class="users-management-page__title">{{ 'admin.usersManagement.title' | translate }}</h1>
 
-<div class="users-management-page__card">
+<div class="users-management-page__layout">
+  <app-list-filter-sidebar>
+    <app-search-input [value]="searchTerm()" [placeholder]="'admin.usersManagement.searchPlaceholder' | translate" (search)="onSearch($event)" />
+  </app-list-filter-sidebar>
+
+  <div class="users-management-page__card">
   <div class="users-management-page__toolbar">
-    <div class="users-management-page__search-wrap">
-      <label for="table-search-users" class="sr-only" i18n>Search</label>
-      <div class="users-management-page__search-inner">
-        <div class="users-management-page__search-icon">
-          <i class="fa fa-search"></i>
-        </div>
-        <input type="text" id="table-search-users" [value]="searchTerm()" (input)="onSearch($any($event.target).value)"
-          class="users-management-page__search-input"
-          i18n-placeholder placeholder="Search for users by name or email">
-      </div>
-    </div>
-    <p class="users-management-page__count">{{ total() }} <span i18n>users total</span></p>
+    <p class="users-management-page__count">{{ total() }} <span>{{ 'admin.usersManagement.usersTotal' | translate }}</span></p>
   </div>
 
   <div class="users-management-page__table-wrap">
     <table class="users-management-page__table">
       <thead class="users-management-page__thead">
         <tr>
-          <th scope="col" class="users-management-page__th" i18n>User</th>
-          <th scope="col" class="users-management-page__th" i18n>Role</th>
-          <th scope="col" class="users-management-page__th" i18n>Status</th>
-          <th scope="col" class="users-management-page__th users-management-page__th--hide-mobile" i18n>Last seen</th>
-          <th scope="col" class="users-management-page__th" i18n>Actions</th>
+          <th scope="col" class="users-management-page__th">{{ 'admin.usersManagement.colUser' | translate }}</th>
+          <th scope="col" class="users-management-page__th">{{ 'admin.usersManagement.colRole' | translate }}</th>
+          <th scope="col" class="users-management-page__th">{{ 'admin.usersManagement.colStatus' | translate }}</th>
+          <th scope="col" class="users-management-page__th users-management-page__th--hide-mobile">{{ 'admin.usersManagement.colLastSeen' | translate }}</th>
+          <th scope="col" class="users-management-page__th">{{ 'admin.usersManagement.colActions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -69,27 +63,25 @@
           </td>
           <td class="users-management-page__cell">
             @if (user.isBanned) {
-            <span class="users-management-page__status-badge users-management-page__status-badge--banned" i18n>Banned</span>
+            <span class="users-management-page__status-badge users-management-page__status-badge--banned">{{ 'admin.usersManagement.banned' | translate }}</span>
             } @else {
-            <span class="users-management-page__status-badge users-management-page__status-badge--active" i18n>Active</span>
+            <span class="users-management-page__status-badge users-management-page__status-badge--active">{{ 'admin.usersManagement.active' | translate }}</span>
             }
           </td>
           <td class="users-management-page__cell users-management-page__cell--hide-mobile">
-            <div class="users-management-page__last-seen">{{ user.lastSeenAt ? (user.lastSeenAt | date:'medium') : ('Never' ) }}</div>
+            <div class="users-management-page__last-seen">{{ user.lastSeenAt ? (user.lastSeenAt | date:'medium') : ('admin.usersManagement.never' | translate) }}</div>
           </td>
           <td class="users-management-page__cell">
             @if (user._id !== currentAdminId()) {
             <div class="users-management-page__actions">
-              <button type="button" (click)="toggleRole(user)" class="users-management-page__role-toggle">
-                {{ user.role === 'ADMIN' ? 'Demote' : 'Promote' }}
-              </button>
-              <button type="button" (click)="toggleBan(user)" class="users-management-page__ban-toggle"
-                [class.users-management-page__ban-toggle--banned]="user.isBanned">
-                {{ user.isBanned ? 'Unban' : 'Ban' }}
-              </button>
+              <app-icon-button [icon]="user.role === 'ADMIN' ? 'fa-solid fa-arrow-down' : 'fa-solid fa-arrow-up'"
+                [ariaLabel]="roleActionLabel(user)" (click)="toggleRole(user)" />
+              <app-icon-button [icon]="user.isBanned ? 'fa-solid fa-user-check' : 'fa-solid fa-user-slash'"
+                [variant]="user.isBanned ? 'primary' : 'danger'" [ariaLabel]="banActionLabel(user)"
+                (click)="toggleBan(user)" />
             </div>
             } @else {
-            <span class="users-management-page__self-label" i18n>You</span>
+            <span class="users-management-page__self-label">{{ 'admin.usersManagement.you' | translate }}</span>
             }
           </td>
         </tr>
@@ -98,7 +90,7 @@
           <td colspan="5" class="users-management-page__empty-cell">
             <div class="users-management-page__empty">
               <i class="fa-solid fa-user-slash users-management-page__empty-icon"></i>
-              <p class="users-management-page__empty-text" i18n>No users found matching your search.</p>
+              <p class="users-management-page__empty-text">{{ 'admin.usersManagement.noUsersFound' | translate }}</p>
             </div>
           </td>
         </tr>
@@ -106,5 +98,9 @@
         }
       </tbody>
     </table>
+  </div>
+  <div class="users-management-page__pagination">
+    <app-pagination [page]="page()" [limit]="limit" [total]="total()" (pageChange)="onPageChange($event)" />
+  </div>
   </div>
 </div>

@@ -3,10 +3,10 @@
     <div class="admin-sidebar__header">
       <a routerLink="/admin" class="admin-sidebar__brand">
         <i class="fa-solid fa-shield-halved admin-sidebar__brand-icon"></i>
-        <span class="admin-sidebar__brand-text">Admin Panel</span>
+        <span class="admin-sidebar__brand-text">{{ 'admin.sidebar.title' | translate }}</span>
       </a>
       <button (click)="closeSidebar()" type="button" class="admin-sidebar__close">
-        <span class="sr-only">Close sidebar</span>
+        <span class="sr-only">{{ 'admin.sidebar.closeSidebar' | translate }}</span>
         <i class="fa-solid fa-times"></i>
       </button>
     </div>
@@ -24,7 +24,7 @@
     <div class="admin-sidebar__footer">
       <a routerLink="/home" class="admin-sidebar__link group">
         <i class="fa-solid fa-arrow-left admin-sidebar__link-icon"></i>
-        <span class="admin-sidebar__link-text">Back to Main Site</span>
+        <span class="admin-sidebar__link-text">{{ 'admin.sidebar.backToMainSite' | translate }}</span>
       </a>
     </div>
   </div>

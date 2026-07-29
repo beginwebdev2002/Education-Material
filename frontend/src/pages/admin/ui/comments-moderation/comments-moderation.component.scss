@@ -6,8 +6,12 @@
     @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
   }
 
+  &__layout {
+    @apply flex flex-col gap-4 sm:flex-row;
+  }
+
   &__card {
-    @apply relative overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
+    @apply relative min-w-0 flex-1 overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
   }
 
   &__toolbar {
@@ -16,6 +20,10 @@
 
   &__count {
     @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__pagination {
+    @apply px-4 py-3;
   }
 
   &__table {
@@ -62,7 +70,4 @@
     @apply px-6 py-4;
   }
 
-  &__delete {
-    @apply font-medium text-red-600 hover:underline dark:text-red-500;
-  }
 }

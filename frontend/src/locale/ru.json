@@ -207,9 +207,42 @@
       "dateTo": "По дату"
     }
   },
+  "profile": {
+    "loading": "Загрузка профиля...",
+    "notFound": "Профиль не найден.",
+    "saving": "Сохранение...",
+    "saveChanges": "Сохранить изменения",
+    "cancel": "Отмена",
+    "editProfile": "Редактировать профиль",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "phoneNumber": "Номер телефона",
+    "country": "Страна",
+    "notProvided": "Не указано",
+    "socialMedia": "Социальные сети",
+    "changePhoto": "Изменить фото профиля",
+    "avatarErrorType": "Разрешены только изображения JPEG, PNG, WEBP или GIF.",
+    "avatarErrorSize": "Изображение слишком большое. Максимальный размер — 2МБ.",
+    "avatarErrorFailed": "Не удалось загрузить аватар. Попробуйте снова."
+  },
   "shared": {
     "modal": {
       "close": "Закрыть"
+    },
+    "validation": {
+      "required": "Это обязательное поле."
+    },
+    "pagination": {
+      "label": "Пагинация",
+      "previous": "Назад",
+      "next": "Вперёд",
+      "page": "Страница {{page}} из {{totalPages}}",
+      "range": "Показано {{start}}-{{end}} из {{total}}"
+    },
+    "listFilterSidebar": {
+      "title": "Поиск и фильтры",
+      "collapse": "Свернуть фильтры",
+      "expand": "Развернуть фильтры"
     }
   },
   "admin": {
@@ -221,9 +254,126 @@
       "comments": "Модерация комментариев",
       "analytics": "Аналитика и отчёты",
       "activity": "Журнал активности",
-      "monitoring": "Мониторинг",
       "profile": "Мой профиль",
       "systemSettings": "Системные настройки"
+    },
+    "activityTypes": {
+      "REGISTER": "Регистрация",
+      "LOGIN": "Вход в систему",
+      "LOGOUT": "Выход из системы",
+      "PROFILE_UPDATE": "Обновление профиля",
+      "MATERIAL_UPLOAD": "Загрузка материала",
+      "MATERIAL_DOWNLOAD": "Скачивание материала",
+      "MATERIAL_COMMENT": "Комментарий",
+      "MATERIAL_STATUS_CHANGE": "Изменение статуса материала",
+      "MATERIAL_DELETE": "Удаление материала",
+      "COMMENT_DELETE": "Удаление комментария",
+      "ACCOUNT_DELETE": "Удаление аккаунта"
+    },
+    "overview": {
+      "title": "Обзор",
+      "loading": "Загрузка панели...",
+      "tiles": {
+        "totalUsers": "Всего пользователей",
+        "onlineNow": "Онлайн сейчас",
+        "active7d": "Активны (7 дн.)",
+        "publishedMaterials": "Опубликованные материалы",
+        "pendingMaterials": "Материалы на рассмотрении",
+        "totalDownloads": "Всего загрузок",
+        "totalComments": "Всего комментариев",
+        "rejectionRate": "Доля отклонений",
+        "storageUsed": "Использовано места"
+      },
+      "recentActivity": "Недавняя активность",
+      "noActivity": "Активность пока не зафиксирована.",
+      "onlineNowPanel": "Онлайн сейчас",
+      "noOneOnline": "Сейчас никого нет онлайн.",
+      "registrationsTrend": "Новые регистрации",
+      "downloadsTrend": "Загрузки",
+      "activityBreakdown": "Разбивка активности",
+      "usersByRole": "Пользователи по ролям",
+      "topContributors": "Лучшие авторы",
+      "noTrendData": "Данных пока нет."
+    },
+    "header": {
+      "openSidebar": "Открыть боковую панель",
+      "search": "Поиск",
+      "searchPlaceholder": "Поиск пользователей, материалов...",
+      "backToSite": "На сайт"
+    },
+    "sidebar": {
+      "title": "Админ панель",
+      "closeSidebar": "Закрыть боковую панель",
+      "backToMainSite": "На главный сайт"
+    },
+    "usersManagement": {
+      "title": "Управление пользователями",
+      "searchPlaceholder": "Поиск пользователей по имени или email",
+      "usersTotal": "пользователей всего",
+      "colUser": "Пользователь",
+      "colRole": "Роль",
+      "colStatus": "Статус",
+      "colLastSeen": "Был(а) в сети",
+      "colActions": "Действия",
+      "banned": "Заблокирован",
+      "active": "Активен",
+      "never": "Никогда",
+      "promote": "Повысить",
+      "demote": "Понизить",
+      "ban": "Заблокировать",
+      "unban": "Разблокировать",
+      "you": "Вы",
+      "noUsersFound": "Пользователи, соответствующие поиску, не найдены."
+    },
+    "commentsModeration": {
+      "title": "Модерация комментариев",
+      "searchPlaceholder": "Поиск комментариев или авторов",
+      "commentsTotal": "комментариев всего",
+      "colAuthor": "Автор",
+      "colMaterial": "Материал",
+      "colComment": "Комментарий",
+      "colPosted": "Опубликован",
+      "colActions": "Действия",
+      "loading": "Загрузка...",
+      "noComments": "Комментариев пока нет.",
+      "delete": "Удалить",
+      "confirmDelete": "Удалить этот комментарий?"
+    },
+    "activityLog": {
+      "title": "Журнал активности",
+      "allTypes": "Все типы",
+      "eventsTotal": "событий всего",
+      "colUser": "Пользователь",
+      "colAction": "Действие",
+      "colMaterial": "Материал",
+      "colWhen": "Когда",
+      "loading": "Загрузка...",
+      "noActivity": "Активность пока не зафиксирована.",
+      "loadMore": "Загрузить ещё"
+    },
+    "analytics": {
+      "title": "Аналитика и отчёты",
+      "loading": "Загрузка аналитики...",
+      "newRegistrations": "Новые регистрации",
+      "signupsPerDay": "Регистраций в день",
+      "noRegistrations": "За этот период регистраций не было.",
+      "downloads": "Загрузки",
+      "downloadsPerDay": "Загрузок материалов в день",
+      "noDownloads": "За этот период загрузок не было.",
+      "activityBreakdown": "Разбивка активности",
+      "noActivityInPeriod": "За этот период активности не было.",
+      "topMaterials": "Популярные материалы",
+      "noTopMaterials": "Загрузок пока не зафиксировано.",
+      "categoryLabel": "Категория",
+      "categoryAll": "Все",
+      "categoryDownloads": "Загрузки",
+      "categoryLogins": "Входы в систему",
+      "categoryRegistrations": "Новые аккаунты",
+      "categoryMaterialDeletions": "Удаления материалов",
+      "categoryComments": "Комментарии",
+      "categoryActiveUsers": "Активные пользователи",
+      "perDay": "В день",
+      "noDataInPeriod": "За этот период данных нет."
     },
     "autocomplete": {
       "listsIndex": {
@@ -274,9 +424,9 @@
         "noItems": "Элементов пока нет.",
         "loading": "Загрузка..."
       },
-      "itemForm": {
-        "createTitle": "Новый элемент",
-        "editTitle": "Изменить элемент",
+      "institutionForm": {
+        "createTitle": "Новая школа / университет",
+        "editTitle": "Изменить школу / университет",
         "loading": "Загрузка...",
         "translationEnLabel": "Перевод (английский)",
         "translationRuLabel": "Перевод (русский)",
@@ -285,20 +435,53 @@
         "institutionTypeUniversity": "Университет",
         "institutionTypeSchool": "Школа",
         "cityLabel": "Город",
+        "linkedSubjectsLabel": "Связанные предметы / специальности",
+        "linkedSubjectsEmpty": "К этому учреждению пока не привязаны предметы или специальности.",
+        "save": "Сохранить",
+        "saving": "Сохранение...",
+        "errorFailed": "Не удалось сохранить. Попробуйте снова."
+      },
+      "subjectForm": {
+        "createTitle": "Новый школьный предмет / специальность",
+        "editTitle": "Изменить школьный предмет / специальность",
+        "loading": "Загрузка...",
+        "translationEnLabel": "Перевод (английский)",
+        "translationRuLabel": "Перевод (русский)",
+        "translationTjLabel": "Перевод (таджикский)",
         "subjectKindLabel": "Вид",
         "subjectKindSchoolSubject": "Школьный предмет",
-        "subjectKindSpecialization": "Специальность",
-        "linkFromListLabel": "Связать с элементами из",
-        "linkFromListNone": "Нет (универсальный элемент)",
-        "parentItemsLabel": "Выберите элементы, с которыми связан этот:",
-        "metadataJsonLabel": "Метаданные (JSON)",
+        "subjectKindSpecialization": "Специальность университета",
+        "linkToSchoolsLabel": "Связать со школами",
+        "linkToUniversitiesLabel": "Связать с университетами",
+        "noInstitutionsAvailable": "Подходящие учреждения не найдены.",
         "save": "Сохранить",
         "saving": "Сохранение...",
         "errorFailed": "Не удалось сохранить. Попробуйте снова."
       }
     },
     "materialsControl": {
-      "colInstitutionSubject": "Учреждение / Предмет"
+      "title": "Управление материалами",
+      "searchPlaceholder": "Поиск материалов",
+      "statusLabel": "Статус",
+      "allStatuses": "Все статусы",
+      "statusPending": "На рассмотрении",
+      "statusPublished": "Опубликован",
+      "statusRejected": "Отклонён",
+      "materialsTotal": "материалов всего",
+      "colTitle": "Название",
+      "colAuthor": "Автор",
+      "colInstitutionSubject": "Учреждение / Предмет",
+      "colDownloads": "Загрузки",
+      "colComments": "Комментарии",
+      "colStatus": "Статус",
+      "colActions": "Действия",
+      "loading": "Загрузка...",
+      "noMaterials": "Материалы не найдены.",
+      "download": "Скачать",
+      "approve": "Одобрить",
+      "reject": "Отклонить",
+      "delete": "Удалить",
+      "confirmDelete": "Удалить «{{title}}»? Это действие нельзя отменить."
     },
     "materialDetail": {
       "title": "Информация о материале",
@@ -334,21 +517,6 @@
       "unban": "Разблокировать",
       "ban": "Заблокировать"
     },
-    "monitoring": {
-      "title": "Мониторинг",
-      "loading": "Загрузка данных мониторинга...",
-      "totalUsers": "Всего пользователей",
-      "totalMaterials": "Всего материалов",
-      "totalDownloads": "Всего скачиваний",
-      "totalComments": "Всего комментариев",
-      "registrationsTrend": "Регистрации (последние 30 дней)",
-      "downloadsTrend": "Скачивания (последние 30 дней)",
-      "activityBreakdown": "Разбивка активности",
-      "onlineUsers": "Пользователи онлайн",
-      "recentActivity": "Недавняя активность",
-      "noData": "Данных пока нет.",
-      "noOnlineUsers": "Сейчас никого нет в сети."
-    },
     "userProfile": {
       "title": "Мой профиль",
       "loading": "Загрузка профиля...",
@@ -364,7 +532,11 @@
       "save": "Сохранить изменения",
       "saving": "Сохранение...",
       "successMessage": "Профиль успешно обновлён.",
-      "errorFailed": "Не удалось обновить профиль. Попробуйте снова."
+      "errorFailed": "Не удалось обновить профиль. Попробуйте снова.",
+      "changePhoto": "Изменить фото профиля",
+      "avatarErrorType": "Разрешены только изображения JPEG, PNG, WEBP или GIF.",
+      "avatarErrorSize": "Изображение слишком большое. Максимальный размер — 2МБ.",
+      "avatarErrorFailed": "Не удалось загрузить аватар. Попробуйте снова."
     },
     "advertising": {
       "title": "Управление рекламой",

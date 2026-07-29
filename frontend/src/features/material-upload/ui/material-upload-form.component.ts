@@ -7,6 +7,7 @@ import { Material, MATERIAL_CATEGORIES, MaterialCategory, MaterialService } from
 import { AutocompleteItem, AutocompleteItemSelectComponent } from '@entities/autocomplete';
 import { TranslatePipe } from '@shared/pipes';
 import { TranslationService } from '@shared/services';
+import { IconButtonComponent } from '@shared/ui';
 import { initialUploadForm, uploadFormSchema } from './model/upload-form.model';
 
 const ALLOWED_MIME_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -14,7 +15,7 @@ const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024;
 
 @Component({
   selector: 'app-material-upload-form',
-  imports: [CommonModule, Field, AutocompleteItemSelectComponent, TranslatePipe],
+  imports: [CommonModule, Field, AutocompleteItemSelectComponent, TranslatePipe, IconButtonComponent],
   templateUrl: './material-upload-form.component.html',
   styleUrls: ['./material-upload-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

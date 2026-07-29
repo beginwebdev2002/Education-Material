@@ -207,9 +207,42 @@
       "dateTo": "To date"
     }
   },
+  "profile": {
+    "loading": "Loading profile...",
+    "notFound": "Profile not found.",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "editProfile": "Edit Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Phone Number",
+    "country": "Country",
+    "notProvided": "Not provided",
+    "socialMedia": "Social Media",
+    "changePhoto": "Change profile photo",
+    "avatarErrorType": "Only JPEG, PNG, WEBP or GIF images are allowed.",
+    "avatarErrorSize": "Image is too large. Maximum size is 2MB.",
+    "avatarErrorFailed": "Failed to upload avatar. Please try again."
+  },
   "shared": {
     "modal": {
       "close": "Close"
+    },
+    "validation": {
+      "required": "This is a required field."
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{page}} of {{totalPages}}",
+      "range": "Showing {{start}}-{{end}} of {{total}}"
+    },
+    "listFilterSidebar": {
+      "title": "Search & Filters",
+      "collapse": "Collapse filters",
+      "expand": "Expand filters"
     }
   },
   "admin": {
@@ -221,9 +254,126 @@
       "comments": "Comments Moderation",
       "analytics": "Analytics & Reports",
       "activity": "Activity Log",
-      "monitoring": "Monitoring",
       "profile": "My Profile",
       "systemSettings": "System Settings"
+    },
+    "activityTypes": {
+      "REGISTER": "Registered",
+      "LOGIN": "Logged in",
+      "LOGOUT": "Logged out",
+      "PROFILE_UPDATE": "Updated profile",
+      "MATERIAL_UPLOAD": "Uploaded material",
+      "MATERIAL_DOWNLOAD": "Downloaded material",
+      "MATERIAL_COMMENT": "Commented",
+      "MATERIAL_STATUS_CHANGE": "Material status changed",
+      "MATERIAL_DELETE": "Deleted material",
+      "COMMENT_DELETE": "Deleted comment",
+      "ACCOUNT_DELETE": "Deleted account"
+    },
+    "overview": {
+      "title": "Overview",
+      "loading": "Loading dashboard...",
+      "tiles": {
+        "totalUsers": "Total Users",
+        "onlineNow": "Online Now",
+        "active7d": "Active (7d)",
+        "publishedMaterials": "Published Materials",
+        "pendingMaterials": "Pending Materials",
+        "totalDownloads": "Total Downloads",
+        "totalComments": "Total Comments",
+        "rejectionRate": "Rejection Rate",
+        "storageUsed": "Storage Used"
+      },
+      "recentActivity": "Recent Activity",
+      "noActivity": "No activity recorded yet.",
+      "onlineNowPanel": "Online Now",
+      "noOneOnline": "No one is online right now.",
+      "registrationsTrend": "New Registrations",
+      "downloadsTrend": "Downloads",
+      "activityBreakdown": "Activity Breakdown",
+      "usersByRole": "Users by Role",
+      "topContributors": "Top Contributors",
+      "noTrendData": "No data yet."
+    },
+    "header": {
+      "openSidebar": "Open sidebar",
+      "search": "Search",
+      "searchPlaceholder": "Search users, materials...",
+      "backToSite": "Back to Site"
+    },
+    "sidebar": {
+      "title": "Admin Panel",
+      "closeSidebar": "Close sidebar",
+      "backToMainSite": "Back to Main Site"
+    },
+    "usersManagement": {
+      "title": "User Management",
+      "searchPlaceholder": "Search for users by name or email",
+      "usersTotal": "users total",
+      "colUser": "User",
+      "colRole": "Role",
+      "colStatus": "Status",
+      "colLastSeen": "Last seen",
+      "colActions": "Actions",
+      "banned": "Banned",
+      "active": "Active",
+      "never": "Never",
+      "promote": "Promote",
+      "demote": "Demote",
+      "ban": "Ban",
+      "unban": "Unban",
+      "you": "You",
+      "noUsersFound": "No users found matching your search."
+    },
+    "commentsModeration": {
+      "title": "Comment Moderation",
+      "searchPlaceholder": "Search comments or authors",
+      "commentsTotal": "comments total",
+      "colAuthor": "Author",
+      "colMaterial": "Material",
+      "colComment": "Comment",
+      "colPosted": "Posted",
+      "colActions": "Actions",
+      "loading": "Loading...",
+      "noComments": "No comments yet.",
+      "delete": "Delete",
+      "confirmDelete": "Delete this comment?"
+    },
+    "activityLog": {
+      "title": "Activity Log",
+      "allTypes": "All types",
+      "eventsTotal": "events total",
+      "colUser": "User",
+      "colAction": "Action",
+      "colMaterial": "Material",
+      "colWhen": "When",
+      "loading": "Loading...",
+      "noActivity": "No activity recorded yet.",
+      "loadMore": "Load more"
+    },
+    "analytics": {
+      "title": "Analytics & Reports",
+      "loading": "Loading analytics...",
+      "newRegistrations": "New Registrations",
+      "signupsPerDay": "Signups per day",
+      "noRegistrations": "No registrations in this period.",
+      "downloads": "Downloads",
+      "downloadsPerDay": "Material downloads per day",
+      "noDownloads": "No downloads in this period.",
+      "activityBreakdown": "Activity Breakdown",
+      "noActivityInPeriod": "No activity in this period.",
+      "topMaterials": "Top Materials",
+      "noTopMaterials": "No downloads recorded yet.",
+      "categoryLabel": "Category",
+      "categoryAll": "All",
+      "categoryDownloads": "Downloads",
+      "categoryLogins": "Logins",
+      "categoryRegistrations": "New Accounts",
+      "categoryMaterialDeletions": "Material Deletions",
+      "categoryComments": "Comments",
+      "categoryActiveUsers": "Active Users",
+      "perDay": "Per day",
+      "noDataInPeriod": "No data in this period."
     },
     "autocomplete": {
       "listsIndex": {
@@ -274,9 +424,9 @@
         "noItems": "No items yet.",
         "loading": "Loading..."
       },
-      "itemForm": {
-        "createTitle": "New Item",
-        "editTitle": "Edit Item",
+      "institutionForm": {
+        "createTitle": "New School / University",
+        "editTitle": "Edit School / University",
         "loading": "Loading...",
         "translationEnLabel": "Translation (English)",
         "translationRuLabel": "Translation (Russian)",
@@ -285,20 +435,53 @@
         "institutionTypeUniversity": "University",
         "institutionTypeSchool": "School",
         "cityLabel": "City",
+        "linkedSubjectsLabel": "Linked Subjects / Specialties",
+        "linkedSubjectsEmpty": "No subjects or specialties are linked to this institution yet.",
+        "save": "Save",
+        "saving": "Saving...",
+        "errorFailed": "Failed to save. Please try again."
+      },
+      "subjectForm": {
+        "createTitle": "New School Subject / University Specialty",
+        "editTitle": "Edit School Subject / University Specialty",
+        "loading": "Loading...",
+        "translationEnLabel": "Translation (English)",
+        "translationRuLabel": "Translation (Russian)",
+        "translationTjLabel": "Translation (Tajik)",
         "subjectKindLabel": "Kind",
         "subjectKindSchoolSubject": "School Subject",
-        "subjectKindSpecialization": "Specialization",
-        "linkFromListLabel": "Link to items from",
-        "linkFromListNone": "None (universal item)",
-        "parentItemsLabel": "Select the items this one is linked to:",
-        "metadataJsonLabel": "Metadata (JSON)",
+        "subjectKindSpecialization": "University Specialty",
+        "linkToSchoolsLabel": "Link to Schools",
+        "linkToUniversitiesLabel": "Link to Universities",
+        "noInstitutionsAvailable": "No matching institutions found.",
         "save": "Save",
         "saving": "Saving...",
         "errorFailed": "Failed to save. Please try again."
       }
     },
     "materialsControl": {
-      "colInstitutionSubject": "Institution / Subject"
+      "title": "Material Control",
+      "searchPlaceholder": "Search for materials",
+      "statusLabel": "Status",
+      "allStatuses": "All statuses",
+      "statusPending": "Pending",
+      "statusPublished": "Published",
+      "statusRejected": "Rejected",
+      "materialsTotal": "materials total",
+      "colTitle": "Title",
+      "colAuthor": "Author",
+      "colInstitutionSubject": "Institution / Subject",
+      "colDownloads": "Downloads",
+      "colComments": "Comments",
+      "colStatus": "Status",
+      "colActions": "Actions",
+      "loading": "Loading...",
+      "noMaterials": "No materials found.",
+      "download": "Download",
+      "approve": "Approve",
+      "reject": "Reject",
+      "delete": "Delete",
+      "confirmDelete": "Delete \"{{title}}\"? This cannot be undone."
     },
     "materialDetail": {
       "title": "Material Details",
@@ -334,21 +517,6 @@
       "unban": "Unban",
       "ban": "Ban"
     },
-    "monitoring": {
-      "title": "Monitoring",
-      "loading": "Loading monitoring data...",
-      "totalUsers": "Total Users",
-      "totalMaterials": "Total Materials",
-      "totalDownloads": "Total Downloads",
-      "totalComments": "Total Comments",
-      "registrationsTrend": "Registrations (last 30 days)",
-      "downloadsTrend": "Downloads (last 30 days)",
-      "activityBreakdown": "Activity Breakdown",
-      "onlineUsers": "Online Users",
-      "recentActivity": "Recent Activity",
-      "noData": "No data available yet.",
-      "noOnlineUsers": "No one is online right now."
-    },
     "userProfile": {
       "title": "My Profile",
       "loading": "Loading profile...",
@@ -364,7 +532,11 @@
       "save": "Save Changes",
       "saving": "Saving...",
       "successMessage": "Profile updated successfully.",
-      "errorFailed": "Failed to update profile. Please try again."
+      "errorFailed": "Failed to update profile. Please try again.",
+      "changePhoto": "Change profile photo",
+      "avatarErrorType": "Only JPEG, PNG, WEBP or GIF images are allowed.",
+      "avatarErrorSize": "Image is too large. Maximum size is 2MB.",
+      "avatarErrorFailed": "Failed to upload avatar. Please try again."
     },
     "advertising": {
       "title": "Advertising Management",

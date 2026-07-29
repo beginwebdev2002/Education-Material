@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -12,6 +13,8 @@ import { AutocompleteModule } from '@modules/autocomplete/autocomplete.module';
 import { MaterialsModule } from '@modules/materials/materials.module';
 import { CommentsModule } from '@modules/comments/comments.module';
 import { AdminModule } from '@modules/admin/admin.module';
+import { PresenceModule } from '@modules/presence/presence.module';
+import { LastSeenInterceptor } from '@common/interceptors/last-seen.interceptor';
 
 @Module({
   imports: [
@@ -33,10 +36,14 @@ import { AdminModule } from '@modules/admin/admin.module';
     MaterialsModule,
     CommentsModule,
     AdminModule,
+    PresenceModule,
     SeedModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: LastSeenInterceptor },
+  ],
 })
 export class AppModule {
   constructor(private configService: ConfigService) {

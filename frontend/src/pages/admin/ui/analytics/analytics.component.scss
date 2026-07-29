@@ -10,6 +10,14 @@
     @apply text-3xl font-bold text-gray-900 dark:text-white;
   }
 
+  &__controls {
+    @apply flex flex-wrap items-center gap-3;
+  }
+
+  &__category-select {
+    @apply rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300;
+  }
+
   &__range {
     @apply flex gap-2;
   }
@@ -113,6 +121,18 @@
     &--material-status-change {
       @apply bg-rose-500;
     }
+
+    &--material-delete {
+      @apply bg-red-600;
+    }
+
+    &--comment-delete {
+      @apply bg-orange-500;
+    }
+
+    &--account-delete {
+      @apply bg-red-800;
+    }
   }
 
   &__breakdown-track {
@@ -152,6 +172,18 @@
 
     &--material-status-change {
       @apply bg-rose-500;
+    }
+
+    &--material-delete {
+      @apply bg-red-600;
+    }
+
+    &--comment-delete {
+      @apply bg-orange-500;
+    }
+
+    &--account-delete {
+      @apply bg-red-800;
     }
   }
 

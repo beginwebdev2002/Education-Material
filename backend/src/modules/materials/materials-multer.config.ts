@@ -7,6 +7,7 @@ import { extname } from 'path';
 import { randomUUID } from 'crypto';
 import { MATERIAL_ALLOWED_MIME_TYPES } from '@modules/materials/material.interface';
 import { UploadedMulterFile } from '@modules/materials/uploaded-file.type';
+import { sanitizeOriginalName } from '@common/utils/filename.util';
 
 export function createMaterialsMulterOptions(config: ConfigService): MulterModuleOptions {
     const uploadDir = config.get<string>('uploads.materialsDir')!;
@@ -25,6 +26,7 @@ export function createMaterialsMulterOptions(config: ConfigService): MulterModul
             fileSize: config.get<number>('uploads.maxFileSizeBytes'),
         },
         fileFilter: (_req, file: UploadedMulterFile, callback) => {
+            file.originalname = sanitizeOriginalName(file.originalname);
             if (!MATERIAL_ALLOWED_MIME_TYPES[file.mimetype]) {
                 callback(new BadRequestException('Only PDF and DOCX files are allowed'), false);
                 return;

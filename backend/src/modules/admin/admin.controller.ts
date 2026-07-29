@@ -1,10 +1,12 @@
 import { Controller, Get, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AdminService } from '@modules/admin/admin.service';
+import { AdminService, AnalyticsCategory } from '@modules/admin/admin.service';
 import { RolesGuard } from '@common/guards/roles.guard';
 import { Roles } from '@common/decorators/roles.decorator';
 import { UserRole } from '@modules/users/user-role.enum';
 import { ActivityType } from '@modules/activity/activity.interface';
+
+const VALID_ANALYTICS_CATEGORIES: string[] = ['ALL', 'ACTIVE_USERS', ...Object.values(ActivityType)];
 
 @Controller('admin')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -23,8 +25,13 @@ export class AdminController {
     }
 
     @Get('analytics')
-    async analytics(@Query('days', new ParseIntPipe({ optional: true })) days = 30) {
-        return this.adminService.analytics(days);
+    async analytics(
+        @Query('days', new ParseIntPipe({ optional: true })) days = 30,
+        @Query('category') category?: string,
+    ) {
+        const resolvedCategory: AnalyticsCategory =
+            category && VALID_ANALYTICS_CATEGORIES.includes(category) ? (category as AnalyticsCategory) : 'ALL';
+        return this.adminService.analytics(days, resolvedCategory);
     }
 
     @Get('activity')

@@ -6,32 +6,24 @@
     @apply mb-6 text-3xl font-bold text-gray-900 dark:text-white;
   }
 
+  &__layout {
+    @apply flex flex-col gap-4 sm:flex-row;
+  }
+
   &__card {
-    @apply relative overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-800;
+    @apply relative min-w-0 flex-1 overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-800;
   }
 
   &__toolbar {
     @apply flex flex-col items-center justify-between space-y-4 p-4 md:flex-row md:space-y-0;
   }
 
-  &__search-wrap {
-    @apply w-full md:w-1/2;
-  }
-
-  &__search-inner {
-    @apply relative;
-  }
-
-  &__search-icon {
-    @apply pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-gray-500 dark:text-gray-400;
-  }
-
-  &__search-input {
-    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 md:w-80;
-  }
-
   &__count {
     @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__pagination {
+    @apply px-4 py-3;
   }
 
   &__table-wrap {
@@ -120,18 +112,6 @@
 
   &__actions {
     @apply flex gap-2;
-  }
-
-  &__role-toggle {
-    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
-  }
-
-  &__ban-toggle {
-    @apply font-medium text-red-600 hover:underline dark:text-red-500;
-
-    &--banned {
-      @apply text-green-600 dark:text-green-500;
-    }
   }
 
   &__self-label {

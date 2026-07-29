@@ -91,12 +91,12 @@ export const APP_ROUTES: Routes = [
               {
                 path: 'new',
                 outlet: 'modal',
-                loadComponent: () => import('@pages/admin/ui/autocomplete-item-form-modal/autocomplete-item-form-modal.component').then(m => m.AutocompleteItemFormModalComponent),
+                loadComponent: () => import('@pages/admin/ui/autocomplete-item-form-dispatcher/autocomplete-item-form-dispatcher.component').then(m => m.AutocompleteItemFormDispatcherComponent),
               },
               {
                 path: ':itemId',
                 outlet: 'modal',
-                loadComponent: () => import('@pages/admin/ui/autocomplete-item-form-modal/autocomplete-item-form-modal.component').then(m => m.AutocompleteItemFormModalComponent),
+                loadComponent: () => import('@pages/admin/ui/autocomplete-item-form-dispatcher/autocomplete-item-form-dispatcher.component').then(m => m.AutocompleteItemFormDispatcherComponent),
               },
             ],
           },
@@ -113,10 +113,6 @@ export const APP_ROUTES: Routes = [
       {
         path: 'activity',
         loadComponent: () => import('@pages/admin/ui/activity-log/activity-log.component').then(m => m.ActivityLogComponent),
-      },
-      {
-        path: 'monitoring',
-        loadComponent: () => import('@pages/admin/ui/monitoring/monitoring.component').then(m => m.MonitoringComponent),
       },
       {
         path: 'user',

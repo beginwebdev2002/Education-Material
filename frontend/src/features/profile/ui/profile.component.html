@@ -1,16 +1,30 @@
 <div class="profile-page animate-fadeInUp">
   @if (isLoading()) {
-  <div class="profile-page__state">Loading profile...</div>
+  <div class="profile-page__state">{{ 'profile.loading' | translate }}</div>
   } @else if (loadError() || !profile()) {
-  <div class="profile-page__state">Profile not found.</div>
+  <div class="profile-page__state">{{ 'profile.notFound' | translate }}</div>
   } @else {
   <div class="profile-page__card">
     <!-- Header -->
     <div class="profile-page__header animate-fadeInUp" style="animation-delay: 0.1s;">
       <div class="profile-page__identity">
-        <img class="profile-page__avatar" [src]="profile()?.avatar"
-          [alt]="profile()?.firstName + ' ' + profile()?.lastName">
+        <div class="profile-page__avatar-wrap">
+          <img class="profile-page__avatar" [src]="profile()?.avatar"
+            [alt]="profile()?.firstName + ' ' + profile()?.lastName">
+          @if (isOwnProfile()) {
+          <button type="button" class="profile-page__avatar-edit" (click)="triggerAvatarPicker()"
+            [disabled]="isUploadingAvatar()" [attr.aria-label]="'profile.changePhoto' | translate" [attr.title]="'profile.changePhoto' | translate">
+            <i class="fa-solid" [class.fa-camera]="!isUploadingAvatar()" [class.fa-spinner]="isUploadingAvatar()"
+              [class.fa-spin]="isUploadingAvatar()"></i>
+          </button>
+          <input #avatarInput type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
+            (change)="onAvatarSelected($event)">
+          }
+        </div>
         <div class="profile-page__identity-info">
+          @if (avatarError()) {
+          <p class="profile-page__error">{{ avatarError() }}</p>
+          }
           <h1 class="profile-page__name">{{ profile()?.firstName }} {{
             profile()?.lastName }}</h1>
           <p class="profile-page__email">{{ profile()?.email }}</p>
@@ -26,16 +40,16 @@
         <div class="profile-page__edit-actions">
           <button (click)="saveProfile()" [disabled]="hasErrors() || isSaving()" class="profile-page__save">
             <i class="fa-solid fa-save profile-page__save-icon"></i>
-            {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+            {{ isSaving() ? ('profile.saving' | translate) : ('profile.saveChanges' | translate) }}
           </button>
           <button type="button" (click)="cancelEdit()" class="profile-page__cancel">
-            Cancel
+            {{ 'profile.cancel' | translate }}
           </button>
         </div>
         } @else {
         <button (click)="startEditing()" class="profile-page__edit">
           <i class="fa-solid fa-pencil-alt profile-page__edit-icon"></i>
-          Edit Profile
+          {{ 'profile.editProfile' | translate }}
         </button>
         }
       </div>
@@ -47,7 +61,7 @@
       <!-- Personal Info -->
       <div class="profile-page__grid">
         <div class="profile-page__field">
-          <label class="profile-page__label">First Name</label>
+          <label class="profile-page__label">{{ 'profile.firstName' | translate }}</label>
           @if (isEditing()) {
           <input type="text" [value]="firstName()" (input)="firstName.set($any($event.target).value)"
             class="profile-page__input">
@@ -59,7 +73,7 @@
           }
         </div>
         <div class="profile-page__field">
-          <label class="profile-page__label">Last Name</label>
+          <label class="profile-page__label">{{ 'profile.lastName' | translate }}</label>
           @if (isEditing()) {
           <input type="text" [value]="lastName()" (input)="lastName.set($any($event.target).value)"
             class="profile-page__input">
@@ -71,28 +85,28 @@
           }
         </div>
         <div class="profile-page__field">
-          <label class="profile-page__label">Phone Number</label>
+          <label class="profile-page__label">{{ 'profile.phoneNumber' | translate }}</label>
           @if (isEditing()) {
           <input type="tel" [value]="phoneNumber()" (input)="phoneNumber.set($any($event.target).value)"
             class="profile-page__input">
           } @else {
-          <p class="profile-page__value">{{ profile()?.phoneNumber || 'Not provided' }}</p>
+          <p class="profile-page__value">{{ profile()?.phoneNumber || ('profile.notProvided' | translate) }}</p>
           }
         </div>
         <div class="profile-page__field">
-          <label class="profile-page__label">Country</label>
+          <label class="profile-page__label">{{ 'profile.country' | translate }}</label>
           @if (isEditing()) {
           <input type="text" [value]="country()" (input)="country.set($any($event.target).value)"
             class="profile-page__input">
           } @else {
-          <p class="profile-page__value">{{ profile()?.country || 'Not provided' }}</p>
+          <p class="profile-page__value">{{ profile()?.country || ('profile.notProvided' | translate) }}</p>
           }
         </div>
       </div>
 
       <!-- Social Media -->
       <div>
-        <h3 class="profile-page__social-title">Social Media</h3>
+        <h3 class="profile-page__social-title">{{ 'profile.socialMedia' | translate }}</h3>
         <div class="profile-page__social-grid">
           @for (social of socialMediaLinks(); track social.key) {
           <div>
@@ -103,7 +117,7 @@
             <input type="text" [value]="social.value()" (input)="social.value.set($any($event.target).value)"
               class="profile-page__input">
             } @else {
-            <p class="profile-page__value profile-page__value--truncate">{{ social.display || 'Not provided' }}</p>
+            <p class="profile-page__value profile-page__value--truncate">{{ social.display || ('profile.notProvided' | translate) }}</p>
             }
           </div>
           }

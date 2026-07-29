@@ -4,11 +4,25 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 import { UserModel, UserService } from '@entities/user';
 import { SessionStore } from '@shared/auth';
-import { SkeletonLoaderComponent } from '@shared/ui';
+import { TranslatePipe } from '@shared/pipes';
+import { TranslationService } from '@shared/services';
+import { IconButtonComponent, PaginationComponent, SearchInputComponent, SkeletonLoaderComponent } from '@shared/ui';
+import { ListFilterSidebarComponent } from '@widgets/admin';
 
 @Component({
   selector: 'app-users-management-page',
-  imports: [CommonModule, TitleCasePipe, DatePipe, SkeletonLoaderComponent, RouterLink],
+  imports: [
+    CommonModule,
+    TitleCasePipe,
+    DatePipe,
+    SkeletonLoaderComponent,
+    RouterLink,
+    PaginationComponent,
+    SearchInputComponent,
+    ListFilterSidebarComponent,
+    IconButtonComponent,
+    TranslatePipe,
+  ],
   templateUrl: './users-management.component.html',
   styleUrls: ['./users-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,6 +31,7 @@ export class UsersManagementComponent {
   private readonly userService = inject(UserService);
   private readonly sessionStore = inject(SessionStore);
   private readonly router = inject(Router);
+  private readonly i18n = inject(TranslationService);
 
   isLoading = signal(true);
   users = signal<UserModel[]>([]);
@@ -35,6 +50,11 @@ export class UsersManagementComponent {
   onSearch(term: string): void {
     this.searchTerm.set(term);
     this.page.set(1);
+    this.load();
+  }
+
+  onPageChange(page: number): void {
+    this.page.set(page);
     this.load();
   }
 
@@ -61,5 +81,13 @@ export class UsersManagementComponent {
     this.userService.setBanned(user._id, !user.isBanned).subscribe((updated) => {
       this.users.update((list) => list.map((u) => (u._id === updated._id ? updated : u)));
     });
+  }
+
+  roleActionLabel(user: UserModel): string {
+    return this.i18n.translate(user.role === 'ADMIN' ? 'admin.usersManagement.demote' : 'admin.usersManagement.promote');
+  }
+
+  banActionLabel(user: UserModel): string {
+    return this.i18n.translate(user.isBanned ? 'admin.usersManagement.unban' : 'admin.usersManagement.ban');
   }
 }

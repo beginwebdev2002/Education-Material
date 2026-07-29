@@ -1,0 +1,18 @@
+<aside class="list-filter-sidebar" [class.list-filter-sidebar--collapsed]="!isOpen()">
+  <div class="list-filter-sidebar__header">
+    <h2 class="list-filter-sidebar__title">{{ 'shared.listFilterSidebar.title' | translate }}</h2>
+    <button type="button" class="list-filter-sidebar__toggle" (click)="toggle()"
+      [attr.aria-label]="(isOpen() ? 'shared.listFilterSidebar.collapse' : 'shared.listFilterSidebar.expand') | translate">
+      <i class="fa-solid" [class.fa-chevron-up]="isOpen()" [class.fa-chevron-down]="!isOpen()"></i>
+    </button>
+  </div>
+
+  @if (isOpen()) {
+  <div class="list-filter-sidebar__body">
+    <ng-content></ng-content>
+    <div class="list-filter-sidebar__actions">
+      <ng-content select="[filter-actions]"></ng-content>
+    </div>
+  </div>
+  }
+</aside>

@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { activityLabel, ActivityEntry, ActivityType, AdminStatsService } from '@widgets/admin';
+import { TranslatePipe } from '@shared/pipes';
 
 const ACTIVITY_TYPES: ActivityType[] = [
   'REGISTER', 'LOGIN', 'LOGOUT', 'PROFILE_UPDATE',
@@ -11,7 +12,7 @@ const ACTIVITY_TYPES: ActivityType[] = [
 @Component({
   selector: 'app-activity-log-page',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule],
+  imports: [CommonModule, DatePipe, FormsModule, TranslatePipe],
   templateUrl: './activity-log.component.html',
   styleUrls: ['./activity-log.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,5 @@
+<button [type]="type()" [disabled]="disabled()" [attr.aria-label]="ariaLabel()" [attr.title]="ariaLabel()"
+  class="icon-button" [class.icon-button--sm]="size() === 'sm'" [class.icon-button--danger]="variant() === 'danger'"
+  [class.icon-button--primary]="variant() === 'primary'">
+  <i [class]="icon()"></i>
+</button>

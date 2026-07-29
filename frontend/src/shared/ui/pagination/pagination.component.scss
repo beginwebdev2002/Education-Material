@@ -1,0 +1,22 @@
+@reference "tailwindcss";
+@reference "../../../styles.scss";
+
+.pagination {
+  @apply flex flex-col items-center justify-between gap-3 border-t border-gray-200 pt-4 sm:flex-row dark:border-gray-700;
+
+  &__summary {
+    @apply text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  &__controls {
+    @apply flex items-center gap-3;
+  }
+
+  &__button {
+    @apply inline-flex items-center justify-center rounded-lg border border-gray-300 p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+  }
+
+  &__page {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+  }
+}

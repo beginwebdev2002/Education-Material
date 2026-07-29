@@ -22,8 +22,11 @@ export class CommentService {
         return this.http.delete<{ success: boolean }>(`${COMMENTS_ENDPOINTS.DELETE.url}/${id}`);
     }
 
-    adminList(page = 1, limit = 20): Observable<PaginatedResponse<Comment>> {
-        const params = new HttpParams().set('page', page).set('limit', limit);
+    adminList(page = 1, limit = 20, search?: string): Observable<PaginatedResponse<Comment>> {
+        let params = new HttpParams().set('page', page).set('limit', limit);
+        if (search) {
+            params = params.set('search', search);
+        }
         return this.http.get<PaginatedResponse<Comment>>(COMMENTS_ENDPOINTS.ADMIN_LIST.url, { params });
     }
 }

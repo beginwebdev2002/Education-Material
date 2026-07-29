@@ -10,10 +10,14 @@ export const ACTIVITY_TYPE_MODIFIERS: Record<ActivityType, string> = {
     MATERIAL_DOWNLOAD: 'material-download',
     MATERIAL_COMMENT: 'material-comment',
     MATERIAL_STATUS_CHANGE: 'material-status-change',
+    MATERIAL_DELETE: 'material-delete',
+    COMMENT_DELETE: 'comment-delete',
+    ACCOUNT_DELETE: 'account-delete',
 };
 
+/** Returns a translate key for an activity type, e.g. 'admin.activityTypes.MATERIAL_UPLOAD'. */
 export function activityLabel(type: string): string {
-    return type.replace(/_/g, ' ').toLowerCase();
+    return `admin.activityTypes.${type}`;
 }
 
 export function toBars<T extends { count: number }>(series: T[]): (T & { heightPercent: number })[] {
@@ -26,4 +30,13 @@ export function toBars<T extends { count: number }>(series: T[]): (T & { heightP
 
 export function barWidth(count: number, max: number): number {
     return max > 0 ? Math.round((count / max) * 100) : 0;
+}
+
+const BYTE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+export function formatBytes(bytes: number): string {
+    if (bytes <= 0) return '0 B';
+    const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), BYTE_UNITS.length - 1);
+    const value = bytes / Math.pow(1024, exponent);
+    return `${value.toFixed(exponent === 0 ? 0 : 1)} ${BYTE_UNITS[exponent]}`;
 }

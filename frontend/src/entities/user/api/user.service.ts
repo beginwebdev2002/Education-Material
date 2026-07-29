@@ -31,6 +31,12 @@ export class UserService {
     return this.http.patch<UserModel>(USER_ENDPOINTS.UPDATE_PROFILE.url, data);
   }
 
+  uploadAvatar(file: File): Observable<UserModel> {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    return this.http.post<UserModel>(USER_ENDPOINTS.UPLOAD_AVATAR.url, formData);
+  }
+
   updateRole(id: string, role: UserRole): Observable<UserModel> {
     return this.http.patch<UserModel>(`${USER_ENDPOINTS.UPDATE_ROLE.url}/${id}`, { role });
   }

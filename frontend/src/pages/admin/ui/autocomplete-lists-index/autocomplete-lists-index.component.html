@@ -6,7 +6,12 @@
   </a>
 </div>
 
-<div class="autocomplete-lists-page__card">
+<div class="autocomplete-lists-page__layout">
+  <app-list-filter-sidebar>
+    <app-search-input [value]="searchTerm()" placeholder="Search lists" (search)="onSearch($event)" />
+  </app-list-filter-sidebar>
+
+  <div class="autocomplete-lists-page__card">
   <table class="autocomplete-lists-page__table">
     <thead class="autocomplete-lists-page__thead">
       <tr>
@@ -27,15 +32,18 @@
         <td class="autocomplete-lists-page__cell">{{ list.description }}</td>
         <td class="autocomplete-lists-page__cell">
           <div class="autocomplete-lists-page__actions">
-            <a [routerLink]="['/admin/autocomplete', list._id, 'items']" class="autocomplete-lists-page__view-items">
-              {{ 'admin.autocomplete.listsIndex.viewItems' | translate }}
+            <a [routerLink]="['/admin/autocomplete', list._id, 'items']" class="autocomplete-lists-page__icon-action"
+              [attr.aria-label]="'admin.autocomplete.listsIndex.viewItems' | translate"
+              [attr.title]="'admin.autocomplete.listsIndex.viewItems' | translate">
+              <i class="fa-solid fa-list"></i>
             </a>
-            <a [routerLink]="[{ outlets: { modal: [list._id] } }]" class="autocomplete-lists-page__edit">
-              {{ 'admin.autocomplete.listsIndex.edit' | translate }}
+            <a [routerLink]="[{ outlets: { modal: [list._id] } }]" class="autocomplete-lists-page__icon-action"
+              [attr.aria-label]="'admin.autocomplete.listsIndex.edit' | translate"
+              [attr.title]="'admin.autocomplete.listsIndex.edit' | translate">
+              <i class="fa-solid fa-pen"></i>
             </a>
-            <button type="button" (click)="remove(list)" class="autocomplete-lists-page__delete">
-              {{ 'admin.autocomplete.listsIndex.delete' | translate }}
-            </button>
+            <app-icon-button icon="fa-solid fa-trash" variant="danger" [ariaLabel]="'admin.autocomplete.listsIndex.delete' | translate"
+              (click)="remove(list)" />
           </div>
         </td>
       </tr>
@@ -45,4 +53,8 @@
       }
     </tbody>
   </table>
+  <div class="autocomplete-lists-page__pagination">
+    <app-pagination [page]="page()" [limit]="limit" [total]="total()" (pageChange)="onPageChange($event)" />
+  </div>
+  </div>
 </div>

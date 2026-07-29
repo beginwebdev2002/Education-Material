@@ -30,15 +30,25 @@ export class AutocompleteService {
         return this.listModel.create(dto);
     }
 
-    async listLists(page: number, limit: number): Promise<PaginatedResult<AutocompleteListDocument>> {
+    async listLists(page: number, limit: number, search?: string): Promise<PaginatedResult<AutocompleteListDocument>> {
+        const filter: Record<string, unknown> = search
+            ? {
+                $or: [
+                    { key: { $regex: search, $options: 'i' } },
+                    { 'labelTranslations.en': { $regex: search, $options: 'i' } },
+                    { 'labelTranslations.ru': { $regex: search, $options: 'i' } },
+                    { 'labelTranslations.tj': { $regex: search, $options: 'i' } },
+                ],
+            }
+            : {};
         const [items, total] = await Promise.all([
             this.listModel
-                .find()
+                .find(filter)
                 .sort({ key: 1 })
                 .skip((page - 1) * limit)
                 .limit(limit)
                 .exec(),
-            this.listModel.countDocuments().exec(),
+            this.listModel.countDocuments(filter).exec(),
         ]);
         return { items, total, page, limit };
     }

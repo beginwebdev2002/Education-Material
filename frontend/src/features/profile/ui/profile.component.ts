@@ -1,9 +1,14 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserModel } from '@entities/user';
 import { UserService } from '@entities/user';
 import { SessionStore } from '@shared/auth';
+import { TranslatePipe } from '@shared/pipes';
+import { TranslationService } from '@shared/services';
+
+const AVATAR_MAX_SIZE_BYTES = 2 * 1024 * 1024;
+const AVATAR_ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 interface SocialLink {
   key: 'whatsappLink' | 'telegramLink' | 'instagramLink' | 'linkedinLink';
@@ -15,7 +20,7 @@ interface SocialLink {
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, TitleCasePipe],
+  imports: [CommonModule, TitleCasePipe, TranslatePipe],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +29,7 @@ export class ProfileComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly userService = inject(UserService);
   private readonly sessionStore = inject(SessionStore);
+  private readonly i18n = inject(TranslationService);
 
   isLoading = signal(true);
   loadError = signal(false);
@@ -33,6 +39,10 @@ export class ProfileComponent implements OnInit {
   isSaving = signal(false);
 
   isOwnProfile = computed(() => this.sessionStore.currentUser()?._id === this.profile()?._id);
+
+  private readonly avatarInput = viewChild<ElementRef<HTMLInputElement>>('avatarInput');
+  isUploadingAvatar = signal(false);
+  avatarError = signal<string | null>(null);
 
   firstName = signal('');
   lastName = signal('');
@@ -52,8 +62,8 @@ export class ProfileComponent implements OnInit {
   ]);
 
   formErrors = computed(() => ({
-    firstName: signal(this.firstName().trim() ? [] : ['This is a required field.']),
-    lastName: signal(this.lastName().trim() ? [] : ['This is a required field.']),
+    firstName: signal(this.firstName().trim() ? [] : [this.i18n.translate('shared.validation.required')]),
+    lastName: signal(this.lastName().trim() ? [] : [this.i18n.translate('shared.validation.required')]),
   }));
 
   hasErrors = computed(() => {
@@ -129,5 +139,40 @@ export class ProfileComponent implements OnInit {
 
   cancelEdit(): void {
     this.isEditing.set(false);
+  }
+
+  triggerAvatarPicker(): void {
+    this.avatarInput()?.nativeElement.click();
+  }
+
+  onAvatarSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) {
+      return;
+    }
+
+    this.avatarError.set(null);
+    if (!AVATAR_ALLOWED_TYPES.includes(file.type)) {
+      this.avatarError.set(this.i18n.translate('profile.avatarErrorType'));
+      return;
+    }
+    if (file.size > AVATAR_MAX_SIZE_BYTES) {
+      this.avatarError.set(this.i18n.translate('profile.avatarErrorSize'));
+      return;
+    }
+
+    this.isUploadingAvatar.set(true);
+    this.userService.uploadAvatar(file).subscribe({
+      next: (updated) => {
+        this.profile.set(updated);
+        this.isUploadingAvatar.set(false);
+      },
+      error: () => {
+        this.avatarError.set(this.i18n.translate('profile.avatarErrorFailed'));
+        this.isUploadingAvatar.set(false);
+      },
+    });
   }
 }

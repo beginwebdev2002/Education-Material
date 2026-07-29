@@ -108,7 +108,7 @@ export class MaterialsController {
     @UseGuards(AuthGuard('jwt'))
     async remove(@Req() req: Request, @Param('id') id: string) {
         const user = req.user as JwtPayload;
-        await this.materialsService.remove(id, user);
+        await this.materialsService.remove(id, user, requestMeta(req));
         return { success: true };
     }
 

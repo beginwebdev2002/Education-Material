@@ -5,6 +5,21 @@
 } @else {
 <div class="user-profile-page__card">
   <form class="user-profile-page__form" novalidate (submit)="onSubmit($event)">
+    <div class="user-profile-page__avatar-wrap">
+      <img class="user-profile-page__avatar" [src]="avatar()" alt="">
+      <button type="button" class="user-profile-page__avatar-edit" (click)="triggerAvatarPicker()"
+        [disabled]="isUploadingAvatar()" [attr.aria-label]="'admin.userProfile.changePhoto' | translate"
+        [attr.title]="'admin.userProfile.changePhoto' | translate">
+        <i class="fa-solid" [class.fa-camera]="!isUploadingAvatar()" [class.fa-spinner]="isUploadingAvatar()"
+          [class.fa-spin]="isUploadingAvatar()"></i>
+      </button>
+      <input #avatarInput type="file" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
+        (change)="onAvatarSelected($event)">
+    </div>
+    @if (avatarError()) {
+    <p class="user-profile-page__error">{{ avatarError() }}</p>
+    }
+
     <div class="user-profile-page__row">
       <div>
         <label for="profile-firstName" class="user-profile-page__label">{{ 'admin.userProfile.firstName' | translate }}</label>

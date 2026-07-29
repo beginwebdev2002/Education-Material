@@ -26,20 +26,24 @@
     @apply mr-2;
   }
 
+  &__layout {
+    @apply flex flex-col gap-4 sm:flex-row;
+  }
+
   &__card {
-    @apply relative overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
+    @apply relative min-w-0 flex-1 overflow-x-auto rounded-lg bg-white shadow-md dark:bg-gray-800;
   }
 
   &__toolbar {
     @apply flex flex-col items-start gap-4 p-4 md:flex-row md:items-center;
   }
 
-  &__search-input {
-    @apply block w-full max-w-xs rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+  &__pagination {
+    @apply px-4 py-3;
   }
 
   &__filter {
-    @apply flex flex-col gap-2 sm:flex-row sm:items-center;
+    @apply flex flex-col gap-2;
   }
 
   &__filter-label {
@@ -98,11 +102,7 @@
     @apply flex flex-wrap gap-x-3 gap-y-1;
   }
 
-  &__edit {
-    @apply font-medium text-blue-600 hover:underline dark:text-blue-500;
-  }
-
-  &__delete {
-    @apply font-medium text-red-600 hover:underline dark:text-red-500;
+  &__icon-action {
+    @apply inline-flex items-center justify-center rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
   }
 }

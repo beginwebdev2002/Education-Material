@@ -48,6 +48,14 @@
     &--comments {
       @apply text-pink-500;
     }
+
+    &--rejected {
+      @apply text-red-500;
+    }
+
+    &--storage {
+      @apply text-cyan-500;
+    }
   }
 
   &__tile-value {
@@ -59,7 +67,67 @@
   }
 
   &__panels {
-    @apply grid grid-cols-1 gap-6 lg:grid-cols-3;
+    @apply mb-6 grid grid-cols-1 gap-6 lg:grid-cols-3;
+  }
+
+  &__trends {
+    @apply mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2;
+  }
+
+  &__trend-list {
+    @apply space-y-2;
+  }
+
+  &__trend-row {
+    @apply flex items-center gap-2 text-xs;
+  }
+
+  &__trend-label {
+    @apply w-20 shrink-0 text-gray-500 dark:text-gray-400;
+
+    &--wide {
+      @apply w-28;
+    }
+  }
+
+  &__trend-track {
+    @apply h-3 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700;
+  }
+
+  &__trend-fill {
+    @apply h-full rounded-full;
+
+    &--registrations {
+      @apply bg-blue-500;
+    }
+
+    &--downloads {
+      @apply bg-purple-500;
+    }
+
+    &--breakdown {
+      @apply bg-primary-500;
+    }
+  }
+
+  &__trend-count {
+    @apply w-6 text-right text-gray-500 dark:text-gray-400;
+  }
+
+  &__role-list {
+    @apply space-y-2;
+  }
+
+  &__role-item {
+    @apply flex items-center justify-between text-sm;
+  }
+
+  &__role-name {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  &__role-count {
+    @apply ml-auto font-semibold text-gray-900 dark:text-white;
   }
 
   &__panel {

@@ -41,10 +41,12 @@
   <div modal-footer class="user-detail__footer">
     @if (user(); as user) {
     <button type="button" (click)="toggleRole()" class="user-detail__role-toggle">
+      <i class="fa-solid" [class.fa-arrow-down]="user.role === 'ADMIN'" [class.fa-arrow-up]="user.role !== 'ADMIN'"></i>
       {{ user.role === 'ADMIN' ? ('admin.userDetail.demote' | translate) : ('admin.userDetail.promote' | translate) }}
     </button>
     <button type="button" (click)="toggleBan()" class="user-detail__ban-toggle"
       [class.user-detail__ban-toggle--banned]="user.isBanned">
+      <i class="fa-solid" [class.fa-user-check]="user.isBanned" [class.fa-user-slash]="!user.isBanned"></i>
       {{ user.isBanned ? ('admin.userDetail.unban' | translate) : ('admin.userDetail.ban' | translate) }}
     </button>
     }
